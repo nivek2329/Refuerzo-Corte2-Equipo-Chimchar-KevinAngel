@@ -11,9 +11,22 @@ public class AsignadorMision {
         this.estrategiaRuta = Objects.requireNonNull(estrategiaRuta, "estrategiaRuta no puede ser null");
     }
 
-    public void asignar(Drone drone, Mision mision) {
-        estrategiaRuta.calcular(mision.origen(), mision.destino());
+    public void asignar(String operador, Mision mision) {
+        Objects.requireNonNull(operador, "operador no puede ser null");
+        Objects.requireNonNull(mision, "mision no puede ser null");
+        validarAsignacion(mision);
+        String ruta = estrategiaRuta.calcular(mision.origen(), mision.destino());
         repositorio.guardar(mision);
-        alerta.enviar(mision.origen(), "Misión " + mision.id() + " asignada al drone " + drone.id());
+        alerta.enviar(operador, "Misión " + mision.id() + " asignada al drone " + mision.drone().id() + ". " + ruta);
+    }
+
+    private void validarAsignacion(Mision mision) {
+        if (!mision.drone().disponible()) {
+            throw new IllegalStateException("El drone " + mision.drone().id() + " no está disponible");
+        }
+        if (mision.estado() != EstadoMision.PENDIENTE) {
+            throw new IllegalStateException("Solo se asignan misiones PENDIENTE; la misión "
+                    + mision.id() + " está " + mision.estado());
+        }
     }
 }
