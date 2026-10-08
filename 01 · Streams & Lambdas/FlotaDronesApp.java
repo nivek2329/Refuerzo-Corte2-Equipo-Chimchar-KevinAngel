@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class FlotaDronesApp {
+    private static final String UBICACION_CONSULTADA = "Bloque C";
 
     public static void main(String[] args) {
         List<Drone> drones = List.of(
@@ -11,14 +12,15 @@ public class FlotaDronesApp {
                 new Drone("D-05", "DJI Mini 3", 67, true, "Bloque D")
         );
 
-        System.out.println("1. Disponibles con batería >=50%, de mayor a menor:");
-        System.out.println("   " + ConsultasFlota.idsDisponiblesBateriaSuficiente(drones, 50));
+        System.out.println("1. Disponibles con batería >=" + ConsultasFlota.BATERIA_SUFICIENTE
+                + "%, de mayor a menor:");
+        System.out.println("   " + ConsultasFlota.idsDisponiblesConBateriaSuficiente(drones));
 
-        System.out.println("2. ¿Drone disponible en Bloque C?: "
-                + ConsultasFlota.existeDroneDisponibleEn(drones, "Bloque C"));
+        System.out.println("2. ¿Drone disponible en " + UBICACION_CONSULTADA + "?: "
+                + ConsultasFlota.hasDroneDisponibleEn(drones, UBICACION_CONSULTADA));
 
-        System.out.println("3. Drones con batería crítica (<20%): "
-                + ConsultasFlota.contarBateriaCritica(drones, 20));
+        System.out.println("3. Drones con batería crítica (<" + ConsultasFlota.BATERIA_CRITICA + "%): "
+                + ConsultasFlota.contarBateriaCritica(drones));
 
         System.out.println("4. ID y batería de todos los drones:");
         System.out.println("   " + ConsultasFlota.listarIdYBateria(drones));

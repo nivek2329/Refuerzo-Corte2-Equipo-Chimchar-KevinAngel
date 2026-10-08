@@ -1,43 +1,43 @@
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class ConsultasFlota {
+public final class ConsultasFlota {
+    public static final int BATERIA_SUFICIENTE = 50;
+    public static final int BATERIA_CRITICA = 20;
 
-    static List<String> idsDisponiblesBateriaSuficiente(List<Drone> drones, int bateriaMinima) {
+    private ConsultasFlota() {
+    }
+
+    public static List<String> idsDisponiblesConBateriaSuficiente(List<Drone> drones) {
         Objects.requireNonNull(drones, "drones no puede ser null");
-        if (bateriaMinima < 0) {
-            throw new IllegalArgumentException("bateriaMinima no puede ser negativa");
-        }
         return drones.stream()
-                .filter(d -> d.disponible() && d.bateria() >= bateriaMinima)
+                .filter(Drone::disponible)
+                .filter(drone -> drone.bateria() >= BATERIA_SUFICIENTE)
                 .sorted(Comparator.comparingInt(Drone::bateria).reversed())
                 .map(Drone::id)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    static boolean existeDroneDisponibleEn(List<Drone> drones, String bloque) {
+    public static boolean hasDroneDisponibleEn(List<Drone> drones, String ubicacion) {
         Objects.requireNonNull(drones, "drones no puede ser null");
-        Objects.requireNonNull(bloque, "bloque no puede ser null");
+        Objects.requireNonNull(ubicacion, "ubicacion no puede ser null");
         return drones.stream()
-                .anyMatch(d -> d.disponible() && d.ubicacion().equals(bloque));
+                .filter(Drone::disponible)
+                .anyMatch(drone -> ubicacion.equals(drone.ubicacion()));
     }
 
-    static long contarBateriaCritica(List<Drone> drones, int umbralCritico) {
+    public static long contarBateriaCritica(List<Drone> drones) {
         Objects.requireNonNull(drones, "drones no puede ser null");
-        if (umbralCritico < 0) {
-            throw new IllegalArgumentException("umbralCritico no puede ser negativo");
-        }
         return drones.stream()
-                .filter(d -> d.bateria() < umbralCritico)
+                .filter(drone -> drone.bateria() < BATERIA_CRITICA)
                 .count();
     }
 
-    static List<String> listarIdYBateria(List<Drone> drones) {
+    public static List<String> listarIdYBateria(List<Drone> drones) {
         Objects.requireNonNull(drones, "drones no puede ser null");
         return drones.stream()
-                .map(d -> d.id() + ": " + d.bateria() + "%")
-                .collect(Collectors.toList());
+                .map(drone -> drone.id() + ": " + drone.bateria() + "%")
+                .toList();
     }
 }
