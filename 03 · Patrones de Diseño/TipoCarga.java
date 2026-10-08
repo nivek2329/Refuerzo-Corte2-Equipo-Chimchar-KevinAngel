@@ -1,15 +1,15 @@
 public enum TipoCarga {
-    SOBRE(1),
-    CARPETA(2),
-    LIBRO(3);
+    SOBRE(CapacidadCarga.LIGERA),
+    CARPETA(CapacidadCarga.MEDIA),
+    LIBRO(CapacidadCarga.PESADA);
 
-    private final int nivelCapacidad;
+    private final CapacidadCarga capacidadRequerida;
 
-    TipoCarga(int nivelCapacidad) {
-        this.nivelCapacidad = nivelCapacidad;
+    TipoCarga(CapacidadCarga capacidadRequerida) {
+        this.capacidadRequerida = capacidadRequerida;
     }
 
-    public int nivelCapacidad() {
-        return nivelCapacidad;
+    public CapacidadCarga capacidadRequerida() {
+        return capacidadRequerida;
     }
 }

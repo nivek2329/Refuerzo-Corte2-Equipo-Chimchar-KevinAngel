@@ -6,7 +6,8 @@ public class ValidadorBateria extends ValidadorMision {
     @Override
     protected Optional<String> validarPropio(Mision mision) {
         return mision.drone().bateria() < BATERIA_MINIMA
-                ? Optional.of("Batería insuficiente: " + mision.drone().bateria() + "%")
+                ? Optional.of("Batería insuficiente: " + mision.drone().bateria()
+                        + "%. Mínimo requerido: " + BATERIA_MINIMA + "%")
                 : Optional.empty();
     }
 }

@@ -13,6 +13,6 @@ public class AsignadorDeMision {
     }
 
     public Drone asignar(List<Drone> flota) {
-        return estrategia.elegir(flota);
+        return estrategia.elegir(Objects.requireNonNull(flota, "flota no puede ser null"));
     }
 }
