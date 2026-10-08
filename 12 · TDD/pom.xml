@@ -12,8 +12,8 @@
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.3</junit.version>
-        <!-- El agente de JaCoCo corta la ruta cuando contiene caracteres no ASCII (la carpeta "12 · TDD");
-             por eso los datos de ejecución se guardan en la carpeta temporal del sistema. -->
+        <!-- En Windows la ruta del .exec se corrompe por el carácter no ASCII de la carpeta "12 · TDD";
+             por eso los datos de ejecución se guardan en la carpeta temporal del sistema y `clean` los borra. -->
         <jacoco.execFile>${java.io.tmpdir}/skycampus-tdd-jacoco.exec</jacoco.execFile>
         <sonar.projectKey>skycampus-eci</sonar.projectKey>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
@@ -30,6 +30,22 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${java.io.tmpdir}</directory>
+                            <includes>
+                                <include>skycampus-tdd-jacoco.exec</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
