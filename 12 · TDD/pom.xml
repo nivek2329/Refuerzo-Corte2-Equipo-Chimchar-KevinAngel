@@ -12,6 +12,9 @@
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.3</junit.version>
+        <!-- El agente de JaCoCo corta la ruta cuando contiene caracteres no ASCII (la carpeta "12 · TDD");
+             por eso los datos de ejecución se guardan en la carpeta temporal del sistema. -->
+        <jacoco.execFile>${java.io.tmpdir}/skycampus-tdd-jacoco.exec</jacoco.execFile>
         <sonar.projectKey>skycampus-eci</sonar.projectKey>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
     </properties>
@@ -46,6 +49,10 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <destFile>${jacoco.execFile}</destFile>
+                            <append>false</append>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>report</id>
@@ -53,6 +60,9 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <dataFile>${jacoco.execFile}</dataFile>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>check-coverage</id>
@@ -61,6 +71,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <dataFile>${jacoco.execFile}</dataFile>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
