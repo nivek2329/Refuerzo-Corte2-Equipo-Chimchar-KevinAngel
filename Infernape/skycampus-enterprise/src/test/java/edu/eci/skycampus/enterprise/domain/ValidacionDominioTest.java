@@ -41,4 +41,12 @@ class ValidacionDominioTest {
         assertThrows(IllegalArgumentException.class, () -> new MetricasEficienciaSede(
                 SEDE, 1, 2, 2.0, OptionalDouble.empty(), Optional.empty(), 0.0));
     }
+
+    @Test
+    void metricasRechazanTotalVacioOMisionesEntregadasNegativas() {
+        assertThrows(IllegalArgumentException.class, () -> new MetricasEficienciaSede(
+                SEDE, 0, 0, 0.0, OptionalDouble.empty(), Optional.empty(), 0.0));
+        assertThrows(IllegalArgumentException.class, () -> new MetricasEficienciaSede(
+                SEDE, 1, -1, 0.0, OptionalDouble.empty(), Optional.empty(), 0.0));
+    }
 }
