@@ -12,7 +12,7 @@
       --blue-900:#1E3A8A; --blue-800:#1E40AF; --blue-700:#1D4ED8;
       --blue-600:#2563EB; --blue-500:#3B82F6; --blue-400:#60A5FA;
       --blue-300:#93C5FD; --blue-200:#BFDBFE; --blue-100:#DBEAFE; --blue-50:#EFF6FF;
-      --amber-700:#B45309; --amber-600:#D97706; --amber-500:#F59E0B; --amber-400:#FBBF24;
+      --amber-700:#C2410C; --amber-600:#EA580C; --amber-500:#F97316; --amber-400:#FB923C;
       --green:#22C55E; --flight:#38BDF8; --charge:#FACC15; --fault:#EF4444; --unknown:#64748B;
       --violet:#8B5CF6; --surface:#FFFFFF; --surface-soft:#F8FAFC; --line:#DCE4EF;
       --text:#1E293B; --muted:#64748B; --paper:#F4F7FB;
@@ -31,12 +31,12 @@
     .brand-title{font-weight:750;letter-spacing:-.035em}.brand-sub{margin-top:2px;color:var(--muted);font-size:.68rem;letter-spacing:.04em}
     .topnav nav{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none}.topnav nav::-webkit-scrollbar{display:none}
     .topnav nav a{white-space:nowrap;color:#475569;font-size:.72rem;font-weight:650}.topnav nav a:hover,.topnav nav a:focus-visible{color:var(--blue-700)}
-    .topnav nav a span{margin-right:5px;color:var(--amber-600);font-family:var(--mono);font-size:.68rem}
+    .topnav nav a span{margin-right:5px;color:var(--blue-600);font-family:var(--mono);font-size:.68rem}
     .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
     .hero{position:relative;overflow:hidden;min-height:520px;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:36px;padding:78px 0 70px}
     .hero::before{content:"";position:absolute;inset:25px -15vw 20px 47%;z-index:-1;border-radius:48% 0 0 48%;background:radial-gradient(circle at 40% 42%,#DBEAFE 0,#EFF6FF 42%,transparent 72%)}
     .eyebrow{display:flex;align-items:center;gap:9px;margin:0 0 18px;color:var(--blue-700);font-size:.72rem;font-weight:750;letter-spacing:.14em;text-transform:uppercase}
-    .eyebrow::before{content:"";width:24px;height:3px;border-radius:3px;background:var(--amber-500)}
+    .eyebrow::before{content:"";width:24px;height:3px;border-radius:3px;background:var(--blue-500)}
     h1,h2,h3,h4,p{margin-top:0}
     h1{max-width:670px;margin-bottom:18px;font-size:clamp(3rem,6vw,5.7rem);line-height:.98;letter-spacing:-.075em;color:var(--navy-900)}
     h1 .accent{color:var(--blue-600)}
@@ -54,7 +54,7 @@
     .hero-caption{position:absolute;right:4px;bottom:1px;color:#64748B;font-size:.65rem}
     .section{padding:78px 0;border-top:1px solid var(--line)}
     .section-head{display:grid;grid-template-columns:145px minmax(0,1fr);gap:24px;align-items:start;margin-bottom:32px}
-    .section-no{color:var(--amber-600);font:700 .82rem var(--mono);letter-spacing:.06em}
+    .section-no{color:var(--blue-600);font:700 .82rem var(--mono);letter-spacing:.06em}
     .section-title{margin:0;color:var(--navy-900);font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.08;letter-spacing:-.055em}
     .section-intro{max-width:720px;margin:11px 0 0;color:var(--muted);line-height:1.65}
     .grid{display:grid;gap:16px}.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -66,7 +66,7 @@
     .concept{display:flex;align-items:center;gap:16px;padding:26px;border-radius:17px;color:#fff;background:linear-gradient(125deg,var(--blue-900),var(--blue-600) 66%,var(--violet));box-shadow:var(--shadow)}
     .concept-mark{display:grid;place-items:center;flex:none;width:62px;height:62px;border:1px solid #FFFFFF70;border-radius:18px;color:#fff;font-size:1.1rem;font-weight:750;letter-spacing:-.08em}
     .concept strong{display:block;font-size:1.25rem}.concept p{margin:5px 0 0;color:#DBEAFE;font-size:.82rem;line-height:1.5}
-    .value-card{min-height:165px}.value-number{margin-bottom:18px;color:var(--amber-600);font:700 .72rem var(--mono)}
+    .value-card{min-height:165px}.value-number{margin-bottom:18px;color:var(--blue-600);font:700 .72rem var(--mono)}
     .swatch-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
     .swatch{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}
     .swatch-color{height:70px;background:var(--swatch)}.swatch-body{padding:11px 12px}.swatch-name{display:block;color:var(--navy-900);font-size:.72rem;font-weight:700}.swatch-code{display:block;margin-top:4px;color:var(--muted);font: .66rem var(--mono)}.swatch-use{display:block;margin-top:7px;color:#64748B;font-size:.66rem;line-height:1.35}
@@ -91,7 +91,7 @@
     .table-demo{width:100%;border-collapse:collapse;font-size:.77rem}.table-demo th{padding:11px;text-align:left;color:#fff;background:var(--blue-700);font-size:.68rem;letter-spacing:.05em;text-transform:uppercase}.table-demo td{padding:12px 11px;border-bottom:1px solid var(--line)}.table-demo tr:last-child td{border:0}.table-demo .mono{font:600 .75rem var(--mono)}
     .mode{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:#fff}.mode-head{padding:17px 19px;background:var(--surface-soft);border-bottom:1px solid var(--line);font-size:.8rem;font-weight:750}.mode-content{padding:20px}.mode.light .mode-content{color:var(--text);background:#fff}.mode.dark{border-color:#26364D;background:var(--navy-900)}.mode.dark .mode-head{color:#DBEAFE;background:#111C2E;border-color:#26364D}.mode.dark .mode-content{color:#F8FAFC;background:var(--navy-900)}.mode.dark .mode-content p{color:#CBD5E1}.mode-kpi{display:flex;justify-content:space-between;gap:10px;padding:12px;border-radius:10px;background:#F1F5F9;font-size:.78rem}.mode.dark .mode-kpi{background:#17243A}
     .heuristic{display:grid;grid-template-columns:45px 1fr;gap:15px;padding:17px 0;border-bottom:1px solid var(--line)}.heuristic:last-child{border:0}.heuristic-no{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;color:var(--blue-700);background:var(--blue-100);font:700 .78rem var(--mono)}.heuristic h3{margin:2px 0 5px;font-size:.9rem}.heuristic p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.55}
-    .callout{padding:17px 19px;border:1px solid #FCD34D;border-left:4px solid var(--amber-500);border-radius:12px;background:#FFFBEB;color:#713F12;font-size:.82rem;line-height:1.55}
+    .callout{padding:17px 19px;border:1px solid #FCD34D;border-left:4px solid var(--blue-500);border-radius:12px;background:#FFFBEB;color:#713F12;font-size:.82rem;line-height:1.55}
     .footer{padding:30px 0 50px;border-top:1px solid var(--line);color:var(--muted);font-size:.72rem}.footer-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}.footer strong{color:var(--navy-800)}
     @media(max-width:900px){.topnav{align-items:flex-start;flex-direction:column}.topnav nav{width:100%}.hero{grid-template-columns:1fr;padding-top:58px}.hero-visual{min-height:300px}.section-head{grid-template-columns:80px 1fr}.cols-3,.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}.swatch-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.status-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:620px){.wrap{padding:0 18px}.topnav{padding:12px 18px}.hero{min-height:0;padding:48px 0}.hero-visual{min-height:260px}.dashboard-card{padding:16px}.section{padding:55px 0}.section-head{grid-template-columns:1fr;gap:8px}.cols-2,.cols-3,.cols-4,.two-col{grid-template-columns:1fr}.swatch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.status-list{grid-template-columns:1fr 1fr}.type-sample{grid-template-columns:1fr}.type-preview{min-height:110px}.mini-row{grid-template-columns:1fr 70px 82px}.hero-caption{right:0}}
@@ -105,7 +105,7 @@
       <span><span class="brand-title">SkyCampus</span><span class="brand-sub">Manual de identidad · ECI</span></span>
     </a>
     <nav aria-label="Índice del manual">
-      <a href="#marca"><span>01</span>Marca</a><a href="#usuarios"><span>02</span>Usuarios</a><a href="#valores"><span>03</span>Valores</a><a href="#color"><span>04</span>Color</a><a href="#tipo"><span>05</span>Tipografía</a><a href="#componentes"><span>06</span>Componentes</a><a href="#modos"><span>07</span>Modos</a><a href="#accesibilidad"><span>08</span>Accesibilidad</a>
+      <a href="#marca"><span>01</span>Marca</a><a href="#usuarios"><span>02</span>Audiencia</a><a href="#valores"><span>03</span>Principios</a><a href="#color"><span>04</span>Color</a><a href="#tipo"><span>05</span>Tipografía</a><a href="#componentes"><span>06</span>Interfaz</a><a href="#modos"><span>07</span>Superficies</a><a href="#accesibilidad"><span>08</span>Heurísticas</a><a href="#entrega"><span>09</span>Figma</a><a href="#voz"><span>10</span>Voz</a>
     </nav>
   </header>
 
@@ -162,7 +162,7 @@
       </section>
 
       <section class="section" id="color">
-        <div class="section-head"><div class="section-no">04 / COLOR</div><div><h2 class="section-title">Sistema de color</h2><p class="section-intro">Azules para navegación y confianza; ámbar para atención; los estados operativos se reservan para comunicar condiciones del drone.</p></div></div>
+        <div class="section-head"><div class="section-no">04 / COLOR</div><div><h2 class="section-title">Sistema de color</h2><p class="section-intro">El azul es el color primario: transmite confianza y precisión técnica, como en las consolas de control, y se usa para navegación y acciones. Los colores de estado se reservan para comunicar condiciones del drone y el naranja, solo para "no asignable por batería".</p></div></div>
         <h3 class="palette-label">Paleta primaria · azul</h3>
         <div class="swatch-grid">
           <div class="swatch"><div class="swatch-color" style="--swatch:#1E3A8A"></div><div class="swatch-body"><span class="swatch-name">Azul profundo</span><code class="swatch-code">#1E3A8A</code><span class="swatch-use">Marca y encabezados oscuros</span></div></div>
@@ -178,7 +178,7 @@
             <div class="swatch"><div class="swatch-color" style="--swatch:#1E293B"></div><div class="swatch-body"><span class="swatch-name">Pizarra</span><code class="swatch-code">#1E293B</code><span class="swatch-use">Texto y superficies oscuras</span></div></div>
             <div class="swatch"><div class="swatch-color" style="--swatch:#F8FAFC"></div><div class="swatch-body"><span class="swatch-name">Nube</span><code class="swatch-code">#F8FAFC</code><span class="swatch-use">Fondo claro</span></div></div>
             <div class="swatch"><div class="swatch-color" style="--swatch:#94A3B8"></div><div class="swatch-body"><span class="swatch-name">Gris azulado</span><code class="swatch-code">#94A3B8</code><span class="swatch-use">Texto secundario</span></div></div>
-            <div class="swatch"><div class="swatch-color" style="--swatch:#F59E0B"></div><div class="swatch-body"><span class="swatch-name">Ámbar alerta</span><code class="swatch-code">#F59E0B</code><span class="swatch-use">Advertencias y batería baja</span></div></div>
+            <div class="swatch"><div class="swatch-color" style="--swatch:#8B5CF6"></div><div class="swatch-body"><span class="swatch-name">Violeta acento</span><code class="swatch-code">#8B5CF6</code><span class="swatch-use">Solo marca: punto del logo, avatar y brillo de fondo</span></div></div>
           </div>
         </div>
         <div class="palette-group">
@@ -190,7 +190,14 @@
             <div class="status-item"><i class="status-dot" style="--status:var(--fault)"></i><span>Fallo<code>#EF4444</code></span></div>
             <div class="status-item"><i class="status-dot" style="--status:var(--unknown)"></i><span>No disponible*<code>#64748B</code></span></div>
           </div>
-          <p class="section-intro" style="font-size:.77rem;margin-top:10px">*El modelo Chimchar solo contiene `disponible:boolean`; si es falso, no se debe inferir vuelo, carga ni fallo. La batería inferior al 30% usa ámbar y deshabilita la asignación sin cambiar la etiqueta de estado.</p>
+          <h3 class="palette-label" style="margin-top:18px">Elegibilidad y misión</h3>
+          <div class="status-list">
+            <div class="status-item"><i class="status-dot" style="--status:#14B8A6"></i><span>Asignable<code>#14B8A6</code></span></div>
+            <div class="status-item"><i class="status-dot" style="--status:#F97316"></i><span>No asignable · batería &lt; 30%<code>#F97316</code></span></div>
+            <div class="status-item"><i class="status-dot" style="--status:#C4B5FD"></i><span>Misión PENDIENTE<code>#C4B5FD</code></span></div>
+          </div>
+          <p class="section-intro" style="font-size:.77rem;margin-top:10px">*El modelo Chimchar solo contiene `disponible:boolean`; si es falso, no se debe inferir vuelo, carga ni fallo.</p>
+          <div class="callout" style="margin-top:14px"><strong>Reglas de uso del color.</strong> (1) La paleta de marca —azules de acción y navegación, y el violeta— nunca comunica estados ni elegibilidad; "Asignable" usa turquesa #14B8A6. (2) Cada color de estado tiene un solo significado y siempre va con su etiqueta. (3) "Disponible" (dato del modelo) y "Asignable / No asignable" (disponible y batería ≥ 30%) se muestran como dos etiquetas separadas: un drone con 18% sigue "Disponible", pero lleva además la etiqueta naranja "No asignable · batería", su fila tiene borde naranja y el botón de asignar queda deshabilitado con el motivo. (4) El naranja #F97316 se reserva para "no asignable por batería" y se distingue del amarillo #FACC15 de "En carga". (5) El cian #38BDF8 de "En vuelo" no se usa en enlaces ni botones. (6) El violeta claro #C4B5FD se reserva para el estado de misión PENDIENTE.</div>
         </div>
       </section>
 
@@ -199,9 +206,9 @@
         <div class="type-sample">
           <div class="type-preview" aria-label="Muestra tipográfica Aa">Aa</div>
           <div>
-            <div class="type-line"><strong>Inter · títulos y encabezados</strong><small>600–700 · contraste claro entre nivel de página y sección.</small></div>
-            <div class="type-line"><strong>Inter · texto de interfaz</strong><small>400–500 · lectura de etiquetas, descripciones y ayuda.</small></div>
-            <div class="type-line"><strong>JetBrains Mono · IDs y códigos</strong><small><span class="mono-sample">D-04 · SC-001</span></small></div>
+            <div class="type-line"><strong>Inter · títulos y encabezados</strong><small>600 para secciones; 700 solo para el título de página y el logotipo.</small></div>
+            <div class="type-line"><strong>Inter · texto de interfaz</strong><small>400 para texto y 600 para etiquetas y datos destacados. Tamaño mínimo 11 px (.68rem).</small></div>
+            <div class="type-line"><strong>JetBrains Mono · IDs y códigos</strong><small><span class="mono-sample">D-04 · M-0001</span> — todo ID de drone o código de misión va en monoespaciada, también dentro de títulos, alertas y diálogos.</small></div>
             <div class="type-line"><strong>Alternativas locales</strong><small>Segoe UI / Arial · Cascadia Code / Consolas.</small></div>
           </div>
         </div>
@@ -213,7 +220,7 @@
           <div class="component-demo"><p class="component-label">Botones</p><div class="button-row"><button class="btn primary" type="button">Asignar drone</button><button class="btn secondary" type="button">Ver detalle</button><button class="btn outline" type="button">Filtrar</button><button class="btn" type="button" disabled>Deshabilitado</button></div><p style="margin:15px 0 0;color:var(--muted);font-size:.74rem">Primario para la tarea principal, secundario para alternativas. Los estados deshabilitados conservan texto legible.</p></div>
           <div class="component-demo"><p class="component-label">Estados en badge</p><div class="badge-row"><span class="badge available"><i></i>Disponible</span><span class="badge flight"><i></i>En vuelo</span><span class="badge charge"><i></i>En carga</span><span class="badge fault"><i></i>Fallo</span><span class="badge unknown"><i></i>No disponible</span></div><p style="margin:15px 0 0;color:var(--muted);font-size:.74rem">Siempre incluir el nombre del estado; el color y el punto son refuerzos.</p></div>
           <div class="component-demo"><p class="component-label">Campo de búsqueda</p><div class="input-demo"><label for="sample-search">Buscar por ID o ubicación</label><input id="sample-search" value="D-04" readonly><small>Foco visible en azul. Asociar cada campo con una etiqueta.</small></div></div>
-          <div class="component-demo"><p class="component-label">Fila de flota</p><table class="table-demo"><thead><tr><th>Drone</th><th>Batería</th><th>Estado</th><th>Ubicación</th></tr></thead><tbody><tr><td class="mono">D-04</td><td>18% · crítica</td><td>Disponible</td><td>Bloque B</td></tr></tbody></table><p style="margin:12px 0 0;color:var(--muted);font-size:.74rem">Distinguir estado operativo de elegibilidad por batería.</p></div>
+          <div class="component-demo"><p class="component-label">Fila de flota</p><table class="table-demo"><thead><tr><th>Drone</th><th>Batería</th><th>Estado</th><th>Ubicación</th></tr></thead><tbody><tr style="box-shadow:inset 3px 0 0 #F97316"><td class="mono">D-04</td><td style="color:#C2410C;font-weight:700">18%</td><td>Disponible · <strong style="color:#C2410C">No asignable</strong></td><td>Bloque B</td></tr></tbody></table><p style="margin:12px 0 0;color:var(--muted);font-size:.74rem">El estado del modelo y la elegibilidad se muestran juntos: la fila no asignable lleva borde y etiqueta naranja.</p></div>
         </div>
       </section>
 
@@ -226,8 +233,9 @@
         <div class="callout" style="margin-top:16px">Los colores semánticos de estado no cambian entre modos. Verificar siempre que el nombre del estado siga legible sobre su superficie.</div>
       </section>
 
+
       <section class="section" id="accesibilidad">
-        <div class="section-head"><div class="section-no">08 / ACCESIBILIDAD</div><div><h2 class="section-title">Heurísticas para el panel</h2><p class="section-intro">Estas reglas orientan el mock de Figma y las siguientes vistas. La revisión final se hace contra el diseño generado, no solo contra esta guía.</p></div></div>
+        <div class="section-head"><div class="section-no">08 / HEURÍSTICAS</div><div><h2 class="section-title">Heurísticas para el panel</h2><p class="section-intro">Estas reglas orientan el mock de Figma y las siguientes vistas. La revisión final se hace contra el diseño generado, no solo contra esta guía.</p></div></div>
         <div class="grid cols-2">
           <div class="card">
             <div class="heuristic"><div class="heuristic-no">#1</div><div><h3>Visibilidad del estado</h3><p>Mostrar etiqueta del estado, batería y ubicación en cada fila sin exigir otro clic.</p></div></div>
@@ -241,12 +249,20 @@
       </section>
 
       <section class="section" id="entrega">
-        <div class="section-head"><div class="section-no">09 / APLICACIÓN</div><div><h2 class="section-title">Guía para Figma</h2><p class="section-intro">Usar este manual como referencia al crear el mock de monitoreo. Los registros de la flota deben conservar exactamente los datos del enunciado Chimchar.</p></div></div>
+        <div class="section-head"><div class="section-no">09 / FIGMA</div><div><h2 class="section-title">Guía para Figma</h2><p class="section-intro">Usar este manual como referencia al crear el mock de monitoreo. Los registros de la flota deben conservar exactamente los datos del enunciado Chimchar.</p></div></div>
         <div class="grid cols-2">
-          <article class="card"><span class="label">Paleta a aplicar</span><h3>Azul técnico + estados legibles</h3><p>Base #0F172A / #F8FAFC, superficies #111C2E, acción #2563EB y estados verde #22C55E, azul #38BDF8, amarillo #FACC15 y rojo #EF4444. Batería crítica #F59E0B.</p></article>
+          <article class="card"><span class="label">Paleta a aplicar</span><h3>Azul técnico + estados legibles</h3><p>Base #0F172A / #F8FAFC, superficies #111C2E, acción #2563EB y estados verde #22C55E, azul #38BDF8, amarillo #FACC15 y rojo #EF4444. Elegibilidad: asignable #14B8A6, no asignable por batería #F97316. Misión PENDIENTE #C4B5FD.</p></article>
           <article class="card"><span class="label">Datos de demostración</span><h3>Cinco drones Chimchar</h3><p>D-01 (85%, Bloque A), D-02 (42%, Biblioteca, no disponible), D-03 (91%, Bloque C), D-04 (18%, Bloque B, disponible pero no asignable por batería) y D-05 (67%, Bloque D).</p></article>
         </div>
         <div class="callout" style="margin-top:16px"><strong>Regla de consistencia:</strong> el modelo entrega `disponible:boolean`; para D-02 no inventar si está en vuelo, carga o fallo. Mostrar “No disponible” hasta que exista un subestado real.</div>
+      </section>
+
+      <section class="section" id="voz">
+        <div class="section-head"><div class="section-no">10 / VOZ</div><div><h2 class="section-title">Tono de voz</h2><p class="section-intro">Técnico y directo. Cada texto responde "¿qué pasa y qué hago?" para el operador: dato, requisito y acción.</p></div></div>
+        <div class="grid cols-2">
+          <div class="card"><span class="label">Sí</span><h3>Mensajes correctos</h3><p>"<span class="mono-sample">D-04</span> tiene batería insuficiente (18%). Mínimo requerido: 30%. Elige otro drone de la flota."</p><p>"¿Cancelar la misión <span class="mono-sample">M-0001</span>? Ya no se podrá asignar un drone a esta misión."</p><p>"<span class="mono-sample">D-02</span> no está disponible para asignar. Consulta con el administrador de la flota."</p></div>
+          <div class="card"><span class="label">No</span><h3>Mensajes a evitar</h3><p>"Error de asignación." — no dice la causa ni la acción.</p><p>"El modelo no especifica el motivo; no se infiere otro estado." — habla del diseño, no de la operación.</p><p>"Dato demostrativo", "ruta ilustrativa" — las aclaraciones sobre qué es simulado van en la documentación (README), no en la pantalla.</p></div>
+        </div>
       </section>
     </div>
   </main>
