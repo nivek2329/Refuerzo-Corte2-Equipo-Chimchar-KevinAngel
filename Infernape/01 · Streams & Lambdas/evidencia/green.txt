@@ -1,0 +1,8 @@
+Punto 01 · GREEN
+Comando: mvn test
+Resultado: BUILD SUCCESS; 5 escenarios parametrizados, 0 fallos.
+
+Comando: mvn verify
+Resultado: BUILD SUCCESS; 10 pruebas, JaCoCo: 100 % de líneas y 90,9 % de ramas (mínimos: 85 % y 75 %).
+
+Escenarios parametrizados: sede sin actividad, una misión urgente entregada, empate de ranking entre sedes, empate de uso de drones y red completa de cuatro sedes.
