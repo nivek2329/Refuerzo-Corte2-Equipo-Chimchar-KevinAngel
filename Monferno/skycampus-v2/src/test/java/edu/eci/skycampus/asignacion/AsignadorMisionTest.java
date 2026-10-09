@@ -51,7 +51,7 @@ class AsignadorMisionTest {
     void setUp() {
         GestorFlota gestorFlota = new GestorFlota();
         gestorFlota.suscribir(notificador);
-        asignador = new AsignadorMision(clima, gestorFlota, new AsignacionMayorBateria(), new AsignacionMasRapido());
+        asignador = new AsignadorMision(clima, gestorFlota, Datos.estrategiasPorPrioridad());
         flota = List.of(
                 Datos.drone("D-01", TipoDrone.MINI, 91),
                 Datos.drone("D-02", TipoDrone.EXPRESS, 60),

@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +37,7 @@ class AsignadorMisionValidacionTest {
 
     @BeforeEach
     void setUp() {
-        asignador = new AsignadorMision(clima, new GestorFlota(), new AsignacionMayorBateria(), new AsignacionMasRapido());
+        asignador = new AsignadorMision(clima, new GestorFlota(), Datos.estrategiasPorPrioridad());
         flota = List.of(Datos.drone("D-01", TipoDrone.MINI, 91));
     }
 
@@ -69,17 +70,14 @@ class AsignadorMisionValidacionTest {
     static Stream<Arguments> constructoresConNull() {
         ApiMeteorologica api = () -> true;
         GestorFlota gestor = new GestorFlota();
-        EstrategiaAsignacion normal = new AsignacionMayorBateria();
-        EstrategiaAsignacion urgente = new AsignacionMasRapido();
+        Map<Prioridad, EstrategiaAsignacion> estrategias = Datos.estrategiasPorPrioridad();
         return Stream.of(
-                Arguments.of((Executable) () -> new AsignadorMision(null, gestor, normal, urgente),
+                Arguments.of((Executable) () -> new AsignadorMision(null, gestor, estrategias),
                         "clima no puede ser null"),
-                Arguments.of((Executable) () -> new AsignadorMision(api, null, normal, urgente),
+                Arguments.of((Executable) () -> new AsignadorMision(api, null, estrategias),
                         "gestorFlota no puede ser null"),
-                Arguments.of((Executable) () -> new AsignadorMision(api, gestor, null, urgente),
-                        "estrategiaNormal no puede ser null"),
-                Arguments.of((Executable) () -> new AsignadorMision(api, gestor, normal, null),
-                        "estrategiaUrgente no puede ser null"));
+                Arguments.of((Executable) () -> new AsignadorMision(api, gestor, null),
+                        "estrategiasPorPrioridad no puede ser null"));
     }
 
     @ParameterizedTest(name = "{1}")

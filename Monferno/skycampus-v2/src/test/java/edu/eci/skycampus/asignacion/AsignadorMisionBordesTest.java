@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import edu.eci.skycampus.externo.ApiMeteorologica;
 import edu.eci.skycampus.modelo.Drone;
+import edu.eci.skycampus.modelo.EstadoDrone;
 import edu.eci.skycampus.modelo.Prioridad;
 import edu.eci.skycampus.modelo.SolicitudReparto;
 import edu.eci.skycampus.modelo.TipoDrone;
@@ -20,7 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,7 +37,7 @@ class AsignadorMisionBordesTest {
 
     @BeforeEach
     void setUp() {
-        asignador = new AsignadorMision(clima, new GestorFlota(), new AsignacionMayorBateria(), new AsignacionMasRapido());
+        asignador = new AsignadorMision(clima, new GestorFlota(), Datos.estrategiasPorPrioridad());
         flota = List.of(
                 Datos.drone("D-01", TipoDrone.MINI, 91),
                 Datos.drone("D-02", TipoDrone.EXPRESS, 60),
@@ -95,6 +98,26 @@ class AsignadorMisionBordesTest {
 
         // Assert
         assertEquals("D-01", asignado.orElseThrow().id());
+    }
+
+    @Test
+    @DisplayName("OCP: dar a BAJO su propia estrategia es solo configuración, AsignadorMision no cambia")
+    void asignar_bajoConEstrategiaPropia_usaLaConfigurada() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+        Map<Prioridad, EstrategiaAsignacion> estrategias = new EnumMap<>(Datos.estrategiasPorPrioridad());
+        estrategias.put(Prioridad.BAJO, new AsignacionMenorUso());
+        AsignadorMision conBajoPropio = new AsignadorMision(clima, new GestorFlota(), estrategias);
+        List<Drone> usados = List.of(
+                Datos.drone("D-01", TipoDrone.MINI, 91, EstadoDrone.DISPONIBLE, 300),
+                Datos.drone("D-03", TipoDrone.CARGO, 85, EstadoDrone.DISPONIBLE, 5));
+        SolicitudReparto baja = Datos.solicitud("S-11", 300, Prioridad.BAJO);
+
+        // Act
+        Optional<Drone> asignado = conBajoPropio.asignar(usados, baja);
+
+        // Assert
+        assertEquals("D-03", asignado.orElseThrow().id());
     }
 
     @Test
