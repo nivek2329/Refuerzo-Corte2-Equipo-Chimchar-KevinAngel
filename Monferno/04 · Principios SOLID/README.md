@@ -51,4 +51,4 @@ La flota de prueba está diseñada para que **cada criterio elija un drone disti
 
 1. **`crearMision_cualquierEstrategia_usaElDroneQueEllaElige`** (`@ParameterizedTest` + `@MethodSource`): corre con las 3 estrategias de producción y con la lambda `siempreElUltimo`, que no existe en el código de producción. En los cuatro casos, `GestorMisiones` crea la misión con el drone que eligió la estrategia, sin cambiar una línea de su código (OCP).
 2. **`crearMision_flotaVacia_vacio`**, parametrizada con las mismas cuatro: todas devuelven `Optional.empty()` y no se crea misión (LSP).
-3. **`crearMision_estrategiaSimulada_recibeFlotaYPaquete`**: usa `@Mock EstrategiaAsignacion` de Mockito con `verify(estrategia).seleccionar(flota, solicitud.paquete())`. Demuestra que `GestorMisiones` le pasa a la abstracción exactamente la flota y el paquete de la solicitud (DIP).
+3. **`crearMision_estrategiaSimulada_recibeFlotaYPaquete`**: usa `@Mock EstrategiaAsignacion` de Mockito con `verify(estrategiaSimulada).seleccionar(flota, solicitud.paquete())`. Demuestra que `GestorMisiones` le pasa a la abstracción exactamente la flota y el paquete de la solicitud (DIP).
