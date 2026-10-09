@@ -2,9 +2,12 @@ package edu.eci.skycampus.asignacion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import edu.eci.skycampus.externo.ApiMeteorologica;
 import edu.eci.skycampus.modelo.Drone;
+import edu.eci.skycampus.modelo.Prioridad;
+import edu.eci.skycampus.modelo.SolicitudReparto;
 import edu.eci.skycampus.modelo.TipoDrone;
 import edu.eci.skycampus.notificacion.GestorFlota;
 import edu.eci.skycampus.soporte.Datos;
@@ -12,10 +15,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AsignadorMision: validación de entradas")
@@ -43,18 +51,43 @@ class AsignadorMisionValidacionTest {
     }
 
     @Test
-    @DisplayName("exige la API del clima")
-    void crearAsignador_climaNulo_lanzaExcepcion() {
+    @DisplayName("rechaza una flota null sin consultar el clima")
+    void asignar_flotaNula_lanzaExcepcionSinConsultarClima() {
         // Arrange
-        GestorFlota gestorFlota = new GestorFlota();
-        AsignacionMayorBateria normal = new AsignacionMayorBateria();
-        AsignacionMasRapido urgente = new AsignacionMasRapido();
+        SolicitudReparto solicitud = Datos.solicitud("S-1", 200, Prioridad.NORMAL);
 
         // Act
         NullPointerException error = assertThrows(NullPointerException.class,
-                () -> new AsignadorMision(null, gestorFlota, normal, urgente));
+                () -> asignador.asignar(null, solicitud));
 
         // Assert
-        assertEquals("clima no puede ser null", error.getMessage());
+        assertEquals("flota no puede ser null", error.getMessage());
+        verifyNoInteractions(clima);
+    }
+
+    static Stream<Arguments> constructoresConNull() {
+        ApiMeteorologica api = () -> true;
+        GestorFlota gestor = new GestorFlota();
+        EstrategiaAsignacion normal = new AsignacionMayorBateria();
+        EstrategiaAsignacion urgente = new AsignacionMasRapido();
+        return Stream.of(
+                Arguments.of((Executable) () -> new AsignadorMision(null, gestor, normal, urgente),
+                        "clima no puede ser null"),
+                Arguments.of((Executable) () -> new AsignadorMision(api, null, normal, urgente),
+                        "gestorFlota no puede ser null"),
+                Arguments.of((Executable) () -> new AsignadorMision(api, gestor, null, urgente),
+                        "estrategiaNormal no puede ser null"),
+                Arguments.of((Executable) () -> new AsignadorMision(api, gestor, normal, null),
+                        "estrategiaUrgente no puede ser null"));
+    }
+
+    @ParameterizedTest(name = "{1}")
+    @MethodSource("constructoresConNull")
+    void crearAsignador_dependenciaNula_lanzaExcepcionConMensaje(Executable creacion, String mensaje) {
+        // Act
+        NullPointerException error = assertThrows(NullPointerException.class, creacion);
+
+        // Assert
+        assertEquals(mensaje, error.getMessage());
     }
 }
