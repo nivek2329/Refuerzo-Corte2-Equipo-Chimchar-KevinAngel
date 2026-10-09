@@ -6,7 +6,7 @@ import edu.eci.skycampus.modelo.EstadoDrone;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Muestra al operador el último estado de cada drone. */
+/** Historial, en orden de llegada, de los avisos de cambio de estado que ve el operador. */
 public class PanelOperador implements ObservadorDrone {
     private final List<String> avisos = new ArrayList<>();
 

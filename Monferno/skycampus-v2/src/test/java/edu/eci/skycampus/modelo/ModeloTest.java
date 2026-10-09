@@ -3,7 +3,6 @@ package edu.eci.skycampus.modelo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.eci.skycampus.soporte.Datos;
 import org.junit.jupiter.api.DisplayName;
@@ -41,20 +40,6 @@ class ModeloTest {
         assertFalse(disponible);
     }
 
-    @Test
-    @DisplayName("conEstado devuelve una copia con el nuevo estado y no altera el original")
-    void conEstado_nuevoEstado_devuelveCopia() {
-        // Arrange
-        Drone original = Datos.drone("D-01", TipoDrone.MINI, 80);
-
-        // Act
-        Drone enVuelo = original.conEstado(EstadoDrone.EN_VUELO);
-
-        // Assert
-        assertEquals(EstadoDrone.EN_VUELO, enVuelo.estado());
-        assertTrue(original.isDisponible());
-    }
-
     @ParameterizedTest(name = "rechaza batería {0}")
     @ValueSource(ints = {-1, 101})
     void crearDrone_bateriaFueraDeRango_lanzaExcepcion(int bateria) {
@@ -65,15 +50,18 @@ class ModeloTest {
                 () -> Datos.drone("D-01", TipoDrone.MINI, bateria));
 
         // Assert
-        assertEquals("bateria debe estar entre 0 y 100", error.getMessage());
+        assertEquals("batería debe estar entre 0 y 100", error.getMessage());
     }
 
     @Test
     @DisplayName("rechaza minutos de vuelo negativos")
     void crearDrone_minutosNegativos_lanzaExcepcion() {
-        // Act / Assert
-        assertThrows(IllegalArgumentException.class,
+        // Act
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
                 () -> Datos.drone("D-01", TipoDrone.MINI, 50, EstadoDrone.DISPONIBLE, -1));
+
+        // Assert
+        assertEquals("minutosVueloAcumulados no puede ser negativo", error.getMessage());
     }
 
     @Test
@@ -88,22 +76,17 @@ class ModeloTest {
     }
 
     @Test
-    @DisplayName("un paquete URGENTE se reconoce como urgente")
-    void isUrgente_prioridadUrgente_retornaTrue() {
-        // Act / Assert
-        assertTrue(Datos.paquete(200, Prioridad.URGENTE).isUrgente());
-        assertFalse(Datos.paquete(200, Prioridad.BAJO).isUrgente());
-    }
-
-    @Test
     @DisplayName("rechaza solicitudes con origen igual al destino")
     void crearSolicitud_origenIgualDestino_lanzaExcepcion() {
         // Arrange
         Paquete paquete = Datos.paquete(200, Prioridad.NORMAL);
 
-        // Act / Assert
-        assertThrows(IllegalArgumentException.class,
+        // Act
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
                 () -> new SolicitudReparto("S-1", Destino.BLOQUE_A, Destino.BLOQUE_A, paquete));
+
+        // Assert
+        assertEquals("origen y destino deben ser distintos", error.getMessage());
     }
 
     @Test

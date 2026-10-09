@@ -14,10 +14,15 @@ import edu.eci.skycampus.soporte.Datos;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @DisplayName("EstadisticasMisiones")
 class EstadisticasMisionesTest {
@@ -154,13 +159,41 @@ class EstadisticasMisionesTest {
     }
 
     @Test
-    @DisplayName("rechaza una lista null con mensaje claro")
-    void completadasPorTipo_null_lanzaExcepcion() {
+    @DisplayName("una misión con creadaEn posterior a ahora no cuenta como demorada")
+    void hasUrgentePendienteDemorada_creadaEnElFuturo_false() {
+        // Arrange
+        List<Mision> misiones = List.of(Datos.mision("1", express, EstadoMision.PENDIENTE, Prioridad.URGENTE,
+                Datos.AHORA.plusMinutes(5)));
+
+        // Act / Assert
+        assertFalse(EstadisticasMisiones.hasUrgentePendienteDemorada(misiones, Datos.AHORA));
+    }
+
+    static Stream<Arguments> entradasNulas() {
+        List<Mision> vacia = List.of();
+        return Stream.of(
+                Arguments.of("completadasPorTipo", (Executable) () -> EstadisticasMisiones.completadasPorTipo(null),
+                        "misiones no puede ser null"),
+                Arguments.of("droneConMasCompletadas",
+                        (Executable) () -> EstadisticasMisiones.droneConMasCompletadas(null),
+                        "misiones no puede ser null"),
+                Arguments.of("porcentajeFallidas", (Executable) () -> EstadisticasMisiones.porcentajeFallidas(null),
+                        "misiones no puede ser null"),
+                Arguments.of("hasUrgentePendienteDemorada(misiones)",
+                        (Executable) () -> EstadisticasMisiones.hasUrgentePendienteDemorada(null, Datos.AHORA),
+                        "misiones no puede ser null"),
+                Arguments.of("hasUrgentePendienteDemorada(ahora)",
+                        (Executable) () -> EstadisticasMisiones.hasUrgentePendienteDemorada(vacia, null),
+                        "ahora no puede ser null"));
+    }
+
+    @ParameterizedTest(name = "{0} rechaza null con mensaje claro")
+    @MethodSource("entradasNulas")
+    void consultas_entradaNull_lanzaExcepcionConMensaje(String consulta, Executable llamada, String mensaje) {
         // Act
-        NullPointerException error = assertThrows(NullPointerException.class,
-                () -> EstadisticasMisiones.completadasPorTipo(null));
+        NullPointerException error = assertThrows(NullPointerException.class, llamada);
 
         // Assert
-        assertEquals("misiones no puede ser null", error.getMessage());
+        assertEquals(mensaje, error.getMessage());
     }
 }

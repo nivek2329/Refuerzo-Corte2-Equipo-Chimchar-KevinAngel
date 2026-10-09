@@ -16,7 +16,7 @@ public record Drone(String id, TipoDrone tipo, int bateria, EstadoDrone estado, 
         Objects.requireNonNull(estado, "estado no puede ser null");
         if (bateria < BATERIA_MINIMA_VALIDA || bateria > BATERIA_MAXIMA_VALIDA) {
             throw new IllegalArgumentException(
-                    "bateria debe estar entre " + BATERIA_MINIMA_VALIDA + " y " + BATERIA_MAXIMA_VALIDA);
+                    "batería debe estar entre " + BATERIA_MINIMA_VALIDA + " y " + BATERIA_MAXIMA_VALIDA);
         }
         if (minutosVueloAcumulados < 0) {
             throw new IllegalArgumentException("minutosVueloAcumulados no puede ser negativo");
@@ -27,7 +27,12 @@ public record Drone(String id, TipoDrone tipo, int bateria, EstadoDrone estado, 
         return estado == EstadoDrone.DISPONIBLE;
     }
 
-    public Drone conEstado(EstadoDrone nuevoEstado) {
+    /** Devuelve una copia en el nuevo estado; el propio dominio rechaza las transiciones no permitidas. */
+    public Drone transicionarA(EstadoDrone nuevoEstado) {
+        Objects.requireNonNull(nuevoEstado, "nuevoEstado no puede ser null");
+        if (!estado.puedePasarA(nuevoEstado)) {
+            throw new IllegalStateException("transición no permitida para " + id + ": " + estado + " → " + nuevoEstado);
+        }
         return new Drone(id, tipo, bateria, nuevoEstado, minutosVueloAcumulados);
     }
 }

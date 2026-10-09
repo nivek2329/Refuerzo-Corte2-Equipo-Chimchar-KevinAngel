@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/** Sujeto del Observer: cambia el estado de un drone y avisa a todos los suscritos a través de la interfaz. */
+/**
+ * Sujeto del Observer: cambia el estado de un drone y avisa a todos los suscritos a través de la interfaz.
+ * Solo notifica cambios reales; las transiciones inválidas las rechaza el dominio ({@link Drone#transicionarA}).
+ * No guarda la flota: quien llama debe usar el drone devuelto, porque {@link Drone} es inmutable.
+ */
 public class GestorFlota {
     private final List<ObservadorDrone> observadores = new ArrayList<>();
 
@@ -19,13 +23,17 @@ public class GestorFlota {
     }
 
     public void desuscribir(ObservadorDrone observador) {
+        Objects.requireNonNull(observador, "observador no puede ser null");
         observadores.remove(observador);
     }
 
     public Drone cambiarEstado(Drone drone, EstadoDrone nuevo) {
         Objects.requireNonNull(drone, "drone no puede ser null");
         Objects.requireNonNull(nuevo, "nuevo no puede ser null");
-        Drone actualizado = drone.conEstado(nuevo);
+        if (drone.estado() == nuevo) {
+            return drone;
+        }
+        Drone actualizado = drone.transicionarA(nuevo);
         List.copyOf(observadores).forEach(observador -> observador.onEstadoCambiado(actualizado, nuevo));
         return actualizado;
     }

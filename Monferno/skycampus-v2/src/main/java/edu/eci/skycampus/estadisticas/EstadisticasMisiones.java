@@ -14,7 +14,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/** Estadísticas del dashboard del operador sobre las misiones del día. Todo con Streams. */
+/**
+ * Estadísticas del dashboard del operador. Todo con Streams.
+ * Supuesto: la lista que reciben los métodos ya es la de las misiones del día (la filtra quien la consulta);
+ * estos métodos no filtran por fecha.
+ */
 public final class EstadisticasMisiones {
     public static final Duration ESPERA_MAXIMA_URGENTE = Duration.ofMinutes(10);
     private static final double CIEN_POR_CIENTO = 100.0;
@@ -22,7 +26,7 @@ public final class EstadisticasMisiones {
     private EstadisticasMisiones() {
     }
 
-    /** 1) Tipo de drone → número de misiones completadas (ENTREGADA). */
+    /** 1) Tipo de drone → número de misiones completadas (ENTREGADA) en la lista del día recibida. */
     public static Map<TipoDrone, Long> completadasPorTipo(List<Mision> misiones) {
         Objects.requireNonNull(misiones, "misiones no puede ser null");
         return misiones.stream()

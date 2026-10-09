@@ -21,6 +21,7 @@ public class GestorMisiones {
     }
 
     public Optional<Mision> crearMision(List<Drone> flota, SolicitudReparto solicitud, LocalDateTime ahora) {
+        Objects.requireNonNull(flota, "flota no puede ser null");
         Objects.requireNonNull(solicitud, "solicitud no puede ser null");
         Objects.requireNonNull(ahora, "ahora no puede ser null");
         return estrategia.seleccionar(flota, solicitud.paquete())

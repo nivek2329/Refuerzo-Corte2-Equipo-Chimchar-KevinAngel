@@ -14,9 +14,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @DisplayName("Estrategias de asignación")
 class EstrategiasAsignacionTest {
@@ -63,6 +67,17 @@ class EstrategiasAsignacionTest {
 
             // Assert
             assertEquals("flota no puede ser null", error.getMessage());
+        }
+
+        @Test
+        @DisplayName("rechaza un paquete null con mensaje claro")
+        void aptos_paqueteNulo_lanzaExcepcion() {
+            // Act
+            NullPointerException error = assertThrows(NullPointerException.class,
+                    () -> CriterioAptitud.aptos(flota, null));
+
+            // Assert
+            assertEquals("paquete no puede ser null", error.getMessage());
         }
     }
 
@@ -122,15 +137,33 @@ class EstrategiasAsignacionTest {
         assertEquals("D-11", elegido.orElseThrow().id());
     }
 
-    @Test
-    @DisplayName("sin drones aptos ninguna estrategia elige")
-    void seleccionar_sinAptos_vacio() {
+    static Stream<Arguments> estrategiasDeProduccion() {
+        return Stream.of(
+                Arguments.of("mayor batería", new AsignacionMayorBateria()),
+                Arguments.of("menor uso", new AsignacionMenorUso()),
+                Arguments.of("tipo compatible", new AsignacionTipoCompatible()));
+    }
+
+    @ParameterizedTest(name = "«{0}» no elige si el paquete no cabe en ningún drone")
+    @MethodSource("estrategiasDeProduccion")
+    void seleccionar_paqueteMuyPesado_vacio(String nombre, EstrategiaAsignacion estrategia) {
         // Arrange
         Paquete muyPesado = Datos.paquete(2500, Prioridad.NORMAL);
 
-        // Act / Assert
-        assertTrue(new AsignacionMayorBateria().seleccionar(flota, muyPesado).isEmpty());
-        assertTrue(new AsignacionMenorUso().seleccionar(flota, muyPesado).isEmpty());
-        assertTrue(new AsignacionTipoCompatible().seleccionar(flota, muyPesado).isEmpty());
+        // Act
+        Optional<Drone> elegido = estrategia.seleccionar(flota, muyPesado);
+
+        // Assert
+        assertTrue(elegido.isEmpty());
+    }
+
+    @ParameterizedTest(name = "«{0}» con flota vacía devuelve Optional vacío")
+    @MethodSource("estrategiasDeProduccion")
+    void seleccionar_flotaVacia_vacio(String nombre, EstrategiaAsignacion estrategia) {
+        // Act
+        Optional<Drone> elegido = estrategia.seleccionar(List.of(), paqueteLiviano);
+
+        // Assert
+        assertTrue(elegido.isEmpty());
     }
 }

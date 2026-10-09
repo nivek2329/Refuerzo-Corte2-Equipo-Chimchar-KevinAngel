@@ -1,8 +1,8 @@
 package edu.eci.skycampus.notificacion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -16,12 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Clock;
-import java.time.ZoneOffset;
-import java.util.List;
+import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("GestorFlota (sujeto del Observer)")
@@ -30,53 +32,12 @@ class GestorFlotaTest {
     private ObservadorDrone cuartoObservador;
 
     private GestorFlota gestor;
-    private PanelOperador panel;
-    private SistemaLog log;
-    private AlertaTecnico alertaTecnico;
     private Drone drone;
 
     @BeforeEach
     void setUp() {
         gestor = new GestorFlota();
-        panel = new PanelOperador();
-        log = new SistemaLog(Clock.fixed(Datos.AHORA.toInstant(ZoneOffset.UTC), ZoneOffset.UTC));
-        alertaTecnico = new AlertaTecnico();
-        gestor.suscribir(panel);
-        gestor.suscribir(log);
-        gestor.suscribir(alertaTecnico);
         drone = Datos.drone("D-07", TipoDrone.EXPRESS, 80);
-    }
-
-    @Test
-    @DisplayName("un cambio de estado llega al panel y al log")
-    void cambiarEstado_enVuelo_notificaPanelYLog() {
-        // Act
-        gestor.cambiarEstado(drone, EstadoDrone.EN_VUELO);
-
-        // Assert
-        assertEquals(List.of("D-07 · EN_VUELO"), panel.avisos());
-        assertEquals(List.of("2026-10-08T10:00 | D-07 | EN_VUELO"), log.registros());
-    }
-
-    @Test
-    @DisplayName("el técnico solo recibe orden cuando el drone entra en FALLO")
-    void cambiarEstado_soloFallo_generaOrdenTecnico() {
-        // Act
-        gestor.cambiarEstado(drone, EstadoDrone.EN_VUELO);
-        gestor.cambiarEstado(drone, EstadoDrone.FALLO);
-
-        // Assert
-        assertEquals(List.of("Revisar D-07 (EXPRESS): entró en FALLO"), alertaTecnico.ordenes());
-    }
-
-    @Test
-    @DisplayName("devuelve el drone con el nuevo estado")
-    void cambiarEstado_aterrizando_devuelveDroneActualizado() {
-        // Act
-        Drone actualizado = gestor.cambiarEstado(drone, EstadoDrone.ATERRIZANDO);
-
-        // Assert
-        assertEquals(EstadoDrone.ATERRIZANDO, actualizado.estado());
     }
 
     @Test
@@ -90,6 +51,49 @@ class GestorFlotaTest {
 
         // Assert
         verify(cuartoObservador).onEstadoCambiado(actualizado, EstadoDrone.EN_VUELO);
+    }
+
+    @Test
+    @DisplayName("devuelve el drone con el nuevo estado")
+    void cambiarEstado_enVueloAAterrizando_devuelveDroneActualizado() {
+        // Arrange
+        Drone enVuelo = gestor.cambiarEstado(drone, EstadoDrone.EN_VUELO);
+
+        // Act
+        Drone aterrizando = gestor.cambiarEstado(enVuelo, EstadoDrone.ATERRIZANDO);
+
+        // Assert
+        assertEquals(EstadoDrone.ATERRIZANDO, aterrizando.estado());
+    }
+
+    @Test
+    @DisplayName("si el estado no cambia, no se notifica a nadie")
+    void cambiarEstado_mismoEstado_noNotifica() {
+        // Arrange
+        gestor.suscribir(cuartoObservador);
+
+        // Act
+        Drone resultado = gestor.cambiarEstado(drone, EstadoDrone.DISPONIBLE);
+
+        // Assert
+        assertSame(drone, resultado);
+        verify(cuartoObservador, never()).onEstadoCambiado(any(), any());
+    }
+
+    @Test
+    @DisplayName("una transición no permitida se rechaza y no se notifica")
+    void cambiarEstado_transicionInvalida_lanzaExcepcionSinNotificar() {
+        // Arrange
+        gestor.suscribir(cuartoObservador);
+        Drone enFallo = Datos.drone("D-07", TipoDrone.EXPRESS, 80, EstadoDrone.FALLO, 0);
+
+        // Act
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+                () -> gestor.cambiarEstado(enFallo, EstadoDrone.EN_VUELO));
+
+        // Assert
+        assertEquals("transición no permitida para D-07: FALLO → EN_VUELO", error.getMessage());
+        verify(cuartoObservador, never()).onEstadoCambiado(any(), any());
     }
 
     @Test
@@ -120,24 +124,26 @@ class GestorFlotaTest {
         verify(cuartoObservador, times(1)).onEstadoCambiado(actualizado, EstadoDrone.EN_VUELO);
     }
 
-    @Test
-    @DisplayName("rechaza observadores null")
-    void suscribir_null_lanzaExcepcion() {
-        // Act
-        NullPointerException error = assertThrows(NullPointerException.class, () -> gestor.suscribir(null));
-
-        // Assert
-        assertEquals("observador no puede ser null", error.getMessage());
+    static Stream<Arguments> entradasNulas() {
+        GestorFlota sujeto = new GestorFlota();
+        Drone unDrone = Datos.drone("D-01", TipoDrone.MINI, 80);
+        return Stream.of(
+                Arguments.of("suscribir", (Executable) () -> sujeto.suscribir(null), "observador no puede ser null"),
+                Arguments.of("desuscribir", (Executable) () -> sujeto.desuscribir(null),
+                        "observador no puede ser null"),
+                Arguments.of("cambiarEstado(drone)", (Executable) () -> sujeto.cambiarEstado(null, EstadoDrone.FALLO),
+                        "drone no puede ser null"),
+                Arguments.of("cambiarEstado(nuevo)", (Executable) () -> sujeto.cambiarEstado(unDrone, null),
+                        "nuevo no puede ser null"));
     }
 
-    @Test
-    @DisplayName("los avisos que se exponen no se pueden modificar desde afuera")
-    void avisos_copiaInmodificable_lanzaExcepcionAlModificar() {
-        // Arrange
-        gestor.cambiarEstado(drone, EstadoDrone.EN_VUELO);
+    @ParameterizedTest(name = "{0} rechaza null con mensaje claro")
+    @MethodSource("entradasNulas")
+    void metodosPublicos_entradaNull_lanzaExcepcionConMensaje(String metodo, Executable llamada, String mensaje) {
+        // Act
+        NullPointerException error = assertThrows(NullPointerException.class, llamada);
 
-        // Act / Assert
-        assertThrows(UnsupportedOperationException.class, () -> panel.avisos().add("x"));
-        assertTrue(alertaTecnico.ordenes().isEmpty());
+        // Assert
+        assertEquals(mensaje, error.getMessage());
     }
 }
