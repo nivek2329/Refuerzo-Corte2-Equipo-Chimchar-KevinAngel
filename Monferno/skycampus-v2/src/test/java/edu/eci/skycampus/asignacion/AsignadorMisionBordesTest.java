@@ -1,0 +1,113 @@
+package edu.eci.skycampus.asignacion;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+
+import edu.eci.skycampus.externo.ApiMeteorologica;
+import edu.eci.skycampus.modelo.Drone;
+import edu.eci.skycampus.modelo.Prioridad;
+import edu.eci.skycampus.modelo.SolicitudReparto;
+import edu.eci.skycampus.modelo.TipoDrone;
+import edu.eci.skycampus.notificacion.GestorFlota;
+import edu.eci.skycampus.soporte.Datos;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Optional;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("AsignadorMision: casos borde")
+class AsignadorMisionBordesTest {
+    @Mock
+    private ApiMeteorologica clima;
+
+    private AsignadorMision asignador;
+    private List<Drone> flota;
+
+    @BeforeEach
+    void setUp() {
+        asignador = new AsignadorMision(clima, new GestorFlota(), new AsignacionMayorBateria(), new AsignacionMasRapido());
+        flota = List.of(
+                Datos.drone("D-01", TipoDrone.MINI, 91),
+                Datos.drone("D-02", TipoDrone.EXPRESS, 60),
+                Datos.drone("D-03", TipoDrone.CARGO, 85));
+    }
+
+    @Test
+    @DisplayName("un paquete de exactamente 2000 g sí se asigna (al CARGO): el límite es inclusivo")
+    void asignar_pesoIgualAlMaximo_asignaCargo() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+        SolicitudReparto limite = Datos.solicitud("S-6", 2000, Prioridad.NORMAL);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(flota, limite);
+
+        // Assert
+        assertEquals("D-03", asignado.orElseThrow().id());
+    }
+
+    @Test
+    @DisplayName("2001 g, el primer peso inválido después del límite, se rechaza sin consultar el clima")
+    void asignar_pesoUnGramoSobreElMaximo_lanzaExcepcion() {
+        // Arrange
+        SolicitudReparto sobreLimite = Datos.solicitud("S-7", 2001, Prioridad.NORMAL);
+
+        // Act / Assert
+        assertThrows(IllegalArgumentException.class, () -> asignador.asignar(flota, sobreLimite));
+        verifyNoInteractions(clima);
+    }
+
+    @Test
+    @DisplayName("URGENTE sin EXPRESS apto usa el siguiente más rápido (MINI antes que CARGO)")
+    void asignar_urgenteSinExpress_asignaElSiguienteMasRapido() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+        List<Drone> sinExpress = List.of(
+                Datos.drone("D-03", TipoDrone.CARGO, 99),
+                Datos.drone("D-01", TipoDrone.MINI, 50));
+        SolicitudReparto urgente = Datos.solicitud("S-8", 300, Prioridad.URGENTE);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(sinExpress, urgente);
+
+        // Assert
+        assertEquals("D-01", asignado.orElseThrow().id());
+    }
+
+    @Test
+    @DisplayName("una misión BAJO usa la estrategia normal (mayor batería), no la urgente")
+    void asignar_misionBaja_usaEstrategiaNormal() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+        SolicitudReparto baja = Datos.solicitud("S-9", 300, Prioridad.BAJO);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(flota, baja);
+
+        // Assert
+        assertEquals("D-01", asignado.orElseThrow().id());
+    }
+
+    @Test
+    @DisplayName("con la flota vacía y clima apto no asigna")
+    void asignar_flotaVacia_vacio() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+        SolicitudReparto normal = Datos.solicitud("S-10", 200, Prioridad.NORMAL);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(List.of(), normal);
+
+        // Assert
+        assertTrue(asignado.isEmpty());
+    }
+}

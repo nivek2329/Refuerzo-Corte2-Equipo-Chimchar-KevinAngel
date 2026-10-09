@@ -48,6 +48,7 @@ class AsignadorMisionValidacionTest {
 
         // Assert
         assertEquals("solicitud no puede ser null", error.getMessage());
+        verifyNoInteractions(clima);
     }
 
     @Test

@@ -137,11 +137,28 @@ class EstrategiasAsignacionTest {
         assertEquals("D-11", elegido.orElseThrow().id());
     }
 
+    @Test
+    @DisplayName("más rápido: con varios EXPRESS aptos elige el de mayor batería")
+    void masRapido_variosExpressAptos_eligeMayorBateria() {
+        // Arrange
+        List<Drone> dosExpress = List.of(
+                Datos.drone("D-20", TipoDrone.EXPRESS, 50),
+                Datos.drone("D-21", TipoDrone.EXPRESS, 90),
+                Datos.drone("D-22", TipoDrone.EXPRESS, 70));
+
+        // Act
+        Optional<Drone> elegido = new AsignacionMasRapido().seleccionar(dosExpress, paqueteLiviano);
+
+        // Assert
+        assertEquals("D-21", elegido.orElseThrow().id());
+    }
+
     static Stream<Arguments> estrategiasDeProduccion() {
         return Stream.of(
                 Arguments.of("mayor batería", new AsignacionMayorBateria()),
                 Arguments.of("menor uso", new AsignacionMenorUso()),
-                Arguments.of("tipo compatible", new AsignacionTipoCompatible()));
+                Arguments.of("tipo compatible", new AsignacionTipoCompatible()),
+                Arguments.of("más rápido", new AsignacionMasRapido()));
     }
 
     @ParameterizedTest(name = "«{0}» no elige si el paquete no cabe en ningún drone")

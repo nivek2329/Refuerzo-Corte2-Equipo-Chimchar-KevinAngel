@@ -29,13 +29,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Reto 12 Monferno (TDD): estas pruebas se escribieron ANTES que AsignadorMision.
+ * Reto 12 Monferno (TDD): los 5 casos del enunciado. Estas pruebas se escribieron ANTES que AsignadorMision.
  * La API del clima es un sistema externo, así que se simula con Mockito; el notificador también es un mock
  * suscrito a un GestorFlota real, para comprobar que la asignación dispara el Observer.
- * Las validaciones de entrada están en {@link AsignadorMisionValidacionTest}.
+ * Los casos borde están en {@link AsignadorMisionBordesTest} y las entradas inválidas en
+ * {@link AsignadorMisionValidacionTest}.
  */
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AsignadorMision (TDD con Mockito)")
+@DisplayName("AsignadorMision (TDD con Mockito): casos del enunciado")
 class AsignadorMisionTest {
     @Mock
     private ApiMeteorologica clima;
@@ -44,6 +45,7 @@ class AsignadorMisionTest {
 
     private AsignadorMision asignador;
     private List<Drone> flota;
+    private SolicitudReparto normal;
 
     @BeforeEach
     void setUp() {
@@ -55,22 +57,46 @@ class AsignadorMisionTest {
                 Datos.drone("D-02", TipoDrone.EXPRESS, 60),
                 Datos.drone("D-03", TipoDrone.CARGO, 85),
                 Datos.drone("D-04", TipoDrone.MINI, 20));
+        normal = Datos.solicitud("S-1", 200, Prioridad.NORMAL);
     }
 
     @Test
-    @DisplayName("1. misión NORMAL con clima apto: asigna el de mayor batería, lo pone EN_VUELO y notifica")
-    void asignar_misionNormalClimaApto_asignaMayorBateriaYNotifica() {
+    @DisplayName("1a. misión NORMAL con clima apto: asigna el drone de mayor batería")
+    void asignar_misionNormalClimaApto_asignaMayorBateria() {
         // Arrange
         when(clima.esApto()).thenReturn(true);
-        SolicitudReparto normal = Datos.solicitud("S-1", 200, Prioridad.NORMAL);
 
         // Act
         Optional<Drone> asignado = asignador.asignar(flota, normal);
 
         // Assert
         assertEquals("D-01", asignado.orElseThrow().id());
-        assertEquals(EstadoDrone.EN_VUELO, asignado.get().estado());
-        verify(notificador).onEstadoCambiado(asignado.get(), EstadoDrone.EN_VUELO);
+    }
+
+    @Test
+    @DisplayName("1b. el drone asignado sale en estado EN_VUELO")
+    void asignar_misionNormalClimaApto_droneQuedaEnVuelo() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(flota, normal);
+
+        // Assert
+        assertEquals(EstadoDrone.EN_VUELO, asignado.orElseThrow().estado());
+    }
+
+    @Test
+    @DisplayName("1c. la asignación notifica a los observadores (Observer)")
+    void asignar_misionNormalClimaApto_notificaCambioDeEstado() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(flota, normal);
+
+        // Assert
+        verify(notificador).onEstadoCambiado(asignado.orElseThrow(), EstadoDrone.EN_VUELO);
     }
 
     @Test
@@ -78,7 +104,6 @@ class AsignadorMisionTest {
     void asignar_climaAdverso_vacioSinNotificar() {
         // Arrange
         when(clima.esApto()).thenReturn(false);
-        SolicitudReparto normal = Datos.solicitud("S-2", 200, Prioridad.NORMAL);
 
         // Act
         Optional<Drone> asignado = asignador.asignar(flota, normal);
@@ -96,7 +121,6 @@ class AsignadorMisionTest {
         List<Drone> sinAptos = List.of(
                 Datos.drone("D-05", TipoDrone.MINI, 95, EstadoDrone.EN_VUELO, 0),
                 Datos.drone("D-06", TipoDrone.EXPRESS, 15));
-        SolicitudReparto normal = Datos.solicitud("S-3", 200, Prioridad.NORMAL);
 
         // Act
         Optional<Drone> asignado = asignador.asignar(sinAptos, normal);
@@ -122,7 +146,7 @@ class AsignadorMisionTest {
     }
 
     @Test
-    @DisplayName("5. misión URGENTE: asigna el EXPRESS aunque tenga menos batería que el MINI")
+    @DisplayName("5. misión URGENTE: asigna el EXPRESS aunque el MINI tenga más batería")
     void asignar_misionUrgente_asignaExpress() {
         // Arrange
         when(clima.esApto()).thenReturn(true);
@@ -133,37 +157,5 @@ class AsignadorMisionTest {
 
         // Assert
         assertEquals("D-02", asignado.orElseThrow().id());
-        assertEquals(TipoDrone.EXPRESS, asignado.get().tipo());
-    }
-
-    @Test
-    @DisplayName("borde: un paquete de exactamente 2000 g sí se asigna (al CARGO)")
-    void asignar_pesoIgualAlMaximo_asignaCargo() {
-        // Arrange
-        when(clima.esApto()).thenReturn(true);
-        SolicitudReparto limite = Datos.solicitud("S-6", 2000, Prioridad.NORMAL);
-
-        // Act
-        Optional<Drone> asignado = asignador.asignar(flota, limite);
-
-        // Assert
-        assertEquals("D-03", asignado.orElseThrow().id());
-    }
-
-    @Test
-    @DisplayName("borde: URGENTE sin EXPRESS apto usa el siguiente más rápido (MINI antes que CARGO)")
-    void asignar_urgenteSinExpress_asignaElSiguienteMasRapido() {
-        // Arrange
-        when(clima.esApto()).thenReturn(true);
-        List<Drone> sinExpress = List.of(
-                Datos.drone("D-03", TipoDrone.CARGO, 99),
-                Datos.drone("D-01", TipoDrone.MINI, 50));
-        SolicitudReparto urgente = Datos.solicitud("S-7", 300, Prioridad.URGENTE);
-
-        // Act
-        Optional<Drone> asignado = asignador.asignar(sinExpress, urgente);
-
-        // Assert
-        assertEquals("D-01", asignado.orElseThrow().id());
     }
 }
