@@ -35,6 +35,12 @@ class AnalyticsEficienciaRedTest {
     }
 
     private static Stream<Arguments> escenariosDeRed() {
+        return Stream.concat(escenariosDeBorde(), Stream.of(
+                Arguments.of("red completa con cuatro sedes", List.of(ECI, UNAL, UNIANDES, EAFIT),
+                        misionesRedCompleta(), metricasRedCompleta(), List.of(UNAL, EAFIT, ECI, UNIANDES))));
+    }
+
+    private static Stream<Arguments> escenariosDeBorde() {
         return Stream.of(
                 Arguments.of("sede sin actividad", List.of(ECI), List.of(),
                         Map.of(ECI, Optional.empty()), List.of()),
@@ -46,8 +52,10 @@ class AnalyticsEficienciaRedTest {
                                 mision("M-3", ECI, "D-01", PrioridadMision.NORMAL, EstadoMision.ENTREGADA, 8)),
                         Map.of(ECI, Optional.of(metricas(ECI, 1, 1, 1.0, 8.0, "D-01", 0.0)),
                                 UNAL, Optional.of(metricas(UNAL, 1, 1, 1.0, 8.0, "D-02", 0.0))), List.of(ECI, UNAL)),
-                Arguments.of("red completa con cuatro sedes", List.of(ECI, UNAL, UNIANDES, EAFIT),
-                        misionesRedCompleta(), metricasRedCompleta(), List.of(UNAL, EAFIT, ECI, UNIANDES)));
+                Arguments.of("empate de drones resuelto por id", List.of(ECI),
+                        List.of(mision("M-4", ECI, "D-02", PrioridadMision.NORMAL, EstadoMision.PENDIENTE, 0),
+                                mision("M-5", ECI, "D-01", PrioridadMision.NORMAL, EstadoMision.PENDIENTE, 0)),
+                        Map.of(ECI, Optional.of(metricasSinEntrega(ECI, 2, "D-01", 0.0))), List.of(ECI)));
     }
 
     private static List<Mision> misionesRedCompleta() {
