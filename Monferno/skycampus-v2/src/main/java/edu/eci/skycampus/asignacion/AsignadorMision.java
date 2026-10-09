@@ -31,12 +31,13 @@ public class AsignadorMision {
     public AsignadorMision(ApiMeteorologica clima, GestorFlota gestorFlota,
                            EstrategiaAsignacion estrategiaNormal, EstrategiaAsignacion estrategiaUrgente) {
         this.clima = Objects.requireNonNull(clima, "clima no puede ser null");
-        this.gestorFlota = gestorFlota;
-        this.estrategiaNormal = estrategiaNormal;
-        this.estrategiaUrgente = estrategiaUrgente;
+        this.gestorFlota = Objects.requireNonNull(gestorFlota, "gestorFlota no puede ser null");
+        this.estrategiaNormal = Objects.requireNonNull(estrategiaNormal, "estrategiaNormal no puede ser null");
+        this.estrategiaUrgente = Objects.requireNonNull(estrategiaUrgente, "estrategiaUrgente no puede ser null");
     }
 
     public Optional<Drone> asignar(List<Drone> flota, SolicitudReparto solicitud) {
+        Objects.requireNonNull(flota, "flota no puede ser null");
         Objects.requireNonNull(solicitud, "solicitud no puede ser null");
         Paquete paquete = solicitud.paquete();
         validarPeso(paquete);
