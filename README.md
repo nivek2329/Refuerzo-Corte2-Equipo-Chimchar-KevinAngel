@@ -29,7 +29,7 @@ Regla de asignación: drone disponible y batería ≥ 30 %
 | 08 | Manual de identidad y UX/UI | `08 · Manual de Identidad y UXUI/` — manual, mock con IA y verificación de 7 heurísticas de Nielsen | ✅ Revisado |
 | 09 | Agilismo y Jira | `09 · Agilismo y Jira/` — épica, feature, 3 HU, subtareas y criterios | ⏳ Falta la captura de Jira |
 | 10 | Diagrama de casos de uso | `10 · Diagramas de Casos de Uso/` — SC-01 con `<<include>>` y `<<extend>>` | ✅ |
-| 11 | Mocks con IA | `11 · Mocks con IA/` — prompt y 2 referencias reales | ⏳ Faltan las 3 imágenes generadas |
+| 11 | Mocks con IA | `11 · Mocks con IA/` — referencias reales, prompt y 3 estados (normal, alerta, vacío) | ✅ Revisado |
 | 12 | TDD | `12 · TDD/` — Maven + JUnit 5; commits RED → GREEN → REFACTOR | ✅ Revisado |
 | 13 | JaCoCo | `13 · JaCoCo — Cobertura de código/` — 100 % líneas y ramas, 24 pruebas | ✅ Revisado con el 12 |
 | 14 | SonarQube | `14 · SonarQube — Análisis estático de calidad/` — guía lista | ⏳ Falta ejecutar el análisis |
