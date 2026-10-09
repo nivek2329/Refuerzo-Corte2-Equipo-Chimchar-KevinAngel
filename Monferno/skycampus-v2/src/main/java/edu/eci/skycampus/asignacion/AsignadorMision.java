@@ -9,6 +9,7 @@ import edu.eci.skycampus.modelo.SolicitudReparto;
 import edu.eci.skycampus.modelo.TipoDrone;
 import edu.eci.skycampus.notificacion.GestorFlota;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,8 @@ import java.util.Optional;
  * Asigna automáticamente un drone a una solicitud (SkyCampus v2):
  * 1) rechaza paquetes que ningún tipo de drone puede llevar (sin gastar una consulta al clima);
  * 2) no despega si la API meteorológica dice que no es apto;
- * 3) usa la estrategia configurada para la prioridad del paquete (relación inyectada: sin condicionales);
+ * 3) usa la estrategia configurada para la prioridad del paquete (relación inyectada, sin condicionales;
+ *    la de producción es {@link PoliticaAsignacion#porDefecto()});
  * 4) pone el drone EN_VUELO a través de GestorFlota, que notifica a los observadores.
  *
  * <p>Contrato: no modifica la lista recibida. {@link Drone} es inmutable, así que quien llama debe reemplazar en
@@ -54,11 +56,12 @@ public class AsignadorMision {
     }
 
     private void validarQueCubreTodasLasPrioridades() {
-        for (Prioridad prioridad : Prioridad.values()) {
-            if (estrategiasPorPrioridad.get(prioridad) == null) {
-                throw new IllegalArgumentException("falta la estrategia para la prioridad " + prioridad);
-            }
-        }
+        Arrays.stream(Prioridad.values())
+                .filter(prioridad -> estrategiasPorPrioridad.get(prioridad) == null)
+                .findFirst()
+                .ifPresent(prioridad -> {
+                    throw new IllegalArgumentException("falta la estrategia para la prioridad " + prioridad);
+                });
     }
 
     private static void validarFlota(List<Drone> flota) {

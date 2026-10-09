@@ -1,8 +1,5 @@
 package edu.eci.skycampus.soporte;
 
-import edu.eci.skycampus.asignacion.AsignacionMasRapido;
-import edu.eci.skycampus.asignacion.AsignacionMayorBateria;
-import edu.eci.skycampus.asignacion.EstrategiaAsignacion;
 import edu.eci.skycampus.modelo.Destino;
 import edu.eci.skycampus.modelo.Drone;
 import edu.eci.skycampus.modelo.EstadoDrone;
@@ -15,7 +12,6 @@ import edu.eci.skycampus.modelo.TipoCarga;
 import edu.eci.skycampus.modelo.TipoDrone;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /** Fábrica de datos de prueba para no repetir constructores largos en cada prueba. */
 public final class Datos {
@@ -43,13 +39,5 @@ public final class Datos {
     public static Mision mision(String id, Drone drone, EstadoMision estado, Prioridad prioridad,
                                 LocalDateTime creadaEn) {
         return new Mision(id, drone, solicitud("S-" + id, 200, prioridad), estado, creadaEn);
-    }
-
-    /** Configuración de producción: URGENTE → más rápido; NORMAL y BAJO → mayor batería. */
-    public static Map<Prioridad, EstrategiaAsignacion> estrategiasPorPrioridad() {
-        return Map.of(
-                Prioridad.URGENTE, new AsignacionMasRapido(),
-                Prioridad.NORMAL, new AsignacionMayorBateria(),
-                Prioridad.BAJO, new AsignacionMayorBateria());
     }
 }

@@ -37,7 +37,7 @@ class AsignadorMisionBordesTest {
 
     @BeforeEach
     void setUp() {
-        asignador = new AsignadorMision(clima, new GestorFlota(), Datos.estrategiasPorPrioridad());
+        asignador = new AsignadorMision(clima, new GestorFlota(), PoliticaAsignacion.porDefecto());
         flota = List.of(
                 Datos.drone("D-01", TipoDrone.MINI, 91),
                 Datos.drone("D-02", TipoDrone.EXPRESS, 60),
@@ -64,8 +64,12 @@ class AsignadorMisionBordesTest {
         // Arrange
         SolicitudReparto sobreLimite = Datos.solicitud("S-7", 2001, Prioridad.NORMAL);
 
-        // Act / Assert
-        assertThrows(IllegalArgumentException.class, () -> asignador.asignar(flota, sobreLimite));
+        // Act
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> asignador.asignar(flota, sobreLimite));
+
+        // Assert
+        assertEquals("el paquete pesa 2001 g y supera la capacidad del drone más grande (2000 g)", error.getMessage());
         verifyNoInteractions(clima);
     }
 
@@ -105,7 +109,7 @@ class AsignadorMisionBordesTest {
     void asignar_bajoConEstrategiaPropia_usaLaConfigurada() {
         // Arrange
         when(clima.esApto()).thenReturn(true);
-        Map<Prioridad, EstrategiaAsignacion> estrategias = new EnumMap<>(Datos.estrategiasPorPrioridad());
+        Map<Prioridad, EstrategiaAsignacion> estrategias = new EnumMap<>(PoliticaAsignacion.porDefecto());
         estrategias.put(Prioridad.BAJO, new AsignacionMenorUso());
         AsignadorMision conBajoPropio = new AsignadorMision(clima, new GestorFlota(), estrategias);
         List<Drone> usados = List.of(

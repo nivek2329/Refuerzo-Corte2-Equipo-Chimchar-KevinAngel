@@ -39,7 +39,7 @@ class AsignadorMisionValidacionTest {
 
     @BeforeEach
     void setUp() {
-        asignador = new AsignadorMision(clima, new GestorFlota(), Datos.estrategiasPorPrioridad());
+        asignador = new AsignadorMision(clima, new GestorFlota(), PoliticaAsignacion.porDefecto());
         flota = List.of(Datos.drone("D-01", TipoDrone.MINI, 91));
     }
 
@@ -89,7 +89,7 @@ class AsignadorMisionValidacionTest {
     @DisplayName("exige una estrategia para cada prioridad al construirse")
     void crearAsignador_faltaEstrategiaParaBajo_lanzaExcepcion() {
         // Arrange
-        Map<Prioridad, EstrategiaAsignacion> sinBajo = new EnumMap<>(Datos.estrategiasPorPrioridad());
+        Map<Prioridad, EstrategiaAsignacion> sinBajo = new EnumMap<>(PoliticaAsignacion.porDefecto());
         sinBajo.remove(Prioridad.BAJO);
         GestorFlota gestor = new GestorFlota();
 
@@ -104,7 +104,7 @@ class AsignadorMisionValidacionTest {
     static Stream<Arguments> constructoresConNull() {
         ApiMeteorologica api = () -> true;
         GestorFlota gestor = new GestorFlota();
-        Map<Prioridad, EstrategiaAsignacion> estrategias = Datos.estrategiasPorPrioridad();
+        Map<Prioridad, EstrategiaAsignacion> estrategias = PoliticaAsignacion.porDefecto();
         return Stream.of(
                 Arguments.of((Executable) () -> new AsignadorMision(null, gestor, estrategias),
                         "clima no puede ser null"),
