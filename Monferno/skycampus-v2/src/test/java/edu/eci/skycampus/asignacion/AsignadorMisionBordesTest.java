@@ -91,6 +91,24 @@ class AsignadorMisionBordesTest {
     }
 
     @Test
+    @DisplayName("URGENTE no vuela con un EXPRESS bajo el 30 %: usa el siguiente más rápido que sí es apto (RF-08)")
+    void asignar_urgenteConExpressBajoMinimo_asignaElSiguienteMasRapidoApto() {
+        // Arrange
+        when(clima.esApto()).thenReturn(true);
+        List<Drone> expressDescargado = List.of(
+                Datos.drone("D-02", TipoDrone.EXPRESS, 25),
+                Datos.drone("D-03", TipoDrone.CARGO, 99),
+                Datos.drone("D-01", TipoDrone.MINI, 50));
+        SolicitudReparto urgente = Datos.solicitud("S-12", 300, Prioridad.URGENTE);
+
+        // Act
+        Optional<Drone> asignado = asignador.asignar(expressDescargado, urgente);
+
+        // Assert
+        assertEquals("D-01", asignado.orElseThrow().id());
+    }
+
+    @Test
     @DisplayName("una misión BAJO usa la estrategia normal (mayor batería), no la urgente")
     void asignar_misionBaja_usaEstrategiaNormal() {
         // Arrange
