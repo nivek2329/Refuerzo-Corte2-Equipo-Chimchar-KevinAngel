@@ -86,9 +86,16 @@ El selector de tipos de este espacio solo ofrece `Epic`, `Tarea`, `Historia` y `
 - Historias SCRUM-3, SCRUM-4 y SCRUM-5 quedaron en `Por hacer`.
 - Subtareas SCRUM-6, SCRUM-7 y SCRUM-8 quedaron en `Por hacer`.
 - Sin asignar responsables, sprint ni puntos de historia porque no están definidos en las instrucciones del reto.
-- Evidencia visual final del backlog aún por capturar.
+- Evidencia visual capturada (ver sección "Evidencia").
 
 ## Reglas de dominio reflejadas
 
 - Umbral mínimo de asignación: 30% de batería.
 - No se inventa un subestado para un drone que solo figura como no disponible.
+
+## Evidencia
+
+| Captura | Qué muestra |
+|---|---|
+| `Captura_Backlog_Jira.png` | Backlog del espacio `DOSW_LAB3_KGR`: Feature SCRUM-2 y las HU SCRUM-3, SCRUM-4 y SCRUM-5, todas con la épica "Digitalizar el reparto…" (SCRUM-1) como padre y en estado *Por hacer* |
+| `Captura_HU_SCRUM-4_Subtareas.png` | Detalle de la HU SCRUM-4: criterio de aceptación 2 (batería < 30 % o drone no disponible), feature relacionada SCRUM-2 y sus subtareas SCRUM-6, SCRUM-7 y SCRUM-8 |
