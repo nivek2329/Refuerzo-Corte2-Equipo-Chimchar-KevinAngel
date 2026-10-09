@@ -27,7 +27,7 @@ Regla de asignación: drone disponible y batería ≥ 30 %
 | 06 | RF vs RNF y MoSCoW | `06 · RF vs RNF y Prioridad MoSCoW/` — 3 RF, 3 RNF medibles | ✅ |
 | 07 | Plantilla DOSW | `07 · Plantilla DOSW/SC-01_Registrar_mision_DOSW.docx` | ✅ |
 | 08 | Manual de identidad y UX/UI | `08 · Manual de Identidad y UXUI/` — manual, mock con IA y verificación de 7 heurísticas de Nielsen | ✅ Revisado |
-| 09 | Agilismo y Jira | `09 · Agilismo y Jira/` — épica, feature, 3 HU, subtareas y criterios | ⏳ Falta la captura de Jira |
+| 09 | Agilismo y Jira | `09 · Agilismo y Jira/` — épica, feature, 3 HU, subtareas, criterios y capturas de Jira | ✅ |
 | 10 | Diagrama de casos de uso | `10 · Diagramas de Casos de Uso/` — SC-01 con `<<include>>` y `<<extend>>` | ✅ |
 | 11 | Mocks con IA | `11 · Mocks con IA/` — referencias reales, prompt y 3 estados (normal, alerta, vacío) | ✅ Revisado |
 | 12 | TDD | `12 · TDD/` — Maven + JUnit 5; commits RED → GREEN → REFACTOR | ✅ Revisado |
