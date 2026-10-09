@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.eci.skycampus</groupId>
     <artifactId>skycampus-enterprise</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <name>SkyCampus Enterprise (Infernape)</name>
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
