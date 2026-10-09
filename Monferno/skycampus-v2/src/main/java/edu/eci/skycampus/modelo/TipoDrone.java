@@ -1,5 +1,7 @@
 package edu.eci.skycampus.modelo;
 
+import java.util.Arrays;
+
 /** Tipos de drone de la flota v2: rango de peso (en gramos) y velocidad relativa (mayor = más rápido). */
 public enum TipoDrone {
     MINI(1, 500, 2),
@@ -22,6 +24,11 @@ public enum TipoDrone {
 
     public int velocidadRelativa() {
         return velocidadRelativa;
+    }
+
+    /** Capacidad del drone más grande de la flota: ningún paquete más pesado puede asignarse. */
+    public static int capacidadMaximaGramos() {
+        return Arrays.stream(values()).mapToInt(TipoDrone::capacidadGramos).max().orElse(0);
     }
 
     /** Un CARGO no se usa para paquetes de menos de 100 g (regla de negocio SC-07). */

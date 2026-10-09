@@ -32,6 +32,7 @@ import java.util.Optional;
  * Reto 12 Monferno (TDD): estas pruebas se escribieron ANTES que AsignadorMision.
  * La API del clima es un sistema externo, así que se simula con Mockito; el notificador también es un mock
  * suscrito a un GestorFlota real, para comprobar que la asignación dispara el Observer.
+ * Las validaciones de entrada están en {@link AsignadorMisionValidacionTest}.
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AsignadorMision (TDD con Mockito)")
@@ -154,7 +155,9 @@ class AsignadorMisionTest {
     void asignar_urgenteSinExpress_asignaElSiguienteMasRapido() {
         // Arrange
         when(clima.esApto()).thenReturn(true);
-        List<Drone> sinExpress = List.of(Datos.drone("D-03", TipoDrone.CARGO, 99), Datos.drone("D-01", TipoDrone.MINI, 50));
+        List<Drone> sinExpress = List.of(
+                Datos.drone("D-03", TipoDrone.CARGO, 99),
+                Datos.drone("D-01", TipoDrone.MINI, 50));
         SolicitudReparto urgente = Datos.solicitud("S-7", 300, Prioridad.URGENTE);
 
         // Act
@@ -162,31 +165,5 @@ class AsignadorMisionTest {
 
         // Assert
         assertEquals("D-01", asignado.orElseThrow().id());
-    }
-
-    @Test
-    @DisplayName("rechaza una solicitud null con mensaje claro")
-    void asignar_solicitudNula_lanzaExcepcion() {
-        // Act
-        NullPointerException error = assertThrows(NullPointerException.class, () -> asignador.asignar(flota, null));
-
-        // Assert
-        assertEquals("solicitud no puede ser null", error.getMessage());
-    }
-
-    @Test
-    @DisplayName("exige la API del clima")
-    void crearAsignador_climaNulo_lanzaExcepcion() {
-        // Arrange
-        GestorFlota gestorFlota = new GestorFlota();
-        AsignacionMayorBateria normal = new AsignacionMayorBateria();
-        AsignacionMasRapido urgente = new AsignacionMasRapido();
-
-        // Act
-        NullPointerException error = assertThrows(NullPointerException.class,
-                () -> new AsignadorMision(null, gestorFlota, normal, urgente));
-
-        // Assert
-        assertEquals("clima no puede ser null", error.getMessage());
     }
 }
