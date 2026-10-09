@@ -1,0 +1,86 @@
+package edu.eci.skycampus.asignacion;
+
+import edu.eci.skycampus.externo.ApiMeteorologica;
+import edu.eci.skycampus.modelo.Drone;
+import edu.eci.skycampus.modelo.EstadoDrone;
+import edu.eci.skycampus.modelo.Paquete;
+import edu.eci.skycampus.modelo.Prioridad;
+import edu.eci.skycampus.modelo.SolicitudReparto;
+import edu.eci.skycampus.modelo.TipoDrone;
+import edu.eci.skycampus.notificacion.GestorFlota;
+
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Asigna automáticamente un drone a una solicitud (SkyCampus v2):
+ * 1) rechaza paquetes que ningún tipo de drone puede llevar (sin gastar una consulta al clima);
+ * 2) no despega si la API meteorológica dice que no es apto;
+ * 3) usa la estrategia configurada para la prioridad del paquete (relación inyectada, sin condicionales;
+ *    la de producción es {@link PoliticaAsignacion#porDefecto()});
+ * 4) pone el drone EN_VUELO a través de GestorFlota, que notifica a los observadores.
+ *
+ * <p>Contrato: no modifica la lista recibida. {@link Drone} es inmutable, así que quien llama debe reemplazar en
+ * su flota el drone devuelto; si vuelve a pasar la lista original, el mismo drone podría elegirse otra vez.
+ */
+public class AsignadorMision {
+    private static final int CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS = TipoDrone.capacidadMaximaGramos();
+
+    private final ApiMeteorologica clima;
+    private final GestorFlota gestorFlota;
+    private final Map<Prioridad, EstrategiaAsignacion> estrategiasPorPrioridad = new EnumMap<>(Prioridad.class);
+
+    public AsignadorMision(ApiMeteorologica clima, GestorFlota gestorFlota,
+                           Map<Prioridad, EstrategiaAsignacion> estrategiasPorPrioridad) {
+        this.clima = Objects.requireNonNull(clima, "clima no puede ser null");
+        this.gestorFlota = Objects.requireNonNull(gestorFlota, "gestorFlota no puede ser null");
+        copiarEstrategias(Objects.requireNonNull(estrategiasPorPrioridad, "estrategiasPorPrioridad no puede ser null"));
+        validarQueCubreTodasLasPrioridades();
+    }
+
+    public Optional<Drone> asignar(List<Drone> flota, SolicitudReparto solicitud) {
+        validarFlota(flota);
+        Objects.requireNonNull(solicitud, "solicitud no puede ser null");
+        Paquete paquete = solicitud.paquete();
+        validarPeso(paquete);
+        if (!clima.esApto()) {
+            return Optional.empty();
+        }
+        return estrategiasPorPrioridad.get(paquete.prioridad()).seleccionar(flota, paquete)
+                .map(drone -> gestorFlota.cambiarEstado(drone, EstadoDrone.EN_VUELO));
+    }
+
+    private void copiarEstrategias(Map<Prioridad, EstrategiaAsignacion> estrategias) {
+        if (estrategias.keySet().stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("las estrategias no pueden tener una prioridad null");
+        }
+        estrategiasPorPrioridad.putAll(estrategias);
+    }
+
+    private void validarQueCubreTodasLasPrioridades() {
+        Arrays.stream(Prioridad.values())
+                .filter(prioridad -> estrategiasPorPrioridad.get(prioridad) == null)
+                .findFirst()
+                .ifPresent(prioridad -> {
+                    throw new IllegalArgumentException("falta la estrategia para la prioridad " + prioridad);
+                });
+    }
+
+    private static void validarFlota(List<Drone> flota) {
+        Objects.requireNonNull(flota, "flota no puede ser null");
+        if (flota.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("la flota no puede contener drones null");
+        }
+    }
+
+    private static void validarPeso(Paquete paquete) {
+        if (paquete.pesoGramos() > CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS) {
+            throw new IllegalArgumentException("el paquete pesa " + paquete.pesoGramos()
+                    + " g y supera la capacidad del drone más grande (" + CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS + " g)");
+        }
+    }
+}

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">SkyCampus — diagrama de casos de uso para SC-01</title>
+  <desc id="desc">Diagrama UML con Solicitante, Operador de drones y Admin, los casos de uso del MVP, una inclusión obligatoria y una extensión condicional.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8" fill="none" stroke="#173e59" stroke-width="1.5"/></marker>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#173e59}.title{font-size:30px;font-weight:700}.subtitle{font-size:17px;fill:#52636b}.boundary{fill:#fbfaf5;stroke:#173e59;stroke-width:3}.boundary-title{font-size:24px;font-weight:700}.actor-line{stroke:#2f7b3b;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round}.actor-label{font-size:19px;font-weight:700;fill:#286b35}.uc{fill:#e8f3f9;stroke:#2377ad;stroke-width:2.5}.uc-admin{fill:#fff2d9;stroke:#d48b13;stroke-width:2.5}.uc-title{font-size:18px;font-weight:700}.uc-desc{font-size:14px;fill:#52636b}.assoc{fill:none;stroke:#173e59;stroke-width:2}.include{fill:none;stroke:#2377ad;stroke-width:2.5;stroke-dasharray:9 7;marker-end:url(#arrow)}.extend{fill:none;stroke:#d48b13;stroke-width:2.5;stroke-dasharray:9 7;marker-end:url(#arrow)}.relation{font-size:16px;font-style:italic;font-weight:700}.note{fill:#fff2d9;stroke:#d48b13;stroke-width:1.5}.note-text{font-size:15px;fill:#704b0b}
+    </style>
+  </defs>
+  <rect width="1400" height="900" fill="#f4f0e5"/>
+  <text x="60" y="65" class="title">SKYCAMPUS · DIAGRAMA DE CASOS DE USO</text>
+  <text x="60" y="96" class="subtitle">RF SC-01 · Registrar misión de reparto de documento · MVP Chimchar</text>
+
+  <!-- Actors -->
+  <g transform="translate(120 230)">
+    <circle cx="0" cy="0" r="22" class="actor-line"/><path d="M0 22v78M-42 48h84M0 100l-36 53M0 100l36 53" class="actor-line"/>
+    <text x="0" y="184" text-anchor="middle" class="actor-label">Solicitante</text>
+  </g>
+  <g transform="translate(120 530)">
+    <circle cx="0" cy="0" r="22" class="actor-line"/><path d="M0 22v78M-42 48h84M0 100l-36 53M0 100l36 53" class="actor-line"/>
+    <text x="0" y="180" text-anchor="middle" class="actor-label">Operador de</text><text x="0" y="204" text-anchor="middle" class="actor-label">drones</text>
+  </g>
+  <g transform="translate(1280 400)">
+    <circle cx="0" cy="0" r="22" class="actor-line"/><path d="M0 22v78M-42 48h84M0 100l-36 53M0 100l36 53" class="actor-line"/>
+    <text x="0" y="184" text-anchor="middle" class="actor-label">Admin</text>
+  </g>
+
+  <rect x="290" y="145" width="870" height="690" rx="18" class="boundary"/>
+  <text x="725" y="184" text-anchor="middle" class="boundary-title">Sistema SkyCampus</text>
+
+  <!-- Use cases -->
+  <ellipse cx="470" cy="285" rx="145" ry="52" class="uc"/><text x="470" y="280" text-anchor="middle" class="uc-title">Registrar solicitud</text><text x="470" y="305" text-anchor="middle" class="uc-desc">origen · destino · tipo de carga</text>
+  <ellipse cx="755" cy="285" rx="182" ry="58" class="uc"/><text x="755" y="278" text-anchor="middle" class="uc-title">Registrar misión de reparto</text><text x="755" y="304" text-anchor="middle" class="uc-desc">SC-01 · asignación manual del drone</text>
+  <ellipse cx="755" cy="445" rx="190" ry="54" class="uc"/><text x="755" y="440" text-anchor="middle" class="uc-title">Validar solicitud, destino y drone</text><text x="755" y="464" text-anchor="middle" class="uc-desc">siempre antes de registrar</text>
+  <ellipse cx="1010" cy="285" rx="122" ry="51" class="uc"/><text x="1010" y="280" text-anchor="middle" class="uc-title">Ver flota</text><text x="1010" y="304" text-anchor="middle" class="uc-desc">estado · batería · ubicación</text>
+  <ellipse cx="1010" cy="445" rx="136" ry="53" class="uc"/><text x="1010" y="440" text-anchor="middle" class="uc-title">Cancelar misión</text><text x="1010" y="464" text-anchor="middle" class="uc-desc">solo si está PENDIENTE</text>
+  <ellipse cx="1010" cy="610" rx="152" ry="57" class="uc-admin"/><text x="1010" y="603" text-anchor="middle" class="uc-title">Administrar flota y</text><text x="1010" y="627" text-anchor="middle" class="uc-title">catálogo de ubicaciones</text>
+  <ellipse cx="755" cy="690" rx="170" ry="55" class="uc-admin"/><text x="755" y="684" text-anchor="middle" class="uc-title">Informar batería baja</text><text x="755" y="709" text-anchor="middle" class="uc-desc">aviso complementario</text>
+  <ellipse cx="470" cy="690" rx="155" ry="55" class="uc"/><text x="470" y="684" text-anchor="middle" class="uc-title">Consultar estado de</text><text x="470" y="709" text-anchor="middle" class="uc-title">solicitud / misión</text>
+
+  <!-- Actor associations -->
+  <path d="M162 230 L325 285" class="assoc"/>
+  <path d="M162 530 L574 310" class="assoc"/><path d="M162 541 L890 290" class="assoc"/><path d="M162 554 L874 445" class="assoc"/><path d="M162 567 L620 690" class="assoc"/>
+  <path d="M1238 432 L1158 610" class="assoc"/>
+  <path d="M162 582 L325 690" class="assoc"/>
+
+  <!-- UML relations -->
+  <path d="M755 344 L755 387" class="include"/><text x="775" y="371" class="relation" fill="#2377ad">«include»</text>
+  <path d="M755 635 L755 347" class="extend"/><text x="777" y="523" class="relation" fill="#b7780a">«extend»</text>
+
+  <rect x="330" y="765" width="790" height="48" rx="8" class="note"/>
+  <text x="725" y="795" text-anchor="middle" class="note-text">Condición de extensión: batería del drone &lt; 40% → se informa batería baja; si &lt; 30%, SC-01 rechaza la asignación.</text>
+  <text x="60" y="865" class="subtitle">Azul: capacidades del sistema · Ámbar: administración / alerta · Verde: actores externos</text>
+</svg>
