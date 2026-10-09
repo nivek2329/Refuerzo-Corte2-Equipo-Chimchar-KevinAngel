@@ -38,8 +38,7 @@ public class AsignadorMision {
                            Map<Prioridad, EstrategiaAsignacion> estrategiasPorPrioridad) {
         this.clima = Objects.requireNonNull(clima, "clima no puede ser null");
         this.gestorFlota = Objects.requireNonNull(gestorFlota, "gestorFlota no puede ser null");
-        this.estrategiasPorPrioridad.putAll(
-                Objects.requireNonNull(estrategiasPorPrioridad, "estrategiasPorPrioridad no puede ser null"));
+        copiarEstrategias(Objects.requireNonNull(estrategiasPorPrioridad, "estrategiasPorPrioridad no puede ser null"));
         validarQueCubreTodasLasPrioridades();
     }
 
@@ -53,6 +52,13 @@ public class AsignadorMision {
         }
         return estrategiasPorPrioridad.get(paquete.prioridad()).seleccionar(flota, paquete)
                 .map(drone -> gestorFlota.cambiarEstado(drone, EstadoDrone.EN_VUELO));
+    }
+
+    private void copiarEstrategias(Map<Prioridad, EstrategiaAsignacion> estrategias) {
+        if (estrategias.keySet().stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("las estrategias no pueden tener una prioridad null");
+        }
+        estrategiasPorPrioridad.putAll(estrategias);
     }
 
     private void validarQueCubreTodasLasPrioridades() {
