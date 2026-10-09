@@ -32,7 +32,7 @@ Regla de asignación: drone disponible y batería ≥ 30 %
 | 11 | Mocks con IA | `11 · Mocks con IA/` — referencias reales, prompt y 3 estados (normal, alerta, vacío) | ✅ Revisado |
 | 12 | TDD | `12 · TDD/` — Maven + JUnit 5; commits RED → GREEN → REFACTOR | ✅ Revisado |
 | 13 | JaCoCo | `13 · JaCoCo — Cobertura de código/` — 100 % líneas y ramas, 24 pruebas | ✅ Revisado con el 12 |
-| 14 | SonarQube | `14 · SonarQube — Análisis estático de calidad/` — guía lista | ⏳ Falta ejecutar el análisis |
+| 14 | SonarQube | `14 · SonarQube — Análisis estático de calidad/` — antes: 4 code smells, 40 min de deuda; después: 0 smells, 0 deuda, 100 % de cobertura | ✅ |
 
 "Revisado" significa que el código o el entregable pasó por el agente revisor del curso (`DOSW_Agente_Chimchar`) hasta obtener APROBADO.
 
