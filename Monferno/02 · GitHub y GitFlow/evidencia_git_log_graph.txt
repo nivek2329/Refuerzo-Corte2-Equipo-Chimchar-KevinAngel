@@ -1,0 +1,10 @@
+*   401e4a2 (HEAD -> develop) merge: conservar validación y alertas
+|\  
+| * 2976b31 (feature/alertas-estado) feat: notificar cambio de estado
+* |   c55ab17 merge: asignación automática
+|\ \  
+| |/  
+|/|   
+| * 6f31f30 (feature/asignacion-automatica) feat: validar clima antes de asignar
+|/  
+* be386a1 base: asignador de misión
