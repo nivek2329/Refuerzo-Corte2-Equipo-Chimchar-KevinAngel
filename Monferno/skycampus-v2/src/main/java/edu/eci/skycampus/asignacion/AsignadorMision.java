@@ -38,10 +38,11 @@ public class AsignadorMision {
         this.gestorFlota = Objects.requireNonNull(gestorFlota, "gestorFlota no puede ser null");
         this.estrategiasPorPrioridad.putAll(
                 Objects.requireNonNull(estrategiasPorPrioridad, "estrategiasPorPrioridad no puede ser null"));
+        validarQueCubreTodasLasPrioridades();
     }
 
     public Optional<Drone> asignar(List<Drone> flota, SolicitudReparto solicitud) {
-        Objects.requireNonNull(flota, "flota no puede ser null");
+        validarFlota(flota);
         Objects.requireNonNull(solicitud, "solicitud no puede ser null");
         Paquete paquete = solicitud.paquete();
         validarPeso(paquete);
@@ -52,10 +53,25 @@ public class AsignadorMision {
                 .map(drone -> gestorFlota.cambiarEstado(drone, EstadoDrone.EN_VUELO));
     }
 
+    private void validarQueCubreTodasLasPrioridades() {
+        for (Prioridad prioridad : Prioridad.values()) {
+            if (estrategiasPorPrioridad.get(prioridad) == null) {
+                throw new IllegalArgumentException("falta la estrategia para la prioridad " + prioridad);
+            }
+        }
+    }
+
+    private static void validarFlota(List<Drone> flota) {
+        Objects.requireNonNull(flota, "flota no puede ser null");
+        if (flota.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("la flota no puede contener drones null");
+        }
+    }
+
     private static void validarPeso(Paquete paquete) {
         if (paquete.pesoGramos() > CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS) {
             throw new IllegalArgumentException("el paquete pesa " + paquete.pesoGramos()
-                    + " g y supera la capacidad máxima de la flota (" + CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS + " g)");
+                    + " g y supera la capacidad del drone más grande (" + CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS + " g)");
         }
     }
 }
