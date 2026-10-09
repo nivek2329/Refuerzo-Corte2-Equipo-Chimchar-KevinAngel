@@ -24,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -99,6 +100,22 @@ class AsignadorMisionValidacionTest {
 
         // Assert
         assertEquals("falta la estrategia para la prioridad BAJO", error.getMessage());
+    }
+
+    @Test
+    @DisplayName("rechaza estrategias con una prioridad null, con mensaje claro")
+    void crearAsignador_prioridadNula_lanzaExcepcion() {
+        // Arrange
+        Map<Prioridad, EstrategiaAsignacion> conClaveNula = new HashMap<>(PoliticaAsignacion.porDefecto());
+        conClaveNula.put(null, new AsignacionMenorUso());
+        GestorFlota gestor = new GestorFlota();
+
+        // Act
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> new AsignadorMision(clima, gestor, conClaveNula));
+
+        // Assert
+        assertEquals("las estrategias no pueden tener una prioridad null", error.getMessage());
     }
 
     static Stream<Arguments> constructoresConNull() {
