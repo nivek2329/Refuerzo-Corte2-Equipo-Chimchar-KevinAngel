@@ -141,7 +141,7 @@ class AsignadorMisionTest {
                 () -> asignador.asignar(flota, muyPesado));
 
         // Assert
-        assertEquals("el paquete pesa 2500 g y supera la capacidad máxima de la flota (2000 g)", error.getMessage());
+        assertEquals("el paquete pesa 2500 g y supera la capacidad del drone más grande (2000 g)", error.getMessage());
         verifyNoInteractions(clima);
     }
 

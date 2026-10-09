@@ -22,6 +22,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -65,6 +67,38 @@ class AsignadorMisionValidacionTest {
         // Assert
         assertEquals("flota no puede ser null", error.getMessage());
         verifyNoInteractions(clima);
+    }
+
+    @Test
+    @DisplayName("rechaza una flota con un drone null, con mensaje y sin consultar el clima")
+    void asignar_flotaConDroneNulo_lanzaExcepcionSinConsultarClima() {
+        // Arrange
+        List<Drone> conNulo = Arrays.asList(Datos.drone("D-01", TipoDrone.MINI, 91), null);
+        SolicitudReparto solicitud = Datos.solicitud("S-2", 200, Prioridad.NORMAL);
+
+        // Act
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> asignador.asignar(conNulo, solicitud));
+
+        // Assert
+        assertEquals("la flota no puede contener drones null", error.getMessage());
+        verifyNoInteractions(clima);
+    }
+
+    @Test
+    @DisplayName("exige una estrategia para cada prioridad al construirse")
+    void crearAsignador_faltaEstrategiaParaBajo_lanzaExcepcion() {
+        // Arrange
+        Map<Prioridad, EstrategiaAsignacion> sinBajo = new EnumMap<>(Datos.estrategiasPorPrioridad());
+        sinBajo.remove(Prioridad.BAJO);
+        GestorFlota gestor = new GestorFlota();
+
+        // Act
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
+                () -> new AsignadorMision(clima, gestor, sinBajo));
+
+        // Assert
+        assertEquals("falta la estrategia para la prioridad BAJO", error.getMessage());
     }
 
     static Stream<Arguments> constructoresConNull() {
