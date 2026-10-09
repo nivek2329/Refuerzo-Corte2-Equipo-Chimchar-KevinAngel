@@ -55,12 +55,12 @@ Desde el commit `eaf98b9`, el agente de Byte Buddy que usa Mockito se carga con 
 | Borde: 2001 g | NORMAL | Rechazado, sin consultar el clima: el primer valor inválido |
 | Borde: URGENTE sin EXPRESS | CARGO 99 %, MINI 50 % | D-01: el siguiente más rápido, no el de más batería |
 | Borde: varios EXPRESS | EXPRESS 50 %, 90 %, 70 % | D-21 (90 %): desempate por batería |
-| Borde: BAJO | `PoliticaAsignacion.porDefecto()` | Usa la estrategia normal: D-01 |
+| Borde: BAJO | `PoliticaAsignacion.porDefecto()`; D-01 tiene 300 min de vuelo y D-03 solo 5 | Usa mayor batería y elige D-01, distinguiéndose de `AsignacionMenorUso` |
 | OCP | BAJO → `AsignacionMenorUso` | D-03 (5 min de vuelo). `AsignadorMision` no cambió |
 | Flota vacía | Clima apto | Vacío |
 | Entradas inválidas | Flota o solicitud `null`, drone `null` en la flota, dependencias `null`, falta la estrategia de BAJO, prioridad `null` en el mapa | Excepción con mensaje en español. En la flota, antes de consultar el clima |
 
-El proyecto pasa de 90 pruebas (antes del reto) a 114. La cobertura final es de 210/210 líneas y 60/60 ramas.
+El proyecto pasa de 90 pruebas (antes del reto) a 115. La ejecución `mvn clean verify` del 09/10/2026 terminó correctamente: 115 pruebas, sin fallos ni errores; JaCoCo registró 212/212 líneas y 60/60 ramas, y el nuevo mínimo de 85 % se cumplió. La salida completa está guardada en el reto 13.
 
 ## Historial TDD
 
@@ -125,7 +125,7 @@ Con las 103 pruebas del ciclo 2, los mutantes 1 a 3 **sobrevivían**: eso fue lo
 ### Lecciones y nota sobre el proceso
 
 - **El desempate entró sin prueba.** En GREEN (`6bd4e66`), `AsignacionMasRapido` incluyó un desempate por batería que ninguna prueba pedía. Era justo lo que se quería evitar después de Chimchar. Se corrigió con una prueba de caracterización y un mutante que lo demuestra. Desde entonces, cada regla nueva entra con una prueba capaz de fallar.
-- **Límite conocido (sin corregir, por decisión).** Las pruebas de NORMAL y BAJO no distinguen "mayor batería" de "menor uso": en sus flotas, el drone de más batería también es el primero de la lista y todos tienen 0 minutos de vuelo, así que ambas estrategias eligen el mismo. Si `PoliticaAsignacion` cambiara NORMAL o BAJO a `AsignacionMenorUso`, ninguna prueba fallaría. El cambio a "más rápido" sí se detecta (mutante 5). Se corrige con una flota donde el de más batería tenga más minutos de vuelo y no vaya primero.
+- **Caracterización BAJO añadida después de la evidencia histórica.** Ahora D-01 tiene mayor batería y 300 minutos de vuelo, mientras D-03 tiene menos batería y solo 5 minutos. La política predeterminada debe elegir D-01; si BAJO se enruta por error a `AsignacionMenorUso`, la prueba falla. La evidencia de mutación listada arriba corresponde al historial anterior a este refuerzo y no se volvió a generar.
 - **RED de compilación frente a RED de aserción.** El RED 1 solo demuestra que el código no compila: ninguna prueba llegó a ejecutarse en rojo. Los RED 2, 3 y 4 fallan por aserción, que es lo que demuestra que cada prueba puede fallar.
 - **Cómo se trabajó.** En los cuatro ciclos, el código de cada fase se preparó por adelantado y se verificó localmente en orden: las pruebas, en rojo, antes que la implementación. Luego se aplicó en el repositorio fase por fase, en una sola sesión por ciclo, y por eso hay pocos segundos entre commits.
   - Ciclos 1 y 2: el commit se hizo antes de correr Maven. La evidencia de RED 1 se regeneró después, haciendo checkout de ese commit.
@@ -145,4 +145,4 @@ cd Monferno\skycampus-v2
 mvn clean verify
 ```
 
-`mvn clean verify` corre las 114 pruebas. JaCoCo exige 80 % de líneas y 70 % de ramas (reto 13).
+`mvn clean verify` corre las 115 pruebas. JaCoCo exige al menos 85 % de líneas y 70 % de ramas (reto 13).

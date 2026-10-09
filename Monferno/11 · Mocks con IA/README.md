@@ -1,12 +1,12 @@
 # 11 · Mock del flujo de asignación automática — Monferno
 
-Prototipo navegable: [`Flujo_Asignacion_Automatica_Monferno.html`](Flujo_Asignacion_Automatica_Monferno.html). Integra los tres pasos de la v2 y permite activar los tres estados de error para revisar los mensajes y las salidas.
+Prototipo navegable: [`Flujo_Asignacion_Automatica_Monferno.html`](Flujo_Asignacion_Automatica_Monferno.html). Integra los tres pasos de la v2 y permite activar los estados de error y cancelación para revisar los mensajes y las salidas. Los datos de la misión (M-1042, Bloque A → Bloque D, 640 g) son los mismos en el HTML y en el prompt.
 
-Prompt para recrear o revisar visualmente el flujo con otra IA: [`Prompt_IA_Flujo_Monferno.md`](Prompt_IA_Flujo_Monferno.md). La identidad que debe conservar está en el [manual de Monferno](../08%20%C2%B7%20Manual%20de%20Identidad%20y%20UXUI/Manual_Identidad_SkyCampus_Monferno.html).
+Prompt para recrear o revisar visualmente el flujo con otra IA: [`Prompt_IA_Flujo_Monferno.md`](Prompt_IA_Flujo_Monferno.md). La identidad que debe conservar está en el [manual de Monferno](../08%20%C2%B7%20Manual%20de%20Identidad%20y%20UXUI/Manual_Identidad_SkyCampus_Monferno.html). El HTML de esta carpeta es el prototipo navegable y el prompt es el insumo para su generación/revisión; no se conserva una captura ni un registro verificable de qué herramienta generó el HTML.
 
 ## Vistas y estados
 
-1. **Panel de flota:** drones agrupados por estado; el operador inicia una misión y selecciona el candidato apto.
+1. **Panel de flota:** muestra 6 de los 20 drones y ofrece un filtro funcional por estado; el operador inicia una misión y selecciona el candidato apto.
 2. **Detalle de misión:** solicitud urgente de 640 g, destino, clima, estrategia y capacidad del candidato visibles antes de confirmar.
 3. **Confirmación:** drone asignado, ruta y notificaciones emitidas; acción grande para cancelar.
 

@@ -1,0 +1,86 @@
+C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel>cd Monferno\skycampus-v2
+
+C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2>mvn clean verify
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -------------------< edu.eci.skycampus:skycampus-v2 >-------------------
+[INFO] Building SkyCampus v2 (Monferno) 2.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ skycampus-v2 ---
+[INFO] Deleting C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2\target
+[INFO]
+[INFO] --- dependency:3.8.1:properties (default) @ skycampus-v2 ---
+[INFO]
+[INFO] --- jacoco:0.8.15:prepare-agent (default) @ skycampus-v2 ---
+[INFO] argLine set to -javaagent:C:\\Users\\kevin\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.15\\org.jacoco.agent-0.8.15-runtime.jar=destfile=C:\\Users\\kevin\\Downloads\\refuerzo\\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\\Monferno\\skycampus-v2\\target\\jacoco.exec
+[INFO]
+[INFO] --- resources:3.4.0:resources (default-resources) @ skycampus-v2 ---
+[INFO] skip non existing resourceDirectory C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2\src\main\resources
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ skycampus-v2 ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 26 source files with javac [debug release 17] to target\classes
+[INFO]
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ skycampus-v2 ---
+[INFO] skip non existing resourceDirectory C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2\src\test\resources
+[INFO]
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ skycampus-v2 ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 11 source files with javac [debug release 17] to target\test-classes
+[INFO]
+[INFO] --- surefire:3.2.5:test (default-test) @ skycampus-v2 ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running edu.eci.skycampus.asignacion.AsignadorMisionBordesTest
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.295 s -- in edu.eci.skycampus.asignacion.AsignadorMisionBordesTest
+[INFO] Running edu.eci.skycampus.asignacion.AsignadorMisionTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 s -- in edu.eci.skycampus.asignacion.AsignadorMisionTest
+[INFO] Running edu.eci.skycampus.asignacion.AsignadorMisionValidacionTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.136 s -- in edu.eci.skycampus.asignacion.AsignadorMisionValidacionTest
+[INFO] Running edu.eci.skycampus.asignacion.EstrategiasAsignacionTest
+[INFO] Running edu.eci.skycampus.asignacion.EstrategiasAsignacionTest$CriterioAptitudTests
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in edu.eci.skycampus.asignacion.EstrategiasAsignacionTest$CriterioAptitudTests
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in edu.eci.skycampus.asignacion.EstrategiasAsignacionTest
+[INFO] Running edu.eci.skycampus.asignacion.GestorMisionesTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.108 s -- in edu.eci.skycampus.asignacion.GestorMisionesTest
+[INFO] Running edu.eci.skycampus.estadisticas.EstadisticasMisionesTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in edu.eci.skycampus.estadisticas.EstadisticasMisionesTest
+[INFO] Running edu.eci.skycampus.modelo.EstadoDroneTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.111 s -- in edu.eci.skycampus.modelo.EstadoDroneTest
+[INFO] Running edu.eci.skycampus.modelo.ModeloTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in edu.eci.skycampus.modelo.ModeloTest
+[INFO] Running edu.eci.skycampus.notificacion.GestorFlotaTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in edu.eci.skycampus.notificacion.GestorFlotaTest
+[INFO] Running edu.eci.skycampus.notificacion.ObservadoresTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in edu.eci.skycampus.notificacion.ObservadoresTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 115, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jacoco:0.8.15:report (report) @ skycampus-v2 ---
+[INFO] Loading execution data file C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2\target\jacoco.exec
+[INFO] Analyzed bundle 'SkyCampus v2 (Monferno)' with 23 classes
+[INFO]
+[INFO] --- jar:3.5.0:jar (default-jar) @ skycampus-v2 ---
+[INFO] Building jar: C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2\target\skycampus-v2-2.0.0-SNAPSHOT.jar
+[INFO]
+[INFO] --- jacoco:0.8.15:check (check) @ skycampus-v2 ---
+[INFO] Loading execution data file C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2\target\jacoco.exec
+[INFO] Analyzed bundle 'skycampus-v2' with 23 classes
+[INFO] All coverage checks have been met.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  12.774 s
+[INFO] Finished at: 2026-10-09T15:34:28-05:00
+[INFO] ------------------------------------------------------------------------
+
+C:\Users\kevin\Downloads\refuerzo\Refuerzo-Corte2-Equipo-Chimchar-KevinAngel\Monferno\skycampus-v2>

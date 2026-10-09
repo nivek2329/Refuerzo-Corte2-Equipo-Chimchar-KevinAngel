@@ -14,13 +14,13 @@ Cada tarjeta presenta ID, tipo, batería, estado con texto y acción disponible.
 
 | Estado | Color | Regla visual |
 |---|---|---|
-| DISPONIBLE | `#22C55E` verde | Puede ser candidato si también cumple batería y capacidad |
-| EN VUELO | `#38BDF8` azul | Muestra misión activa; no ofrece asignación |
-| EN CARGA | `#FACC15` amarillo | Muestra progreso/carga restante; no es elegible |
-| FALLO | `#EF4444` rojo | Acción de emergencia y aviso al técnico |
-| MANTENIMIENTO | `#64748B` gris | Indica indisponibilidad y opción de ver diagnóstico |
+| DISPONIBLE | `#46D39A` verde seguro | Puede ser candidato si también cumple batería y capacidad |
+| EN VUELO | `#55C7E8` cian | Muestra misión activa; no ofrece asignación |
+| EN CARGA | `#F5C451` ámbar | Muestra progreso/carga restante; no es elegible |
+| FALLO | `#FF7079` coral | Acción de emergencia y aviso al técnico |
+| MANTENIMIENTO | `#9AABC0` gris técnico | Indica indisponibilidad y opción de ver diagnóstico |
 
-Tokens de interfaz heredados del manual Chimchar: fondo `#0F172A`, superficie `#111C2E`, borde `#25324A`, texto `#F8FAFC`, secundario `#94A3B8`; azul de acción `#2563EB` y violeta `#8B5CF6` solo como acento de marca. El violeta no codifica estados.
+Tokens aplicados en el manual y el prototipo: fondo `#0B1422`, superficie `#14243A`, borde `#29415D`, texto `#EDF4FB`, secundario `#A8BBCF`; azul de acción `#58A6FF`. El violeta `#B49AFF` es solo acento de marca, no codifica estados.
 
 ## Componentes y estados
 
@@ -32,6 +32,6 @@ Tokens de interfaz heredados del manual Chimchar: fondo `#0F172A`, superficie `#
 ## Leyes UX aplicadas
 
 - **Fitts:** la acción de emergencia tiene un área amplia (mínimo visual 48 px), contraste alto y posición persistente; no queda escondida en un menú. Los controles frecuentes tienen áreas cómodas para puntero o toque.
-- **Hick:** los 20 drones se agrupan por estado y se filtran por tipo antes de elegir; el operador no enfrenta una lista plana de 20 decisiones. El prototipo muestra una muestra por grupo para que la relación entre organización y selección sea legible.
+- **Hick:** la flota se filtra por estado antes de elegir; el operador reduce las opciones visibles. El prototipo enseña 6 drones de muestra, no los 20 de una flota real.
 
 El HTML es un prototipo local de alta fidelidad con datos de demostración; no llama a una API ni persiste cambios.

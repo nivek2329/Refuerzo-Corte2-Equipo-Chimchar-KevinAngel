@@ -6,7 +6,13 @@ Se analiza **la v2 completa** ([`skycampus-v2`](../skycampus-v2)): 23 clases de 
 
 1. Levantar SonarQube Community Build (v26.9) en Docker: `docker start sonarqube` → `http://localhost:9000`.
 2. Generar un *Global Analysis Token* y guardarlo **solo** en la variable de entorno `SONAR_TOKEN`, nunca en el repositorio.
-3. Desde `Monferno\skycampus-v2`, ejecutar `mvn clean verify sonar:sonar`. El build corre las 114 pruebas, genera el XML de JaCoCo y lo sube junto con el análisis. Proyecto: `skycampus-v2`, "SkyCampus v2 (Monferno)".
+3. Desde `Monferno\skycampus-v2`, ejecutar `mvn clean verify sonar:sonar`. El build corre las pruebas, genera el XML de JaCoCo y lo sube junto con el análisis. Proyecto: `skycampus-v2`, "SkyCampus v2 (Monferno)".
+
+## Último análisis verificado
+
+El 09/10/2026 a las 3:37 p. m. se procesó el análisis de `skycampus-v2`: **Quality Gate Passed**, 0 issues nuevos, 0 issues abiertos en seguridad/confiabilidad/mantenibilidad, 100 % de cobertura (212/212 líneas), 0 % de duplicaciones y 0 hotspots. Maven ejecutó 115 pruebas y JaCoCo aceptó los mínimos de 85 % de líneas y 70 % de ramas. La salida está en [`mvn_verify_sonar_85_115.txt`](../13%20%C2%B7%20JaCoCo%20%E2%80%94%20Cobertura%20de%20c%C3%B3digo/evidencia/mvn_verify_sonar_85_115.txt).
+
+**Advertencia SCM:** Sonar no recibió información *blame* para `pom.xml` y `AsignadorMisionBordesTest.java`, que contienen cambios locales sin commit. No cambió el Quality Gate; después del commit se puede volver a ejecutar el análisis para que Sonar reciba el historial Git de esos archivos.
 
 ## Resultado final (commit `6769a21`)
 
@@ -36,10 +42,10 @@ El proyecto usa el Quality Gate por defecto, **"Sonar way"**. Sus condiciones se
 - duplicación ≤ 3 %;
 - hotspots revisados.
 
-La meta de Monferno (≥ 85 %) se verifica sobre el **código total**, donde la cobertura es del 100 %. La regla `check` de JaCoCo del `pom.xml` (80 % de líneas y 70 % de ramas) actúa como segunda puerta: si se incumple, el build falla antes de llegar a Sonar (evidencia en el reto 13).
+La meta de Monferno (≥ 85 %) se verifica sobre el **código total**, donde la cobertura registrada es 100 %. JaCoCo impone un mínimo total de 85 % de líneas y 70 % de ramas en `mvn verify`; si no se cumple, el build falla antes de llegar a Sonar (configuración en el `pom.xml`; evidencia histórica en el reto 13).
 
 **Límites aceptados, para leer bien el "Passed":**
-- **El 85 % hoy es una medición, no un control.** Ni JaCoCo (80 %) ni "Sonar way" (80 % sobre código nuevo) fallarían si la cobertura total bajara, por ejemplo, al 82 %. Para que fuera un control, habría que crear en Sonar un Quality Gate propio para `skycampus-v2`, con cobertura total ≥ 85 % y confiabilidad y seguridad en A, o subir el mínimo de JaCoCo a 0.85.
+- **El 85 % se controla en el build, no en "Sonar way".** Sonar mantiene su condición de 80 % para código nuevo; JaCoCo hace fallar `mvn verify` si la cobertura total queda por debajo del 85 % de líneas o del 70 % de ramas. El sello "Passed" de Sonar y el umbral global de Monferno son controles distintos.
 - **El gate verde cubre poco código.** El análisis del "antes" fue el primero del proyecto, y "Sonar way" evalúa solo el código nuevo desde ahí: **7 líneas nuevas por cubrir** (`Sonar_QualityGate.png`). Por eso la prueba real de calidad son las cifras de **Overall Code** (0 issues, 100 %), no solo el sello "Passed".
 
 ## Antes y después

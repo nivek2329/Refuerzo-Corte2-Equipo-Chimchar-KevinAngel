@@ -113,10 +113,13 @@ class AsignadorMisionBordesTest {
     void asignar_misionBaja_usaEstrategiaNormal() {
         // Arrange
         when(clima.esApto()).thenReturn(true);
+        List<Drone> conUsosDistintos = List.of(
+                Datos.drone("D-01", TipoDrone.MINI, 91, EstadoDrone.DISPONIBLE, 300),
+                Datos.drone("D-03", TipoDrone.CARGO, 85, EstadoDrone.DISPONIBLE, 5));
         SolicitudReparto baja = Datos.solicitud("S-9", 300, Prioridad.BAJO);
 
         // Act
-        Optional<Drone> asignado = asignador.asignar(flota, baja);
+        Optional<Drone> asignado = asignador.asignar(conUsosDistintos, baja);
 
         // Assert
         assertEquals("D-01", asignado.orElseThrow().id());

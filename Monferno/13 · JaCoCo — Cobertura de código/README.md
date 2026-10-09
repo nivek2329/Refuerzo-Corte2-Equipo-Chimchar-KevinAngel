@@ -4,7 +4,7 @@ Proyecto analizado: [`skycampus-v2`](../skycampus-v2), que reúne el código de 
 
 ## 1. Quality Gate de cobertura en el build (JaCoCo)
 
-El "Quality Gate con 80 % line y 70 % branch" que pide el reto es la regla `check` de JaCoCo en el build. El Quality Gate de SonarQube ("Sonar way") es otra cosa: no tiene condición de ramas y solo evalúa el código nuevo (ver reto 14).
+El control local de cobertura del build es la regla `check` de JaCoCo. El Quality Gate de SonarQube ("Sonar way") es otra cosa: no tiene condición de ramas y solo evalúa el código nuevo (ver reto 14).
 
 En el [`pom.xml`](../skycampus-v2/pom.xml), JaCoCo 0.8.15 hace tres cosas:
 
@@ -15,11 +15,11 @@ En el [`pom.xml`](../skycampus-v2/pom.xml), JaCoCo 0.8.15 hace tres cosas:
 | `check` | `verify` | **Rompe el build** si la cobertura baja de los umbrales |
 
 ```xml
-<limit><counter>LINE</counter><value>COVEREDRATIO</value><minimum>0.80</minimum></limit>
+<limit><counter>LINE</counter><value>COVEREDRATIO</value><minimum>0.85</minimum></limit>
 <limit><counter>BRANCH</counter><value>COVEREDRATIO</value><minimum>0.70</minimum></limit>
 ```
 
-Así, la v2 **no llega a producción** si baja del 80 % de líneas o del 70 % de ramas.
+Así, el build de la v2 falla si baja del 85 % de líneas o del 70 % de ramas.
 
 **Evidencia de que la puerta se cierra.** Se ejecutó `mvn clean verify -Dtest=ModeloTest -Dsurefire.failIfNoSpecifiedTests=false`, que corre solo las pruebas del modelo, sin tocar el código. La cobertura cae a cerca del 33 % de líneas y del 25 % de ramas, y el build termina en `BUILD FAILURE` con "Coverage checks have not been met": [`evidencia/jacoco_check_rojo.txt`](evidencia/jacoco_check_rojo.txt).
 
@@ -27,15 +27,15 @@ El agente de Mockito (Byte Buddy) también se carga con `-javaagent` mediante `@
 
 ## 2. Resultado de JaCoCo
 
-Commit `6769a21`, ejecución `mvn clean verify sonar:sonar` del 09/10/2026 ([`evidencia/sonar_despues.txt`](evidencia/sonar_despues.txt)), que es la que generó el reporte HTML. También la ejecución previa sin Sonar ([`evidencia/correcciones_verify.txt`](evidencia/correcciones_verify.txt)) dio 114 pruebas y "All coverage checks have been met":
+La verificación `mvn clean verify sonar:sonar` del 09/10/2026 corrió 115 pruebas y comprobó el umbral del 85 %; tanto Maven como el análisis Sonar terminaron con `BUILD SUCCESS`. Salidas: [`evidencia/mvn_verify_85_115.txt`](evidencia/mvn_verify_85_115.txt) y [`evidencia/mvn_verify_sonar_85_115.txt`](evidencia/mvn_verify_sonar_85_115.txt). El reporte JaCoCo generado en `target/site/jacoco` confirma:
 
 | Métrica | Valor | Umbral |
 |---|---|---|
-| Pruebas | 114 ejecutadas, 0 fallos, 0 errores | — |
+| Pruebas | 115 ejecutadas, 0 fallos, 0 errores | — |
 | Instrucciones | 100 % (1046 de 1046) | — |
-| **Líneas** | **100 % (212 de 212)** | ≥ 80 % ✅ |
+| **Líneas** | **100 % (212 de 212)** | ≥ 85 % ✅ |
 | **Ramas** | **100 % (60 de 60)** | ≥ 70 % ✅ |
-| Regla `check` | "All coverage checks have been met" | — |
+| Regla `check` | "All coverage checks have been met" | ≥ 85 % de líneas y ≥ 70 % de ramas ✅ |
 
 | Paquete | Líneas | Ramas | Clases |
 |---|---|---|---|
@@ -69,7 +69,7 @@ El token va solo en la variable de entorno `SONAR_TOKEN`, nunca en el repositori
 | Confiabilidad (bugs) | **1 · C** | 0 · A | 0 ✅ |
 | Mantenibilidad (code smells) | 2 · A | 0 · A | — |
 | Deuda técnica | 15 min | **0 min** | < 30 min ✅ |
-| Cobertura | 100 % | 100 % | ≥ 80 % ✅ |
+| Cobertura | 100 % | 100 % | ≥ 85 % ✅ |
 | Duplicaciones | 0,0 % | 0,0 % | — |
 | Security Hotspots | 0 | 0 | — |
 
