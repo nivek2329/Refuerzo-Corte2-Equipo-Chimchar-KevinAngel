@@ -1,82 +1,86 @@
-# 11 · Mocks con IA — Panel de monitoreo SkyCampus
+# 11 · Mocks con IA — Prompt del panel de monitoreo SkyCampus
 
-## Estado de la entrega
+## Paso 1 · Referencias reales de monitoreo de flotas
 
-El prompt queda preparado para generar **tres vistas coherentes** del panel: normal, alerta y flota vacía. Cada estado debe guardarse como imagen separada. Los estados de alerta `FALLO` y flota vacía son escenarios visuales simulados para explicar la interfaz; no reemplazan ni modifican los datos reales del MVP.
+| Archivo | Sistema real | Qué muestra | Decisiones que se trasladan al panel | Dónde se ve en los mocks |
+|---|---|---|---|---|
+| `Referencia_Skydio_Fleet_Manager.png` | Skydio Cloud · módulo **Fleet** ([fuente oficial](https://support.skydio.com/hc/en-us/articles/4402745384475)) | Vehículo seleccionado de la flota: nombre, etiqueta de estado con texto ("Online") y batería en % con barra de color, y acceso a su historial | (a) Estado como etiqueta con texto, nunca solo color. (b) Batería como % + barra de color en la misma línea del drone. (c) Seleccionar un vehículo lleva a su ficha → acción "Ver detalle" | Badges de estado y elegibilidad; barras de batería por fila; barra "Drone seleccionado · Ver detalle" |
+| `Referencia_Skydio_Reports_Summary.png` | Skydio Cloud · **Reports › Summary** (misma fuente) | Tarjetas de indicadores de la flota con cifras grandes (vuelos, pilotos activos, vehículos activos) | (a) Resumen numérico de la flota en tarjetas con cifra grande y etiqueta corta. (b) Cifras separadas del listado para leerlas de un vistazo | Panel "Flota en resumen" (registrados, asignables, no asignables, no disponibles) |
 
-## Referencias de producto
+`Referencia_DroneSense_DSR.png` y `Referencia_DJI_FlightHub_Cockpit.webp` son cabinas de pilotaje de **un** drone. No sirven para el panel de flota; quedan solo como referencia de la vista de detalle.
 
-Revisar las capturas de pantalla de monitoreo/operaciones de estas dos interfaces reales antes de generar el mock. Tomar como referencias de organización y jerarquía, sin copiar marca ni pantalla:
+## Paso 2 · Estilo
 
-1. **DroneSense DSR — User Interface Overview:** captura guardada como `Referencia_DroneSense_DSR.png`; muestra mapa, controles de operación y feed del drone. [Abrir referencia oficial](https://support.dronesense.com/hc/en-us/articles/9566471478541-DSR-User-Interface-Overview)
-2. **DJI FlightHub 2 — Virtual Cockpit:** captura guardada como `Referencia_DJI_FlightHub_Cockpit.webp`; muestra mapa, visualización principal y controles de operación. [Abrir manual oficial](https://fh.dji.com/user-manual/en/real-time-project-information/virtual-cockpit.html)
+Identidad del manual aprobado en el reto 08 (`Manual_Identidad_SkyCampus.html`, carpeta `08 · Manual de Identidad y UXUI` de este repositorio).
 
-En la entrega final, adjuntar las dos capturas revisadas junto a las tres imágenes generadas. Evitar incluir nombres, números de serie u otra información privada que pudiera aparecer en las referencias.
+## Paso 3 · Datos del RF SC-01 "Registrar misión de reparto"
 
-## Prompt para la IA
+- **Entrada que necesita el operador:** la flota con ID, batería, disponibilidad y ubicación de cada drone, y la regla de elegibilidad (disponible y batería ≥ 30 %).
+- **Acciones del operador** (plantilla del curso): seleccionar drone, asignar a misión (M-0001) y ver detalle.
 
+## Paso 4 · Prompt
 
 ```text
-Actúa como diseñador/a senior de producto UX/UI especializado/a en interfaces operativas. Diseña un mockup de interfaz de escritorio realista y legible para SkyCampus, el sistema de operación de una flota de drones de la Escuela Colombiana de Ingeniería. No generes una lámina explicativa, póster, wireframe ni imagen de marketing: genera una pantalla de software que un operador podría usar.
+Actúa como diseñador/a UX/UI senior de sistemas de control. Genera TRES capturas desktop (1440 × 1024 px,
+vista frontal, sin marco de dispositivo) del "Panel de monitoreo de la flota" de SkyCampus, el sistema de
+reparto con drones de la Escuela Colombiana de Ingeniería. Usuario: operador de drones que decide rápido.
+Las tres son estados de la MISMA aplicación: misma retícula, barra lateral, tipografía y componentes.
+Debe parecer software real, no arte de IA ni wireframe.
 
-BASE COMÚN PARA LAS TRES VISTAS
-- Formato: una pantalla desktop 1440 × 1024 px, relación 4:3 aproximada, vista frontal, sin perspectiva ni marco de dispositivo.
-- Las tres imágenes deben parecer estados de la misma aplicación: conserva exactamente retícula, sidebar, barra superior, tipografía, tabla, espaciados e iconografía; cambia solo los datos/avisos propios del estado solicitado.
-- Producto: SkyCampus · Operación de flota · ECI. Usuario principal: Operador de drones.
-- Identidad: interfaz oscura, sobria, técnica y humana. Azul noche #0F172A; superficies #111C2E; bordes #25324A; texto principal #F8FAFC; texto secundario #94A3B8; azul de acción #2563EB; violeta #8B5CF6 solo como acento pequeño. Interfaz en Inter; identificadores y códigos en JetBrains Mono.
-- Estados siempre con etiqueta legible y un indicador, nunca comunicar solo mediante color: Disponible #22C55E; En vuelo #38BDF8; En carga #FACC15; Fallo #EF4444; No disponible sin subestado #64748B. Batería crítica #F59E0B.
-- Composición de producto: sidebar compacta con monograma SC creado como ruta geométrica con nodos, navegación “Resumen”, “Flota”, “Misiones”, “Configuración”; barra superior con “SkyCampus”, “Monitoreo de la flota” y “Operación de flota · ECI”. Mostrar la opción “Flota” activa. Jerarquía clara, tabla ordenada, líneas finas, superficies planas, bordes sutiles y espacio en blanco. Nada de neón, glassmorphism, gradientes brillantes, tarjetas repetidas, foto de stock ni ilustraciones decorativas de drones.
-- La pantalla se centra en consultar la flota. Mostrar tabla con columnas Drone, Batería, Estado, Ubicación y Acción. No inventar métricas, rutas, coordenadas ni funciones.
-- Datos reales base del escenario normal (mantener literalmente):
-  D-01 | DJI Mini 3 | 85% | Disponible | Bloque A | Seleccionar habilitado
-  D-02 | DJI Mini 3 | 42% | No disponible | Biblioteca | acción deshabilitada; no inventar la causa ni cambiar el estado a En vuelo, En carga o Fallo
-  D-03 | DJI Mini 3 | 91% | Disponible | Bloque C | Seleccionar habilitado
-  D-04 | DJI Mini 3 | 18% | Disponible | Bloque B | asignación deshabilitada: batería inferior al mínimo de 30%
-  D-05 | DJI Mini 3 | 67% | Disponible | Bloque D | Seleccionar habilitado
-- Cuando haya texto pequeño, prioriza su legibilidad y escritura exacta. No agregues drones. No uses lorem ipsum. El resultado debe parecer una captura de una app de operación real, no arte de IA.
+IDENTIDAD (manual SkyCampus, modo oscuro)
+- Fondo #0F172A, superficies #111C2E, bordes #25324A, texto #F8FAFC, secundario #94A3B8.
+- Marca (nunca para estados): azul acción #2563EB, navegación #1D4ED8; violeta #8B5CF6 solo en logo y avatar.
+- Estados del drone: Disponible #22C55E, En vuelo #38BDF8, En carga #FACC15, Fallo #EF4444, No disponible #64748B.
+- Elegibilidad: Asignable #14B8A6, No asignable por batería < 30% #F97316, otro motivo "No asignable" gris.
+  Cada fila lleva estado + elegibilidad. Cada color, un solo significado y siempre con texto.
+- Inter 400/600 (700 solo título y logotipo); JetBrains Mono para todo ID. Mínimo 11 px.
+- Navegación lateral: Monitoreo (activa), Flota de drones, Planificación, Historial, Configuración.
+- Voz: dato + requisito + acción. Sin lorem ipsum ni métricas, rutas o coordenadas inventadas.
 
-ESTADO A — NORMAL
-- Nombre del archivo: 11_Mock_Normal.png
-- Título de estado: “Flota operativa”. Mostrar los cinco registros base sin cambiar un solo valor.
-- Resumen compacto: “05 drones en flota”, “03 disponibles para asignar”, “01 requiere atención”.
-- Aviso de batería: “D-04 tiene 18% de batería; mínimo para asignación: 30%.” D-04 conserva el estado “Disponible”, pero su acción para asignar queda deshabilitada por batería insuficiente.
-- D-02 se presenta como “No disponible” sin explicación inventada.
+ESTRUCTURA COMÚN
+Título "Monitoreo de la flota" y etiqueta "MÍNIMO PARA ASIGNAR: 30%".
+Izquierda: lista "Flota del campus" (todos los drones en una vista). Cada fila: selector circular, ID, modelo ·
+ubicación, barra de batería con %, estado y elegibilidad. Debajo, barra de acción "Drone seleccionado" con
+"Ver detalle" y "Asignar a M-0001", y una nota con los drones no seleccionables y su motivo.
+Derecha: "Flota en resumen" (4 cifras) y panel de avisos ordenado por gravedad.
 
-ESTADO B — ALERTA
-- Nombre del archivo: 11_Mock_Alerta.png
-- Conserva el panel, los datos base y el contexto de la vista normal. Añade una alerta de fallo destacada y accionable, sin tapar la tabla ni usar solo color.
-- Para visualizar el estado solicitado, representa D-02 con etiqueta “FALLO” solo en esta variante simulada y agrega una banda visible “ESCENARIO DE DEMOSTRACIÓN · estado simulado”. No presentes este cambio como dato real: el registro base de D-02 solo dice “No disponible”. No alteres batería (42%) ni ubicación (Biblioteca).
-- Mensaje concreto: “D-02 · Fallo reportado en este escenario simulado. Drone no asignable. Revisar estado.” Acción visible: “Ver detalle”. No inventes la naturaleza de la avería ni un sensor, ruta o procedimiento técnico específico.
-- Mantén también la alerta real de batería de D-04: 18%; mínimo 30%. No mezcles ese aviso con el fallo simulado de D-02.
+ACCIONES (de la plantilla del curso)
+- Seleccionar drone: solo los asignables tienen el selector activo; los no asignables lo muestran deshabilitado
+  (punteado) y no se pueden elegir.
+- Asignar a misión: botón primario habilitado solo con un drone asignable seleccionado.
+- Ver detalle: botón secundario sobre el drone seleccionado; en Alerta también en el aviso del drone con fallo.
 
-ESTADO C — VACÍO / TODOS EN MISIÓN
-- Nombre del archivo: 11_Mock_Vacio.png
-- Muestra la misma pantalla cuando no queda ningún drone disponible para asignar. La tabla conserva los cinco IDs, modelos, baterías y ubicaciones base, pero el estado de cada fila cambia a “En vuelo” únicamente en esta simulación del estado vacío.
-- Incluye arriba una etiqueta claramente visible: “ESTADO SIMULADO · los cinco drones están en misión”. No presentes esta variación como el estado real del inventario.
-- Mostrar un mensaje vacío útil: “No hay drones disponibles para asignar”, explicación “Los 5 drones están en misión en este escenario”, y una acción “Actualizar flota”. No inventar horarios estimados de regreso, recorridos ni ubicaciones distintas.
+DATOS BASE: D-01 85% Bloque A · D-03 91% Bloque C · D-05 67% Bloque D · D-04 18% Bloque B ·
+D-02 42% Biblioteca (no disponible). Todos DJI Mini 3.
 
-CALIDAD DE ENTREGA
-- Devuelve tres imágenes independientes, una para cada estado, todas con las mismas dimensiones y el mismo diseño.
-- Revisa la ortografía de cada etiqueta; conserva acentos y porcentajes. Comprueba especialmente “No disponible”, “En vuelo”, “Fallo”, “Biblioteca” y el mínimo de 30%.
-- Las imágenes son mocks de interfaz, no datos conectados a drones reales. No añadas un logotipo oficial de la universidad; usa solo el wordmark SkyCampus y el monograma SC descrito.
+ESTADO A — NORMAL (11_Mock_Normal.png)
+D-01, D-03, D-05: Disponible + Asignable. D-04: Disponible + "No asignable · batería" (borde naranja).
+D-02: No disponible + No asignable. D-01 seleccionado; "Asignar a M-0001" habilitado.
+Resumen: 05 registrados, 03 asignables, 01 no asignable (batería < 30%), 01 no disponible.
+Avisos: D-04 batería 18% (mínimo 30%, elige otro drone o espera recarga) y D-02 no disponible.
+
+ESTADO B — ALERTA (11_Mock_Alerta.png) · escenario simulado
+Igual que A, pero D-02 aparece "Fallo" + "No asignable" (borde rojo) y el resumen dice "En fallo 01".
+Primer aviso, crítico e ícono rojo: "D-02 · Fallo reportado — Drone no asignable. Revisa su estado antes de
+planificar misiones." con "Ver detalle de D-02". Debajo, separado, el aviso de batería de D-04 (ícono naranja).
+No inventar la causa del fallo.
+
+ESTADO C — VACÍO (11_Mock_Vacio.png) · escenario simulado
+Los 5 drones "En vuelo" + "No asignable · en misión". Coherente con la regla del 30 %: todos salieron con
+batería suficiente y en vuelo marcan D-01 72%, D-03 80%, D-05 49%, D-04 55%, D-02 38%.
+Ningún selector activo; barra de acción "Ninguno" con botones deshabilitados ("Sin drones asignables").
+Resumen: 05 registrados, 00 asignables, 05 en vuelo, 00 no disponibles. El panel de avisos se convierte en
+estado vacío: "No hay drones disponibles para asignar", "Los 5 drones están en misión. Actualiza la flota
+cuando alguno aterrice.", botón "Actualizar flota", y la línea "Sin avisos operativos: los 5 drones en vuelo
+tienen batería ≥ 30%".
+
+HEURÍSTICAS OBJETIVO
+#1 Visibilidad del estado: estado, elegibilidad y batería de cada drone sin clics; resumen numérico.
+#5 Prevención de errores: el selector y el botón Asignar impiden elegir un drone no asignable antes de intentarlo.
+#8 Minimalismo: la pantalla muestra solo lo necesario para asignar (sin mapa ni decoración en estas capturas).
+#9 Mensajes claros: cada aviso dice el dato, el requisito y la acción.
+
+CALIDAD: revisa la ortografía y cada porcentaje. No agregues drones ni logotipos oficiales.
 ```
 
-## Heurísticas de Nielsen reflejadas
-
-| Heurística | Aplicación verificable en los mocks |
-|---|---|
-| **#1 Visibilidad del estado del sistema** | Cada fila enseña batería, disponibilidad/estado y ubicación. Las vistas de alerta y vacío rotulan de forma prominente que son escenarios simulados. |
-| **#3 Control y libertad del usuario** | La vista de fallo ofrece `Ver detalle`; la vista vacía ofrece `Actualizar flota`, acciones reconocibles para seguir operando. |
-| **#5 Prevención de errores** | No habilitar asignación para D-02, y bloquear la de D-04 por batería inferior al 30%; mostrar el motivo junto al control. |
-| **#8 Diseño estético y minimalista** | Priorizar la información necesaria para decidir (ID, batería, estado, ubicación y acción), con alertas jerarquizadas y sin datos decorativos. |
-| **#9 Ayudar a reconocer, diagnosticar y recuperarse de errores** | Los mensajes indican qué drone requiere atención y qué puede hacer el operador; la alerta de D-04 muestra valor observado y umbral requerido. La falla de D-02 se limita a lo conocido en el escenario simulado. |
-
-## Evidencias que faltan para cerrar el punto
-
-- [x] Adjuntar las dos capturas de referencia real.
-- [ ] Generar y agregar `11_Mock_Normal.png`.
-- [ ] Generar y agregar `11_Mock_Alerta.png`.
-- [ ] Generar y agregar `11_Mock_Vacio.png`.
-- [ ] Revisar las imágenes y corregir texto/layout si la IA deformó datos.
-
-
+La aclaración de que B y C son escenarios simulados va en el README y no en la pantalla, por la regla de voz del manual (sección 10). La excepción está documentada en la regla de consistencia de la sección 09.
