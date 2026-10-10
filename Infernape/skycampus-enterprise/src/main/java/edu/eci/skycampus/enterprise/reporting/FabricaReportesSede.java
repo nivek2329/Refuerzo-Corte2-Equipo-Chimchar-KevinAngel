@@ -1,17 +1,11 @@
 package edu.eci.skycampus.enterprise.reporting;
 
-public abstract class FabricaReportesSede {
-    public final ReporteSede crearResumen(String codigoSede) {
-        return crear(codigoSede, TipoReporte.RESUMEN);
-    }
+/**
+ * Abstract Factory: cada sede crea una familia coherente de reportes (resumen + detalle) en un solo formato.
+ * Quien pide los reportes no sabe qué clases concretas recibe; solo que ambos pertenecen a la misma familia.
+ */
+public interface FabricaReportesSede {
+    ReporteResumen crearResumen();
 
-    public final ReporteSede crearDetalle(String codigoSede) {
-        return crear(codigoSede, TipoReporte.DETALLE);
-    }
-
-    protected abstract FormatoReporte formatoCompatible();
-
-    private ReporteSede crear(String codigoSede, TipoReporte tipo) {
-        return new ReporteSede(codigoSede, formatoCompatible(), tipo);
-    }
+    ReporteDetalle crearDetalle();
 }

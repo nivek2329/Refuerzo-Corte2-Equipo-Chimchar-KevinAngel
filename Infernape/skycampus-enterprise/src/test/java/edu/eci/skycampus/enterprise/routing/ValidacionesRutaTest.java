@@ -3,10 +3,6 @@ package edu.eci.skycampus.enterprise.routing;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import edu.eci.skycampus.enterprise.domain.Sede;
-import edu.eci.skycampus.enterprise.reporting.FamiliaReportesSede;
-import edu.eci.skycampus.enterprise.reporting.FormatoReporte;
-import edu.eci.skycampus.enterprise.reporting.ReporteSede;
-import edu.eci.skycampus.enterprise.reporting.TipoReporte;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Stream;
@@ -63,11 +59,9 @@ class ValidacionesRutaTest {
     }
 
     @Test
-    void factoriesRechazanDuplicadosYReportesIncoherentes() {
+    void fabricaDronesRechazaTiposDuplicados() {
         assertThrows(IllegalStateException.class, () -> new FabricaDronesPorEtapa(
                 List.of(new FabricaDroneLigero(), new FabricaDroneLigero())));
-        assertThrows(IllegalArgumentException.class, () -> new ReporteSede(" ", FormatoReporte.HTML,
-                TipoReporte.RESUMEN));
     }
 
     @Test
@@ -75,20 +69,6 @@ class ValidacionesRutaTest {
         Instant inicio = Instant.parse("2026-10-01T10:00:00Z");
         assertThrows(IllegalArgumentException.class, () -> new EventoEtapaRuta(
                 "E1", "D-1", "ECI", "UNAL", inicio, inicio.minusSeconds(1)));
-    }
-
-    @Test
-    void familiaReportesRechazaSedeFormatoOTipoIncoherente() {
-        ReporteSede resumen = new ReporteSede("ECI", FormatoReporte.HTML, TipoReporte.RESUMEN);
-        assertThrows(IllegalArgumentException.class, () -> new FamiliaReportesSede(resumen,
-                new ReporteSede("UNAL", FormatoReporte.HTML, TipoReporte.DETALLE)));
-        assertThrows(IllegalArgumentException.class, () -> new FamiliaReportesSede(resumen,
-                new ReporteSede("ECI", FormatoReporte.PDF, TipoReporte.DETALLE)));
-        assertThrows(IllegalArgumentException.class, () -> new FamiliaReportesSede(
-                new ReporteSede("ECI", FormatoReporte.HTML, TipoReporte.DETALLE),
-                new ReporteSede("ECI", FormatoReporte.HTML, TipoReporte.DETALLE)));
-        assertThrows(IllegalArgumentException.class, () -> new FamiliaReportesSede(resumen,
-                new ReporteSede("ECI", FormatoReporte.HTML, TipoReporte.RESUMEN)));
     }
 
     @Test
