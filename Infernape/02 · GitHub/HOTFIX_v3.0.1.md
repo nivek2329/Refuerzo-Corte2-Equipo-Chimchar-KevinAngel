@@ -13,3 +13,7 @@ El cálculo rechaza direcciones inválidas y condiciones en las que el viento ig
 ## Verificación
 
 Desde `Infernape/skycampus-enterprise`, ejecutar `mvn verify`. El hotfix reutiliza este cálculo en la arquitectura de rutas del reto 03.
+
+## Revisión posterior
+
+La v3.0.1 no corrigió código que ya estuviera en v3.0.0: agregó el cálculo de viento por primera vez, así que fue una funcionalidad entregada por la vía del hotfix. Además, ese cálculo ignoraba el viento cruzado. Ese defecto sí existía en producción y se corrigió con el hotfix [v3.0.2](HOTFIX_v3.0.2.md), que empieza con una prueba en rojo.

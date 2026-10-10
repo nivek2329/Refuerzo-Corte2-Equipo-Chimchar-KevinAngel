@@ -1,5 +1,10 @@
 package edu.eci.skycampus.enterprise.routing;
 
+/**
+ * Tiempo de un tramo inter-sede con viento. {@code vientoDesdeGrados} es la dirección meteorológica desde la que
+ * sopla. El viento se descompone respecto al rumbo: la componente longitudinal frena o empuja, y la lateral obliga
+ * al drone a desviar la proa para no salirse de la ruta, lo que consume parte de su velocidad.
+ */
 public final class CalculadorRutaInterSede {
     public double tiempoEstimadoHoras(double distanciaKm, double velocidadDronKmH,
                                       double velocidadVientoKmH, double rumboGrados,
@@ -16,8 +21,13 @@ public final class CalculadorRutaInterSede {
     private static double velocidadSobreSuelo(double velocidadDronKmH, double velocidadVientoKmH,
                                                double rumboGrados, double vientoDesdeGrados) {
         double diferencia = Math.toRadians(vientoDesdeGrados - rumboGrados);
-        double componenteVientoEnContra = velocidadVientoKmH * Math.cos(diferencia);
-        return velocidadDronKmH - componenteVientoEnContra;
+        double vientoEnContra = velocidadVientoKmH * Math.cos(diferencia);
+        double vientoCruzado = velocidadVientoKmH * Math.sin(diferencia);
+        if (Math.abs(vientoCruzado) >= velocidadDronKmH) {
+            throw new IllegalArgumentException("el viento cruzado impide mantener el rumbo");
+        }
+        double avanceEnElAire = Math.sqrt(velocidadDronKmH * velocidadDronKmH - vientoCruzado * vientoCruzado);
+        return avanceEnElAire - vientoEnContra;
     }
 
     private static void validarEntradas(double distanciaKm, double velocidadDronKmH,
