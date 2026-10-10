@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="es" data-sede="eci">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkyCampus Enterprise · Dashboard de la red</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Merriweather:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Los mismos tokens y componentes del reto 08: la identidad cambia solo con data-sede -->
+<link rel="stylesheet" href="../08%20%C2%B7%20Identidad%20y%20UX/tokens.css">
+<link rel="stylesheet" href="../08%20%C2%B7%20Identidad%20y%20UX/componentes.css">
+<style>
+  body { margin: 0; min-height: 100vh; }
+  .app { min-height: 100vh; }
+  /* Barra superior de vidrio */
+  .barra { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-5); background: rgba(255,255,255,.72); backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%); border-bottom: 1px solid var(--color-border); }
+  .marca { display: flex; align-items: center; gap: var(--space-3); font: 800 var(--text-lg)/1 var(--font-display); text-transform: uppercase; letter-spacing: .03em; }
+  .marca small { display: block; font: 600 var(--text-xs) var(--font-mono); color: var(--color-muted); text-transform: none; letter-spacing: 0; margin-top: 3px; }
+  .nav { display: flex; gap: 4px; margin-left: var(--space-5); }
+  .nav button { min-height: 44px; padding: 0 var(--space-4); border: 0; border-radius: var(--border-radius); background: transparent; font: 700 var(--text-sm) var(--font-ui); color: var(--color-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .nav button[aria-current="page"] { background: var(--color-primary-soft); color: var(--color-primary); }
+  .identidad { margin-left: auto; display: inline-flex; padding: 4px; gap: 4px; border-radius: var(--radius-pill); background: rgba(15,27,45,.06); }
+  .identidad button { min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); font: 700 var(--text-xs) var(--font-mono); cursor: pointer; background: transparent; color: var(--color-muted); }
+  .identidad button[aria-pressed="true"] { background: var(--color-primary); color: #fff; box-shadow: var(--shadow-tinted); }
+  .usuario { display: flex; align-items: center; gap: 10px; font-size: var(--text-xs); color: var(--color-muted); }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong)); color: #fff; font: 700 13px var(--font-mono); }
+  .hamburguesa { display: none; margin-left: auto; min-height: 44px; min-width: 44px; border: 0; border-radius: var(--border-radius); background: var(--color-primary-soft); color: var(--color-primary); font-size: 20px; cursor: pointer; }
+  main { max-width: 1320px; margin: auto; padding: var(--space-5); }
+  .vista[hidden] { display: none; }
+  .encabezado { padding: var(--space-6); border-radius: var(--radius-lg); margin-bottom: var(--space-5); display: flex; justify-content: space-between; align-items: end; gap: var(--space-5); background: rgba(255,255,255,.4); }
+  .encabezado h1 { margin: 6px 0 4px; font: 800 var(--text-2xl)/1 var(--font-display); text-transform: uppercase; }
+  .encabezado p { margin: 0; color: var(--color-muted); }
+  .eyebrow { font: 700 var(--text-xs) var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--color-primary); }
+  .resumen { display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)); gap: var(--space-3); }
+  .resumen div { padding: var(--space-3) var(--space-4); border-radius: var(--border-radius); background: var(--color-surface-solid); border: 1px solid var(--color-border); }
+  .resumen small { display: block; color: var(--color-muted); font-size: var(--text-xs); }
+  .resumen strong { font: 800 var(--text-xl) var(--font-display); }
+  .grid-red { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--space-5); }
+  .tarjeta { padding: var(--space-5); border-radius: var(--radius-lg); min-width: 0; }
+  .grid-red > * { min-width: 0; }
+  .tarjeta h2 { margin: 0 0 var(--space-4); font: 800 var(--text-lg) var(--font-display); text-transform: uppercase; display: flex; align-items: center; gap: var(--space-3); }
+  .mapa { width: 100%; height: auto; display: block; border-radius: var(--border-radius); background: linear-gradient(160deg, #EEF3F9, #F8FAFC); }
+  .sedes { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .sede { padding: var(--space-4); border-radius: var(--border-radius); background: var(--color-surface-solid); border: 1px solid var(--color-border); display: grid; gap: 8px; }
+  .sede__top { display: flex; align-items: center; gap: 10px; }
+  .sede__top b { font: 800 var(--text-md) var(--font-display); letter-spacing: .03em; }
+  .sede__top .estado-pill { margin-left: auto; }
+  .sede__barras { display: flex; height: 8px; border-radius: 99px; overflow: hidden; background: #E6EAF0; }
+  .sede__barras i { display: block; height: 100%; }
+  .sede__leyenda { font-size: var(--text-xs); color: var(--color-muted); }
+  .ranking { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  .ranking th { text-align: left; font: 700 var(--text-xs) var(--font-mono); color: var(--color-muted); text-transform: uppercase; padding: 8px; }
+  .ranking td { padding: 10px 8px; border-top: 1px solid var(--color-border); }
+  .ranking tr.primero td { background: linear-gradient(90deg, var(--color-primary-soft), transparent); font-weight: 700; }
+  .puesto { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #EEF1F5; font: 700 12px var(--font-mono); }
+  tr.primero .puesto { background: var(--color-primary); color: #fff; }
+  .filtros { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .chip-filtro { min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--color-border); background: var(--color-surface-solid); font: 600 var(--text-sm) var(--font-ui); cursor: pointer; }
+  .chip-filtro[aria-pressed="true"] { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+  .grid-flota { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-4); }
+  /* Asistente de ruta */
+  .pasos { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); padding: 0; margin: 0 0 var(--space-5); }
+  .pasos li { padding: var(--space-3) var(--space-4); border-radius: var(--border-radius); background: rgba(255,255,255,.6); border: 1px solid var(--color-border); font-size: var(--text-sm); color: var(--color-muted); display: flex; gap: 10px; align-items: center; }
+  .pasos li span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: #E8ECF2; font: 700 12px var(--font-mono); }
+  .pasos li[data-estado="actual"] { border-color: var(--color-primary); color: var(--color-text); font-weight: 700; background: var(--color-surface-solid); }
+  .pasos li[data-estado="actual"] span { background: var(--color-primary); color: #fff; }
+  .pasos li[data-estado="hecho"] span { background: var(--estado-disponible); color: #fff; }
+  .form { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4) var(--space-5); }
+  .campo { display: grid; gap: 6px; }
+  .campo label, .campo legend { font-weight: 700; font-size: var(--text-sm); }
+  .campo small { color: var(--color-muted); font-size: var(--text-xs); }
+  .campo input, .campo select { min-height: 46px; padding: 0 12px; border: 1px solid #CBD3DE; border-radius: var(--border-radius); font: 500 var(--text-md) var(--font-ui); background: #fff; }
+  .campo input:focus, .campo select:focus { outline: 3px solid var(--color-primary-line); border-color: var(--color-primary); }
+  .campo .error { color: #B4232E; font-weight: 600; font-size: var(--text-xs); }
+  .selector-sede { min-height: 46px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px; border: 1px solid #CBD3DE; border-radius: var(--border-radius); background: #fff; font: 600 var(--text-md) var(--font-ui); cursor: pointer; text-align: left; }
+  .interruptor { display: flex; align-items: center; gap: 10px; min-height: 46px; font-weight: 600; }
+  .interruptor input { width: 22px; height: 22px; accent-color: var(--color-primary); }
+  .acciones { display: flex; gap: var(--space-3); justify-content: flex-end; margin-top: var(--space-5); flex-wrap: wrap; }
+  .verificaciones { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); }
+  .verificaciones li { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border-radius: var(--border-radius); background: var(--color-surface-solid); border: 1px solid var(--color-border); }
+  .verificaciones li .badge-icon { width: 34px; height: 34px; }
+  .verificaciones li[data-r="ok"] .badge-icon { background: color-mix(in srgb, var(--estado-disponible) 14%, white); color: var(--estado-disponible); }
+  .verificaciones li[data-r="mal"] .badge-icon { background: var(--color-alert-soft); color: var(--color-alert); }
+  .giro { width: 18px; height: 18px; border: 3px solid var(--color-primary-line); border-top-color: var(--color-primary); border-radius: 50%; animation: giro .8s linear infinite; }
+  @keyframes giro { to { transform: rotate(360deg); } }
+  .etapas { display: grid; gap: var(--space-3); }
+  .etapa { display: grid; grid-template-columns: 44px 1fr auto; gap: var(--space-3); align-items: center; padding: var(--space-4); border-radius: var(--border-radius); background: var(--color-surface-solid); border: 1px solid var(--color-border); }
+  .etapa__n { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--color-primary); color: #fff; font: 800 var(--text-md) var(--font-display); }
+  .etapa__dato { font: 700 var(--text-sm) var(--font-mono); text-align: right; }
+  .espera { margin-left: 22px; padding: 6px 0 6px 34px; border-left: 3px dashed var(--color-primary-line); font-size: var(--text-xs); color: var(--color-muted); }
+  .alerta { display: grid; grid-template-columns: auto 1fr; gap: var(--space-4); padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-alert-soft); border: 1px solid color-mix(in srgb, var(--color-alert) 35%, white); }
+  .alerta h3 { margin: 0 0 6px; font: 800 var(--text-lg) var(--font-display); text-transform: uppercase; color: #8F1B24; }
+  .alerta p { margin: 0 0 6px; line-height: 1.5; }
+  .alerta .badge-icon { background: #fff; color: var(--color-alert); width: 48px; height: 48px; }
+  .exito { text-align: center; padding: var(--space-6); }
+  .exito .badge-icon { width: 72px; height: 72px; margin: auto; background: color-mix(in srgb, var(--estado-disponible) 14%, white); color: var(--estado-disponible); }
+  .progreso { height: 10px; border-radius: 99px; background: #E6EAF0; overflow: hidden; margin: var(--space-4) auto; max-width: 520px; }
+  .progreso i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 55%, #7dd3fc)); transition: width .8s; }
+  /* Modal con selector en cuadrícula */
+  dialog { border: 0; padding: 0; border-radius: var(--radius-lg); width: min(560px, calc(100% - 32px)); box-shadow: 0 30px 80px -20px rgba(15,27,45,.45); }
+  dialog::backdrop { background: rgba(15,27,45,.45); backdrop-filter: blur(4px); }
+  .modal { padding: var(--space-5); }
+  .modal h3 { margin: 0 0 var(--space-4); font: 800 var(--text-lg) var(--font-display); text-transform: uppercase; }
+  .cuadricula { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .cuadricula button { min-height: 92px; padding: var(--space-3); border-radius: var(--border-radius); border: 2px solid var(--color-border); background: #fff; display: grid; gap: 4px; justify-items: start; text-align: left; cursor: pointer; font: 600 var(--text-sm) var(--font-ui); transition: transform .15s, border-color .15s; }
+  .cuadricula button:hover { transform: scale(1.02); border-color: var(--color-primary-line); }
+  .cuadricula button b { font: 800 var(--text-lg) var(--font-display); }
+  .cuadricula button small { color: var(--color-muted); }
+  .cuadricula button[aria-disabled="true"] { opacity: .55; }
+  .evaluador { margin-top: var(--space-7); font-size: var(--text-xs); color: var(--color-muted); }
+  .evaluador summary { cursor: pointer; font-weight: 700; }
+  .evaluador .botones { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .evaluador button { min-height: 34px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff; cursor: pointer; font: 600 12px var(--font-ui); }
+  .ayuda { font-size: var(--text-xs); color: var(--color-muted); }
+  @media (max-width: 900px) {
+    .grid-red, .form { grid-template-columns: 1fr; }
+    .nav { display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; padding: var(--space-3); background: rgba(255,255,255,.96); border-bottom: 1px solid var(--color-border); margin: 0; }
+    .nav.abierto { display: flex; }
+    .hamburguesa { display: inline-grid; place-items: center; }
+    .barra { gap: var(--space-2); padding: var(--space-3); } .identidad { margin-left: 0; } .usuario { display: none; } .marca small { display: none; } main { padding: var(--space-3); } .encabezado { padding: var(--space-4); } .encabezado h1 { font-size: var(--text-xl); }
+    .encabezado { flex-direction: column; align-items: stretch; }
+    .resumen { grid-template-columns: repeat(2, 1fr); } .tarjeta { padding: var(--space-4); } .sedes { grid-template-columns: 1fr; } .ranking th:nth-child(5), .ranking td:nth-child(5) { display: none; }
+    .pasos { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body class="sc-base">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-red" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M11 7.3 6.3 15.7M13 7.3l4.7 8.4M7.5 18h9"/></symbol>
+  <symbol id="i-drone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7 7l3 3M17 7l-3 3M7 17l3-3M17 17l-3-3"/><rect x="9.5" y="9.5" width="5" height="5" rx="1.2"/></symbol>
+  <symbol id="i-ruta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></symbol>
+  <symbol id="i-trofeo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8.5 20h7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-alerta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4M12 17.2v.1"/></symbol>
+  <symbol id="i-escudo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/></symbol>
+</svg>
+<div class="app aura">
+  <header class="barra">
+    <div class="marca"><span class="crest" aria-hidden="true"></span><div>SkyCampus<small id="marca-sede">Red Enterprise · ECI</small></div></div>
+    <button class="hamburguesa" id="hamburguesa" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <nav class="nav" id="nav" aria-label="Secciones">
+      <button data-vista="red" aria-current="page"><svg width="18" height="18"><use href="#i-red"/></svg>Red</button>
+      <button data-vista="flota"><svg width="18" height="18"><use href="#i-drone"/></svg>Flota</button>
+      <button data-vista="ruta"><svg width="18" height="18"><use href="#i-ruta"/></svg>Planificar ruta</button>
+    </nav>
+    <div class="identidad" role="group" aria-label="Identidad de la sede">
+      <button data-identidad="eci" aria-pressed="true">ECI</button><button data-identidad="unal" aria-pressed="false">UNAL</button>
+    </div>
+    <div class="usuario"><span id="usuario-rol">Coordinadora · ECI</span><div class="avatar" id="avatar">LM</div></div>
+  </header>
+
+  <main>
+    <!-- VISTA 1: RED -->
+    <section class="vista" id="vista-red">
+      <div class="encabezado glass brackets">
+        <div><span class="eyebrow">Red de 4 sedes · tiempo real</span><h1>Estado de la red</h1><p><span class="live" id="reloj">En vivo · actualizado ahora</span></p></div>
+        <div class="resumen" id="resumen"></div>
+      </div>
+      <div class="grid-red">
+        <div class="tarjeta glass">
+          <h2><span class="badge-icon"><svg><use href="#i-red"/></svg></span>Mapa de la red</h2>
+          <svg class="mapa" id="mapa" viewBox="0 0 640 420" role="img" aria-label="Mapa esquemático: Bogotá con ECI, UNAL, Uniandes y estaciones de carga; Medellín con EAFIT"></svg>
+          <p class="ayuda">Puntos de color = drones en vuelo. Rombos = estaciones de carga. EAFIT opera en Medellín: no hay rutas por dron desde Bogotá.</p>
+        </div>
+        <div class="tarjeta glass">
+          <h2><span class="badge-icon"><svg><use href="#i-drone"/></svg></span>Sedes</h2>
+          <div class="sedes" id="sedes"></div>
+          <h2 style="margin-top: var(--space-5)"><span class="badge-icon"><svg><use href="#i-trofeo"/></svg></span>Eficiencia de hoy</h2>
+          <table class="ranking" id="ranking"><thead><tr><th>#</th><th>Sede</th><th>Éxito</th><th>T. prom.</th><th>Urgentes</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA 2: FLOTA -->
+    <section class="vista" id="vista-flota" hidden>
+      <div class="encabezado glass brackets"><div><span class="eyebrow">Flota compartida</span><h1>Drones de la red</h1><p>Filtra por sede o por estado. Los datos se actualizan solos cada pocos segundos.</p></div></div>
+      <div class="filtros" id="filtros-sede" role="group" aria-label="Filtrar por sede"></div>
+      <div class="filtros" id="filtros-estado" role="group" aria-label="Filtrar por estado"></div>
+      <div class="grid-flota" id="grid-flota"></div>
+    </section>
+
+    <!-- VISTA 3: PLANIFICAR RUTA (SC-15) -->
+    <section class="vista" id="vista-ruta" hidden>
+      <div class="encabezado glass brackets"><div><span class="eyebrow">SC-15 · ruta multi-etapa inter-sede</span><h1>Planificar ruta</h1><p>Completa los datos del envío. El sistema verifica clima y Aerocivil, calcula etapas de máximo 5 km con carga y reserva estaciones.</p></div></div>
+      <ol class="pasos" id="pasos"><li data-estado="actual"><span>1</span>Datos del envío</li><li><span>2</span>Verificación</li><li><span>3</span>Propuesta</li><li><span>4</span>En vuelo</li></ol>
+      <div class="tarjeta glass" id="panel-ruta"></div>
+      <details class="evaluador">
+        <summary>Panel del evaluador (no forma parte de la app)</summary>
+        <p>Carga escenarios para revisar cada estado de error sin conocer las reglas.</p>
+        <div class="botones">
+          <button data-escenario="ok">Ruta válida ECI → Uniandes</button><button data-escenario="aerocivil">Aerocivil rechaza</button><button data-escenario="estacion">Sin estación disponible</button><button data-escenario="pesado">Paquete demasiado pesado</button><button data-escenario="area">Destino fuera del área</button><button data-escenario="clima">Clima adverso</button><button data-escenario="timeout">Aerocivil sin respuesta</button>
+        </div>
+      </details>
+    </section>
+  </main>
+</div>
+
+<dialog id="dlg-destino"><div class="modal"><h3>Elegir sede destino</h3><div class="cuadricula" id="cuadricula-destino"></div><div class="acciones"><button class="btn btn--ghost" id="cerrar-destino" type="button">Cerrar</button></div></div></dialog>
+
+<script>
+const SEDES = {
+  ECI: { nombre: "Escuela Colombiana de Ingeniería", ciudad: "Bogotá", x: 250, y: 70, activa: true },
+  UNAL: { nombre: "Universidad Nacional", ciudad: "Bogotá", x: 215, y: 255, activa: true },
+  UNIANDES: { nombre: "Universidad de los Andes", ciudad: "Bogotá", x: 330, y: 300, activa: true },
+  EAFIT: { nombre: "Universidad EAFIT", ciudad: "Medellín", x: 560, y: 340, activa: true }
+};
+const ESTACIONES = { "EST-116": { x: 285, y: 160, frio: false }, "EST-26": { x: 230, y: 205, frio: true }, "EST-72": { x: 320, y: 225, frio: true } };
+const RUTAS = {
+  "ECI>UNIANDES": [["ECI", "EST-116", 4.8], ["EST-116", "UNIANDES", 4.6]],
+  "ECI>UNAL": [["ECI", "EST-116", 4.8], ["EST-116", "EST-26", 2.7], ["EST-26", "UNAL", 2.4]],
+  "UNAL>ECI": [["UNAL", "EST-26", 2.4], ["EST-26", "EST-116", 2.7], ["EST-116", "ECI", 4.8]],
+  "UNAL>UNIANDES": [["UNAL", "EST-72", 3.6], ["EST-72", "UNIANDES", 3.0]]
+};
+const ESTADOS = [["disponible", "Disponible"], ["en-vuelo", "En vuelo"], ["en-carga", "En carga"], ["fallo", "Fallo"], ["mantenimiento", "Mantenimiento"]];
+const TIPOS = ["EXPRESS · hasta 2 kg", "LIGERO · hasta 2 kg", "CARGA · hasta 15 kg"];
+let semilla = 7;
+const azar = () => (semilla = (semilla * 16807) % 2147483647) / 2147483647;
+const flota = [];
+Object.keys(SEDES).forEach(s => { for (let i = 1; i <= 6; i++) {
+  const e = ESTADOS[Math.floor(azar() * 10) < 4 ? 0 : Math.floor(azar() * 10) < 7 ? 1 : Math.floor(azar() * 3) + 2][0];
+  flota.push({ id: `D-${s === "UNIANDES" ? "UNI" : s}-0${i}`, sede: s, estado: e, bateria: 25 + Math.floor(azar() * 75), tipo: TIPOS[i % 3], t: azar() });
+} });
+const efic = { ECI: [0.94, 11.8, 32], UNAL: [0.91, 13.1, 25], UNIANDES: [0.88, 12.4, 41], EAFIT: [0.96, 9.7, 18] };
+
+const $ = s => document.querySelector(s);
+const nivel = b => b >= 60 ? "alta" : b >= 30 ? "media" : "baja";
+const nombreEstado = e => ESTADOS.find(x => x[0] === e)[1];
+
+/* ---------- Identidad (solo tokens) ---------- */
+const PERSONA = { eci: ["Coordinadora · ECI", "LM", "ECI"], unal: ["Coordinador · UNAL", "JR", "UNAL"] };
+function identidad(sede) {
+  document.documentElement.dataset.sede = sede;
+  document.querySelectorAll("[data-identidad]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.identidad === sede)));
+  $("#usuario-rol").textContent = PERSONA[sede][0]; $("#avatar").textContent = PERSONA[sede][1];
+  $("#marca-sede").textContent = "Red Enterprise · " + PERSONA[sede][2];
+  if (estadoRuta.paso === 1) {
+    estadoRuta.datos.origen = PERSONA[sede][2];
+    if (estadoRuta.datos.destino === estadoRuta.datos.origen) estadoRuta.datos.destino = "UNIANDES";
+    pintarRuta();
+  }
+}
+document.querySelectorAll("[data-identidad]").forEach(b => b.addEventListener("click", () => identidad(b.dataset.identidad)));
+
+/* ---------- Navegación ---------- */
+function ir(vista) {
+  document.querySelectorAll(".vista").forEach(v => v.hidden = v.id !== "vista-" + vista);
+  document.querySelectorAll("#nav button").forEach(b => b.toggleAttribute("aria-current", b.dataset.vista === vista));
+  document.querySelectorAll("#nav button").forEach(b => { if (b.dataset.vista === vista) b.setAttribute("aria-current", "page"); });
+  $("#nav").classList.remove("abierto"); $("#hamburguesa").setAttribute("aria-expanded", "false");
+}
+document.querySelectorAll("#nav button").forEach(b => b.addEventListener("click", () => ir(b.dataset.vista)));
+$("#hamburguesa").addEventListener("click", () => { const n = $("#nav"); n.classList.toggle("abierto"); $("#hamburguesa").setAttribute("aria-expanded", String(n.classList.contains("abierto"))); });
+
+/* ---------- Vista Red ---------- */
+function pintarRed() {
+  const cuenta = e => flota.filter(d => d.estado === e).length;
+  $("#resumen").innerHTML = [["Drones", flota.length], ["En vuelo", cuenta("en-vuelo")], ["Disponibles", cuenta("disponible")], ["Con fallo", cuenta("fallo")]]
+    .map(([k, v]) => `<div><small>${k}</small><strong>${v}</strong></div>`).join("");
+  const colores = { disponible: "var(--estado-disponible)", "en-vuelo": "var(--estado-en-vuelo)", "en-carga": "var(--estado-en-carga)", fallo: "var(--estado-fallo)", mantenimiento: "var(--estado-mantenimiento)" };
+  $("#sedes").innerHTML = Object.entries(SEDES).map(([c, s]) => {
+    const propios = flota.filter(d => d.sede === c);
+    const barras = ESTADOS.map(([e]) => `<i style="width:${propios.filter(d => d.estado === e).length / propios.length * 100}%;background:${colores[e]}"></i>`).join("");
+    const enVuelo = propios.filter(d => d.estado === "en-vuelo").length;
+    return `<div class="sede"><div class="sede__top"><b>${c}</b><span class="estado-pill" data-estado="${s.activa ? "disponible" : "mantenimiento"}">${s.activa ? "Operando" : "Suspendida"}</span></div>
+      <div class="sede__barras" aria-hidden="true">${barras}</div><div class="sede__leyenda">${propios.length} drones · ${enVuelo} en vuelo · ${s.ciudad}</div></div>`;
+  }).join("");
+  const filas = Object.entries(efic).sort((a, b) => b[1][0] - a[1][0] || a[1][1] - b[1][1]);
+  $("#ranking tbody").innerHTML = filas.map(([c, [ex, t, u]], i) => `<tr class="${i === 0 ? "primero" : ""}"><td><span class="puesto">${i + 1}</span></td><td>${c}</td><td>${(ex * 100).toFixed(0)} %</td><td>${t.toFixed(1)} min</td><td>${u} %</td></tr>`).join("");
+  pintarMapa();
+}
+function pintarMapa() {
+  const enVuelo = flota.filter(d => d.estado === "en-vuelo" && d.sede !== "EAFIT");
+  let s = `<rect x="430" y="270" width="190" height="130" rx="12" fill="#fff" stroke="#CBD3DE" stroke-dasharray="5 4"/><text x="445" y="292" font-size="12" fill="#5B6B80" font-weight="700">Medellín</text>
+    <text x="20" y="28" font-size="12" fill="#5B6B80" font-weight="700">Bogotá</text>`;
+  Object.values(RUTAS).forEach(r => r.forEach(([a, b]) => { const p = SEDES[a] || ESTACIONES[a], q = SEDES[b] || ESTACIONES[b];
+    s += `<line x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}" stroke="var(--color-primary-line)" stroke-width="3" stroke-dasharray="6 6"/>`; }));
+  Object.entries(ESTACIONES).forEach(([c, e]) => s += `<rect x="${e.x - 8}" y="${e.y - 8}" width="16" height="16" transform="rotate(45 ${e.x} ${e.y})" fill="#fff" stroke="var(--estado-en-carga)" stroke-width="3"/><text x="${e.x + 14}" y="${e.y + 4}" font-size="11" fill="#5B6B80">${c}${e.frio ? " ❄" : ""}</text>`);
+  Object.entries(SEDES).forEach(([c, p]) => s += `<circle cx="${p.x}" cy="${p.y}" r="17" fill="var(--color-primary)"/><text x="${p.x}" y="${p.y + 4}" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">${c === "UNIANDES" ? "UA" : c}</text><text x="${p.x + 24}" y="${p.y + 5}" font-size="12" fill="#0F1B2D" font-weight="700">${SEDES[c].nombre.split(" ").slice(-1)[0]}</text>`);
+  const tramos = Object.values(RUTAS).flat().filter(([a, b]) => !(a === "EAFIT" || b === "EAFIT"));
+  enVuelo.forEach((d, i) => { const [a, b] = tramos[i % tramos.length]; const p = SEDES[a] || ESTACIONES[a], q = SEDES[b] || ESTACIONES[b];
+    const x = p.x + (q.x - p.x) * d.t, y = p.y + (q.y - p.y) * d.t;
+    s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6" fill="var(--estado-en-vuelo)" stroke="#fff" stroke-width="2"><title>${d.id} · ${d.bateria} %</title></circle>`; });
+  $("#mapa").innerHTML = s;
+}
+
+/* ---------- Vista Flota ---------- */
+const filtro = { sede: "Todas", estado: "Todos" };
+function pintarFiltros() {
+  $("#filtros-sede").innerHTML = ["Todas", ...Object.keys(SEDES)].map(s => `<button class="chip-filtro" aria-pressed="${filtro.sede === s}" data-sede-f="${s}">${s}</button>`).join("");
+  $("#filtros-estado").innerHTML = [["Todos", "Todos los estados"], ...ESTADOS].map(([e, n]) => `<button class="chip-filtro" aria-pressed="${filtro.estado === e}" data-estado-f="${e}">${n}</button>`).join("");
+  document.querySelectorAll("[data-sede-f]").forEach(b => b.onclick = () => { filtro.sede = b.dataset.sedeF; pintarFiltros(); pintarFlota(); });
+  document.querySelectorAll("[data-estado-f]").forEach(b => b.onclick = () => { filtro.estado = b.dataset.estadoF; pintarFiltros(); pintarFlota(); });
+}
+function pintarFlota() {
+  const lista = flota.filter(d => (filtro.sede === "Todas" || d.sede === filtro.sede) && (filtro.estado === "Todos" || d.estado === filtro.estado));
+  $("#grid-flota").innerHTML = lista.length ? lista.map(d => `<article class="drone-card" data-estado="${d.estado}">
+    <header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">${d.id}</h4><p class="drone-card__tipo">${d.tipo}</p></div><span class="estado-pill">${nombreEstado(d.estado)}</span></header>
+    <div class="bateria" data-nivel="${nivel(d.bateria)}"><div class="bateria__barra"><i style="--nivel:${d.bateria}%"></i></div><span>${d.bateria} %</span></div>
+    <footer class="drone-card__foot"><span>Sede ${d.sede}</span>${d.bateria < 30 ? '<span style="color:#B4232E;font-weight:700">Bajo 30 %: no asignable</span>' : ""}</footer></article>`).join("")
+    : `<p class="ayuda">No hay drones con esos filtros. Prueba "Todos los estados".</p>`;
+}
+
+/* ---------- Tiempo real simulado ---------- */
+let segundos = 0;
+setInterval(() => {
+  segundos += 3;
+  flota.forEach(d => {
+    if (d.estado === "en-vuelo") { d.t = (d.t + 0.06) % 1; d.bateria = Math.max(5, d.bateria - 1); if (d.t < 0.06) d.estado = d.bateria < 30 ? "en-carga" : "disponible"; }
+    else if (d.estado === "en-carga") { d.bateria = Math.min(100, d.bateria + 4); if (d.bateria >= 90) d.estado = "disponible"; }
+    else if (d.estado === "disponible" && azar() < 0.08 && d.bateria >= 30) { d.estado = "en-vuelo"; d.t = 0.01; }
+  });
+  $("#reloj").textContent = `En vivo · actualizado hace ${segundos % 60 === 0 ? "un momento" : "3 s"}`;
+  pintarRed(); if (!$("#vista-flota").hidden) pintarFlota();
+}, 3000);
+
+/* ---------- Asistente de ruta (SC-15) ---------- */
+const estadoRuta = { paso: 1, datos: { origen: "ECI", destino: "UNIANDES", peso: 1200, tipo: "EQUIPO", frio: false, altura: 110, ventana: "10:00" }, error: null, forzar: null, errores: {} };
+const ERRORES = {
+  aerocivil: ["La Aerocivil rechazó la ruta", "Hay una zona restringida temporal sobre la calle 100 entre 10:00 y 12:00 (evento oficial). Ningún dron puede cruzarla en esa franja.", "Reprogramar para las 12:30", "reprogramar"],
+  estacion: ["No hay estación de carga disponible", "El paquete requiere cadena de frío y la estación EST-116, única en el trayecto ECI → Uniandes, no tiene refrigeración. Ninguna otra garantiza una espera de 30 min o menos.", "Enviar sin cadena de frío", "sinfrio"],
+  pesado: ["El paquete es demasiado pesado para esta ruta", "Pesa {peso} g y el drone de mayor capacidad (CARGA) lleva hasta 15 000 g. Con ese peso no existe un plan de etapas de 5 km.", "Dividir en dos envíos", "dividir"],
+  area: ["Destino fuera del área de vuelo", "{destino} está en Medellín. Los drones solo vuelan dentro de la misma área metropolitana; desde {origen} no hay ruta posible.", "Elegir otra sede destino", "destino"],
+  clima: ["Clima adverso en la ruta", "Viento de 42 km/h desde el norte sobre la ruta. Con ese viento el drone no puede mantener el rumbo con carga.", "Reprogramar para las 12:30", "reprogramar"],
+  timeout: ["La Aerocivil no responde", "Se esperaron 5 s y se reintentó una vez. Sin autorización no se planifica ningún vuelo; no se reservó nada.", "Reintentar ahora", "reintentar"]
+};
+function marcarPasos() {
+  document.querySelectorAll("#pasos li").forEach((li, i) => li.dataset.estado = i + 1 < estadoRuta.paso ? "hecho" : i + 1 === estadoRuta.paso ? "actual" : "");
+}
+function pintarRuta() {
+  marcarPasos();
+  const d = estadoRuta.datos, p = $("#panel-ruta");
+  if (estadoRuta.paso === 1) {
+    const e = estadoRuta.errores;
+    p.innerHTML = `<form class="form" id="form-ruta" novalidate>
+      <div class="campo"><label>Sede origen</label><div class="selector-sede" aria-readonly="true"><span><b>${d.origen}</b> · tu sede</span><svg width="18" height="18"><use href="#i-escudo"/></svg></div><small>La ruta sale de la sede de quien planifica.</small></div>
+      <div class="campo"><label for="btn-destino">Sede destino</label><button type="button" class="selector-sede" id="btn-destino"><span><b>${d.destino}</b> · ${SEDES[d.destino].nombre}</span><span aria-hidden="true">▾</span></button><small>Toca para ver las sedes y su ciudad.</small></div>
+      <div class="campo"><label for="peso">Peso del paquete (g)</label><input id="peso" type="number" min="1" value="${d.peso}" inputmode="numeric" aria-describedby="peso-ayuda">${e.peso ? `<span class="error">${e.peso}</span>` : `<small id="peso-ayuda">Hasta 2 000 g usa drone LIGERO; hasta 15 000 g, CARGA.</small>`}</div>
+      <div class="campo"><label for="tipo">Tipo de carga</label><select id="tipo">${["SOBRE", "CARPETA", "LIBRO", "EQUIPO", "MUESTRA_LABORATORIO"].map(t => `<option ${t === d.tipo ? "selected" : ""}>${t}</option>`).join("")}</select><small>Muestras de laboratorio activan la cadena de frío.</small></div>
+      <div class="campo"><label for="altura">Altura máxima (m): <b id="altura-valor">${d.altura}</b></label><input id="altura" type="range" min="30" max="120" step="5" value="${d.altura}"><small>En zona urbana la Aerocivil no permite más de 120 m.</small></div>
+      <div class="campo"><label for="ventana">Hora de salida</label><input id="ventana" type="time" value="${d.ventana}"><small>La ventana de entrega es de 2 horas desde esta hora.</small></div>
+      <div class="campo"><span class="interruptor"><input type="checkbox" id="frio" ${d.frio ? "checked" : ""}><label for="frio">Requiere cadena de frío</label></span><small>Solo se usan estaciones con refrigeración.</small></div>
+    </form>
+    <div class="acciones"><button class="btn btn--ghost" type="button" id="limpiar">Restablecer</button><button class="btn btn--primary" type="button" id="verificar"><svg width="18" height="18"><use href="#i-ruta"/></svg>Verificar y calcular ruta</button></div>`;
+    $("#btn-destino").onclick = abrirDestino;
+    $("#altura").oninput = ev => $("#altura-valor").textContent = ev.target.value;
+    $("#tipo").onchange = ev => { if (ev.target.value === "MUESTRA_LABORATORIO") $("#frio").checked = true; };
+    $("#limpiar").onclick = () => { estadoRuta.datos = { origen: d.origen, destino: "UNIANDES", peso: 1200, tipo: "EQUIPO", frio: false, altura: 110, ventana: "10:00" }; estadoRuta.errores = {}; pintarRuta(); };
+    $("#verificar").onclick = verificar;
+  } else if (estadoRuta.paso === 2) {
+    p.innerHTML = `<h2><span class="badge-icon"><svg><use href="#i-escudo"/></svg></span>Verificando la ruta ${d.origen} → ${d.destino}</h2><ul class="verificaciones" id="verificaciones"></ul>
+      <div class="acciones"><button class="btn btn--ghost" type="button" id="volver1">Volver a los datos</button></div>`;
+    $("#volver1").onclick = () => { estadoRuta.paso = 1; estadoRuta.cancelado = true; pintarRuta(); };
+  } else if (estadoRuta.paso === 3) {
+    const r = rutaPara(d);
+    const total = r.reduce((s, t) => s + t[2], 0), minutos = Math.round(total / 30 * 60) + (r.length - 1) * 12;
+    const tipo = d.peso <= 2000 ? "LIGERO" : "CARGA";
+    p.innerHTML = `<h2><span class="badge-icon"><svg><use href="#i-ruta"/></svg></span>Propuesta: ${r.length} etapas · ${total.toFixed(1)} km · ${minutos} min</h2>
+      <div class="etapas">${r.map((t, i) => `<div class="etapa"><span class="etapa__n">${i + 1}</span><div><b>${t[0]} → ${t[1]}</b><div class="ayuda">Drone ${tipo} D-${t[0].replace("UNIANDES", "UNI").replace("-", "")}-0${i + 1} · altura ${Math.min(d.altura, 120)} m</div></div><div class="etapa__dato">${t[2].toFixed(1)} km ✓ ≤ 5</div></div>${i < r.length - 1 ? `<div class="espera">Espera en ${t[1]}: 12 min de recarga (máximo permitido 30 min)</div>` : ""}`).join("")}</div>
+      <p class="ayuda">Autorización Aerocivil <b>AC-2026-48213</b> · llegada estimada ${sumarMin(d.ventana, minutos)} · las reservas se mantienen 10 min.</p>
+      <div class="acciones"><button class="btn btn--ghost" type="button" id="volver3">Cambiar datos</button><button class="btn btn--alert" type="button" id="descartar">Descartar ruta</button><button class="btn btn--primary" type="button" id="confirmar"><svg width="18" height="18"><use href="#i-check"/></svg>Confirmar e iniciar vuelo</button></div>`;
+    $("#volver3").onclick = () => { estadoRuta.paso = 1; pintarRuta(); };
+    $("#descartar").onclick = () => { estadoRuta.paso = 1; pintarRuta(); aviso("Ruta descartada: se liberaron las reservas de estaciones y drones."); };
+    $("#confirmar").onclick = () => { estadoRuta.paso = 4; pintarRuta(); };
+  } else if (estadoRuta.paso === 4) {
+    p.innerHTML = `<div class="exito"><span class="badge-icon"><svg width="34" height="34"><use href="#i-check"/></svg></span><h2 style="justify-content:center;margin-top:16px">Ruta confirmada · en vuelo</h2>
+      <p>Etapa 1 de ${rutaPara(d).length} en curso: ${rutaPara(d)[0][0]} → ${rutaPara(d)[0][1]}. Te avisaremos al iniciar cada etapa.</p><div class="progreso"><i id="barra"></i></div><span class="live">Seguimiento en vivo</span>
+      <div class="acciones" style="justify-content:center"><button class="btn btn--ghost" type="button" id="otra">Planificar otra ruta</button><button class="btn btn--primary" type="button" id="ver-red">Ver en el mapa de la red</button></div></div>`;
+    setTimeout(() => { const b = $("#barra"); if (b) b.style.width = "34%"; }, 100);
+    $("#otra").onclick = () => { estadoRuta.paso = 1; pintarRuta(); };
+    $("#ver-red").onclick = () => ir("red");
+  }
+  if (estadoRuta.error) {
+    const [titulo, texto, accion, codigo] = ERRORES[estadoRuta.error];
+    const reemplazar = s => s.replace("{peso}", d.peso.toLocaleString("es-CO")).replace("{destino}", d.destino).replace("{origen}", d.origen);
+    p.insertAdjacentHTML("beforeend", `<div class="alerta" role="alert" style="margin-top:var(--space-5)"><span class="badge-icon"><svg width="26" height="26"><use href="#i-alerta"/></svg></span><div><h3>${titulo}</h3><p>${reemplazar(texto)}</p><p class="ayuda">No se reservó ninguna estación ni drone.</p>
+      <div class="acciones" style="justify-content:flex-start"><button class="btn btn--primary" type="button" id="resolver">${accion}</button><button class="btn btn--ghost" type="button" id="editar">Editar los datos</button></div></div></div>`);
+    $("#resolver").onclick = () => resolver(codigo);
+    $("#editar").onclick = () => { estadoRuta.error = null; estadoRuta.paso = 1; pintarRuta(); };
+  }
+}
+function rutaPara(d) { return RUTAS[`${d.origen}>${d.destino}`] || RUTAS["ECI>UNIANDES"]; }
+function sumarMin(hora, min) { const [h, m] = hora.split(":").map(Number); const t = h * 60 + m + min; return `${String(Math.floor(t / 60) % 24).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`; }
+function leerFormulario() {
+  const d = estadoRuta.datos;
+  d.peso = Number($("#peso").value); d.tipo = $("#tipo").value; d.frio = $("#frio").checked; d.altura = Number($("#altura").value); d.ventana = $("#ventana").value || "10:00";
+  estadoRuta.errores = {};
+  if (!Number.isFinite(d.peso) || d.peso < 1) estadoRuta.errores.peso = "Escribe un peso mayor que 0 g.";
+}
+function verificar() {
+  leerFormulario();
+  if (Object.keys(estadoRuta.errores).length) { pintarRuta(); $("#peso").focus(); return; }
+  const d = estadoRuta.datos;
+  estadoRuta.error = null; estadoRuta.paso = 2; estadoRuta.cancelado = false; pintarRuta();
+  const problema = estadoRuta.forzar || (SEDES[d.destino].ciudad !== SEDES[d.origen].ciudad ? "area" : d.peso > 15000 ? "pesado"
+    : d.frio && rutaPara(d).some(t => ESTACIONES[t[1]] && !ESTACIONES[t[1]].frio) ? "estacion" : d.ventana >= "10:00" && d.ventana < "12:00" && ["ECI", "UNAL"].includes(d.origen) && ["ECI", "UNAL"].includes(d.destino) ? "aerocivil" : null);
+  estadoRuta.forzar = null;
+  const chequeos = [["Datos del envío y sedes activas", problema === "area" || problema === "pesado" ? problema : null], ["Clima en la ruta (API Meteorológica)", problema === "clima" ? problema : null],
+    ["Autorización de la Aerocivil", problema === "aerocivil" || problema === "timeout" ? problema : null], ["Estaciones de carga con espera ≤ 30 min", problema === "estacion" ? problema : null]];
+  const lista = $("#verificaciones");
+  let i = 0;
+  const siguiente = () => {
+    if (estadoRuta.cancelado || estadoRuta.paso !== 2) return;
+    if (i >= chequeos.length) { estadoRuta.paso = 3; pintarRuta(); return; }
+    const [texto, falla] = chequeos[i];
+    lista.insertAdjacentHTML("beforeend", `<li id="chk${i}"><span class="badge-icon"><span class="giro"></span></span><div><b>${texto}</b><div class="ayuda">Consultando…</div></div></li>`);
+    setTimeout(() => {
+      if (estadoRuta.cancelado || estadoRuta.paso !== 2) return;
+      const li = $("#chk" + i);
+      li.dataset.r = falla ? "mal" : "ok";
+      li.querySelector(".badge-icon").innerHTML = `<svg><use href="#i-${falla ? "x" : "check"}"/></svg>`;
+      li.querySelector(".ayuda").textContent = falla ? "No cumple" : "Correcto";
+      if (falla) { estadoRuta.error = falla; pintarError(); return; }
+      i++; siguiente();
+    }, problema === "timeout" && i === 2 ? 1600 : 650);
+  };
+  siguiente();
+}
+function pintarError() {
+  const p = $("#panel-ruta"); estadoRuta.paso = 2; marcarPasos();
+  const d = estadoRuta.datos; const [titulo, texto, accion, codigo] = ERRORES[estadoRuta.error];
+  const reemplazar = s => s.replace("{peso}", d.peso.toLocaleString("es-CO")).replace("{destino}", d.destino).replace("{origen}", d.origen);
+  p.insertAdjacentHTML("beforeend", `<div class="alerta" role="alert" style="margin-top:var(--space-5)"><span class="badge-icon"><svg width="26" height="26"><use href="#i-alerta"/></svg></span><div><h3>${titulo}</h3><p>${reemplazar(texto)}</p><p class="ayuda">No se reservó ninguna estación ni drone.</p>
+    <div class="acciones" style="justify-content:flex-start"><button class="btn btn--primary" type="button" id="resolver">${accion}</button><button class="btn btn--ghost" type="button" id="editar">Editar los datos</button></div></div></div>`);
+  $("#resolver").onclick = () => resolver(codigo);
+  $("#editar").onclick = () => { estadoRuta.error = null; estadoRuta.paso = 1; pintarRuta(); };
+  $("#resolver").focus();
+}
+function resolver(codigo) {
+  const d = estadoRuta.datos; estadoRuta.error = null;
+  if (codigo === "reprogramar") d.ventana = "12:30";
+  if (codigo === "sinfrio") { d.frio = false; if (d.tipo === "MUESTRA_LABORATORIO") d.tipo = "EQUIPO"; }
+  if (codigo === "dividir") d.peso = Math.ceil(d.peso / 2 / 100) * 100 > 15000 ? 15000 : Math.ceil(d.peso / 2 / 100) * 100;
+  if (codigo === "destino") { estadoRuta.paso = 1; pintarRuta(); abrirDestino(); return; }
+  estadoRuta.paso = 1; pintarRuta(); verificar();
+}
+function aviso(texto) { $("#panel-ruta").insertAdjacentHTML("afterbegin", `<p class="estado-pill" data-estado="disponible" style="margin:0 0 16px" role="status">${texto}</p>`); }
+function abrirDestino() {
+  const d = estadoRuta.datos;
+  $("#cuadricula-destino").innerHTML = Object.entries(SEDES).filter(([c]) => c !== d.origen).map(([c, s]) => `<button type="button" data-destino="${c}" ${s.ciudad !== SEDES[d.origen].ciudad ? 'aria-disabled="true"' : ""}><b>${c}</b><span>${s.nombre}</span><small>${s.ciudad}${s.ciudad !== SEDES[d.origen].ciudad ? " · fuera del área de vuelo" : " · misma área"}</small></button>`).join("");
+  document.querySelectorAll("[data-destino]").forEach(b => b.onclick = () => { d.destino = b.dataset.destino; $("#dlg-destino").close(); pintarRuta(); });
+  $("#dlg-destino").showModal();
+}
+$("#cerrar-destino").onclick = () => $("#dlg-destino").close();
+document.querySelectorAll("[data-escenario]").forEach(b => b.onclick = () => {
+  const e = b.dataset.escenario, d = estadoRuta.datos;
+  Object.assign(d, { destino: "UNIANDES", peso: 1200, tipo: "EQUIPO", frio: false, altura: 110, ventana: "09:00" });
+  if (e === "aerocivil") Object.assign(d, { destino: d.origen === "ECI" ? "UNAL" : "ECI", ventana: "10:30" });
+  if (e === "estacion") Object.assign(d, { destino: d.origen === "ECI" ? "UNIANDES" : "ECI", tipo: "MUESTRA_LABORATORIO", frio: true });
+  if (e === "pesado") d.peso = 18000;
+  if (e === "area") d.destino = "EAFIT";
+  if (e === "clima" || e === "timeout") estadoRuta.forzar = e;
+  estadoRuta.error = null; estadoRuta.paso = 1; ir("ruta"); pintarRuta(); verificar();
+});
+
+pintarFiltros(); pintarFlota(); pintarRed(); pintarRuta();
+</script>
+</body>
+</html>
