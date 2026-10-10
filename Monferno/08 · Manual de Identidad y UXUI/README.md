@@ -10,7 +10,7 @@ El manual navegable de identidad es [Manual_Identidad_SkyCampus_Monferno.html](M
 
 ## Tarjeta de drone
 
-Cada tarjeta presenta ID, tipo, batería, estado con texto y acción disponible. El color nunca es la única señal.
+El manual (sección 07) muestra el componente con sus 5 estados lado a lado: misma estructura HTML/CSS (ID, tipo y ubicación, estado con icono + texto + color, batería y una sola acción); solo cambian el color del borde superior y la acción. El color nunca es la única señal.
 
 | Estado | Color | Regla visual |
 |---|---|---|
@@ -24,8 +24,8 @@ Tokens aplicados en el manual y el prototipo: fondo `#0B1422`, superficie `#1424
 
 ## Componentes y estados
 
-- **Botón Asignar:** reposo, hover, procesando, éxito y deshabilitado. En el prototipo cambia a “Asignación confirmada” al completar el flujo; queda deshabilitado ante clima adverso o sin candidato apto.
-- **Batería:** porcentaje siempre visible; verde desde 60 %, amarillo de 30–59 % y rojo bajo 30 %. La regla de negocio (mínimo 30 %) se presenta junto al estado, no se infiere del color.
+- **Botón Asignar** (manual, sección 08): default, hover, procesando (spinner, bloquea doble clic), éxito (“Asignada a D-04”) y deshabilitado (“Sin drone apto”).
+- **Batería** (manual, sección 09): porcentaje siempre visible; verde desde 60 %, amarillo de 30–59 % y rojo bajo 30 % con advertencia “Bajo el mínimo de 30 %: no asignable”. El prototipo usa la misma regla en todas las tarjetas.
 - **Navegación:** paso actual resaltado, pasos previos marcados y regreso explícito a Flota.
 - **Acción de emergencia:** cancelar misión en vuelo es una acción grande, persistente y separada de la acción primaria.
 
@@ -33,5 +33,6 @@ Tokens aplicados en el manual y el prototipo: fondo `#0B1422`, superficie `#1424
 
 - **Fitts:** la acción de emergencia tiene un área amplia (mínimo visual 48 px), contraste alto y posición persistente; no queda escondida en un menú. Los controles frecuentes tienen áreas cómodas para puntero o toque.
 - **Hick:** la flota se filtra por estado antes de elegir; el operador reduce las opciones visibles. El prototipo enseña 6 drones de muestra, no los 20 de una flota real.
+- **Miller:** el panel de alertas no acumula más de 7 avisos sin confirmar (manual, sección 10).
 
 El HTML es un prototipo local de alta fidelidad con datos de demostración; no llama a una API ni persiste cambios.

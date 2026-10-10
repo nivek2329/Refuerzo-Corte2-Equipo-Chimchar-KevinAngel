@@ -12,9 +12,9 @@ Se analiza **la v2 completa** ([`skycampus-v2`](../skycampus-v2)): 23 clases de 
 
 El 09/10/2026 a las 3:37 p. m. se procesó el análisis de `skycampus-v2`: **Quality Gate Passed**, 0 issues nuevos, 0 issues abiertos en seguridad/confiabilidad/mantenibilidad, 100 % de cobertura (212/212 líneas), 0 % de duplicaciones y 0 hotspots. Maven ejecutó 115 pruebas y JaCoCo aceptó los mínimos de 85 % de líneas y 70 % de ramas. La salida está en [`mvn_verify_sonar_85_115.txt`](../13%20%C2%B7%20JaCoCo%20%E2%80%94%20Cobertura%20de%20c%C3%B3digo/evidencia/mvn_verify_sonar_85_115.txt).
 
-**Advertencia SCM:** Sonar no recibió información *blame* para `pom.xml` y `AsignadorMisionBordesTest.java`, que contienen cambios locales sin commit. No cambió el Quality Gate; después del commit se puede volver a ejecutar el análisis para que Sonar reciba el historial Git de esos archivos.
+Los dos archivos que en ese momento estaban sin commit (`pom.xml` con el umbral de 85 % y `AsignadorMisionBordesTest.java`) quedaron confirmados en `1639dfa`, el estado final de la rama `Monferno`.
 
-## Resultado final (commit `6769a21`)
+## Resultado de las correcciones (commit `6769a21`)
 
 ![Quality Gate Passed](Sonar_QualityGate.png)
 

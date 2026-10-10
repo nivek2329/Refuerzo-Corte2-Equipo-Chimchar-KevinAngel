@@ -1,0 +1,17 @@
+$ git status --short
+UU AsignadorMision.java
+
+$ type AsignadorMision.java
+public class AsignadorMision {
+    public EstadoMision asignar(Mision mision) {
+<<<<<<< HEAD
+        if (!clima.condicionesAptas(mision.origen(), mision.destino())) return EstadoMision.BLOQUEADA_CLIMA;
+        Drone drone = estrategias.get(mision.prioridad()).seleccionar(flota, mision);
+        drone.setEstado(EstadoDrone.EN_VUELO);
+=======
+        Drone drone = estrategia.seleccionar(flota, mision);
+        gestorFlota.cambiarEstado(drone, EstadoDrone.EN_VUELO); // notifica a los observadores
+>>>>>>> feature/alertas-estado
+        return EstadoMision.ASIGNADA;
+    }
+}

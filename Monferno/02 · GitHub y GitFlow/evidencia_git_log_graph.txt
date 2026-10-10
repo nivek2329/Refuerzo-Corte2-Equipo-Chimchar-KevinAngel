@@ -1,10 +1,12 @@
-*   401e4a2 (HEAD -> develop) merge: conservar validación y alertas
+*   059f543 (HEAD -> main, tag: v2.0.0) release: SkyCampus v2.0.0
 |\  
-| * 2976b31 (feature/alertas-estado) feat: notificar cambio de estado
-* |   c55ab17 merge: asignación automática
-|\ \  
+| *   a0aaf74 (develop) merge: integra asignacion automatica y sistema de alertas
+| |\  
+| | * 3b129ef (feature/alertas-estado) feat: alertas de cambio de estado via GestorFlota
 | |/  
 |/|   
-| * 6f31f30 (feature/asignacion-automatica) feat: validar clima antes de asignar
+| * a25788e merge: integra asignacion automatica
+|/| 
+| * fe94f2d (feature/asignacion-automatica) feat: asignacion automatica con clima y estrategia por prioridad
 |/  
-* be386a1 base: asignador de misión
+* 377e95d feat: asignador de mision base (v1)

@@ -1,30 +1,26 @@
-commit 401e4a2c8745900884e3a6f5bfd13c5a0e8870d8
-Merge: c55ab17 2976b31
-Author:     Simulación DOSW <simulacion@localhost>
-AuthorDate: Fri Oct 9 15:05:46 2026 -0500
-Commit:     Simulación DOSW <simulacion@localhost>
-CommitDate: Fri Oct 9 15:05:46 2026 -0500
+commit a0aaf749e314791d3f51d115b54f690c25462c86
+Merge: a25788e 3b129ef
+Author:     Simulacion DOSW <simulacion@localhost>
+AuthorDate: Fri Oct 9 19:31:40 2026 -0500
+Commit:     Simulacion DOSW <simulacion@localhost>
+CommitDate: Fri Oct 9 19:31:40 2026 -0500
 
-    merge: conservar validación y alertas
+    merge: integra asignacion automatica y sistema de alertas
 
- AsignadorMision.java | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ AsignadorMision.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 diff --cc AsignadorMision.java
-index dc59c5a,79b3fb3..704a843
+index 6edaa6c,6be72f3..6d57f38
 --- a/AsignadorMision.java
 +++ b/AsignadorMision.java
-@@@ -1,7 -1,7 +1,9 @@@
-  class AsignadorMision {
-      String asignar() {
--         return validarClima() ? "asignada" : "bloqueada por clima";
- -        return notificarCambioEstado("EN_VUELO");
-++        String estado = validarClima() ? "EN_VUELO" : "BLOQUEADA_POR_CLIMA";
-++        notificarCambioEstado(estado);
-++        return estado;
+@@@ -1,8 -1,7 +1,8 @@@
+  public class AsignadorMision {
+      public EstadoMision asignar(Mision mision) {
+ -        Drone drone = estrategia.seleccionar(flota, mision);
+ +        if (!clima.condicionesAptas(mision.origen(), mision.destino())) return EstadoMision.BLOQUEADA_CLIMA;
+ +        Drone drone = estrategias.get(mision.prioridad()).seleccionar(flota, mision);
+-         drone.setEstado(EstadoDrone.EN_VUELO);
++         gestorFlota.cambiarEstado(drone, EstadoDrone.EN_VUELO); // notifica a los observadores
+          return EstadoMision.ASIGNADA;
       }
- -    private String notificarCambioEstado(String estado) { System.out.println(estado); return "asignada"; }
- -    // PUNTO_DE_EXTENSION
- +    private boolean validarClima() { return true; }
--     // PUNTO_DE_EXTENSION
-++    private void notificarCambioEstado(String estado) { System.out.println(estado); }
   }
