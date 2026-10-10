@@ -14,18 +14,101 @@ Entregar el flujo mínimo para asignar misiones con seguridad y dar visibilidad 
 | [SCRUM-12](https://laboratorio3dows.atlassian.net/browse/SCRUM-12) | Diagnosticar drones y devolver los reparados a la flota | 2 |
 | [SCRUM-13](https://laboratorio3dows.atlassian.net/browse/SCRUM-13) | Consultar estadísticas de misiones por tipo de drone | 1 |
 
-Las descripciones de Jira incluyen dos escenarios de aceptación en formato DADO QUE / CUANDO / ENTONCES por historia.
+Cada HU tiene dos criterios de aceptación en Gherkin. Se copian aquí para que se puedan revisar sin abrir Jira; el texto de cada HU en Jira debe ser el mismo. Debajo de cada HU se nombran las pruebas automatizadas de `skycampus-v2` que demuestran sus criterios.
+
+### SCRUM-9 · Asignar automáticamente el drone óptimo (8 pts)
+
+```gherkin
+Escenario: misión urgente con EXPRESS apto
+  DADO QUE hay 3 drones disponibles con batería >= 30 %, uno de ellos EXPRESS
+  Y la solicitud es URGENTE con un paquete de 300 g
+  CUANDO el sistema ejecuta la asignación automática
+  ENTONCES selecciona el drone EXPRESS
+  Y el drone queda EN_VUELO
+
+Escenario: paquete que ningún drone puede llevar
+  DADO QUE el drone más grande de la flota (CARGO) soporta 2000 g
+  CUANDO llega una solicitud con un paquete de 2001 g
+  ENTONCES la asignación se rechaza con el mensaje "supera la capacidad del drone más grande (2000 g)"
+  Y no se consulta la API meteorológica
+```
+Pruebas: `asignar_misionUrgente_asignaExpress`, `asignar_misionNormalClimaApto_droneQuedaEnVuelo`, `asignar_pesoUnGramoSobreElMaximo_lanzaExcepcion`, `asignar_paqueteMuyPesado_lanzaExcepcionSinConsultarClima`.
+
+### SCRUM-10 · Validar condiciones meteorológicas antes de autorizar el vuelo (5 pts)
+
+```gherkin
+Escenario: clima apto
+  DADO QUE la API meteorológica reporta condiciones aptas
+  Y la solicitud es NORMAL
+  CUANDO el sistema ejecuta la asignación
+  ENTONCES asigna el drone apto con mayor batería
+
+Escenario: clima adverso
+  DADO QUE la API meteorológica reporta condiciones no aptas
+  CUANDO el sistema ejecuta la asignación
+  ENTONCES no asigna ningún drone
+  Y no envía ninguna notificación de cambio de estado
+```
+Pruebas: `asignar_misionNormalClimaApto_asignaMayorBateria`, `asignar_climaAdverso_vacioSinNotificar`.
+
+### SCRUM-11 · Notificar cambios de estado al panel y al log (3 pts)
+
+```gherkin
+Escenario: drone despega
+  DADO QUE el PanelOperador, el SistemaLog y la AlertaTecnico están suscritos
+  CUANDO un drone pasa de DISPONIBLE a EN_VUELO
+  ENTONCES el PanelOperador y el SistemaLog reciben el cambio
+  Y la AlertaTecnico no genera orden
+
+Escenario: drone en FALLO
+  DADO QUE los tres observadores están suscritos
+  CUANDO un drone pasa a FALLO
+  ENTONCES los tres reciben el aviso y se crea la orden para el técnico
+```
+Pruebas: `cambiarEstado_enVuelo_notificaPanelYLogSinOrdenTecnico`, `cambiarEstado_fallo_notificaALosTres`.
+
+### SCRUM-12 · Diagnosticar drones y devolver los reparados a la flota (2 pts)
+
+```gherkin
+Escenario: ciclo de reparación
+  DADO QUE un drone está en FALLO
+  CUANDO el técnico lo pasa a MANTENIMIENTO y después a DISPONIBLE
+  ENTONCES cada transición se acepta y el drone vuelve a ser elegible
+
+Escenario: transición no permitida
+  DADO QUE un drone está en FALLO
+  CUANDO se intenta ponerlo EN_VUELO sin pasar por MANTENIMIENTO
+  ENTONCES el sistema rechaza la transición
+  Y no notifica a ningún observador
+```
+Pruebas: `puedePasarA_cadaEstado_respetaElCiclo`, `transicionarA_falloAEnVuelo_lanzaExcepcion`, `cambiarEstado_transicionInvalida_lanzaExcepcionSinNotificar`.
+
+### SCRUM-13 · Consultar estadísticas de misiones por tipo de drone (1 pt)
+
+```gherkin
+Escenario: misiones del día
+  DADO QUE hoy hay misiones entregadas por drones MINI, CARGO y EXPRESS
+  CUANDO el administrador consulta las completadas por tipo
+  ENTONCES obtiene el conteo de entregadas por cada tipo
+
+Escenario: sin misiones
+  DADO QUE no hay misiones registradas
+  CUANDO el administrador consulta las completadas por tipo
+  ENTONCES obtiene un resultado vacío, sin error
+```
+Pruebas: `completadasPorTipo_misionesDelDia_cuentaEntregadasPorTipo`, `completadasPorTipo_listaVacia_mapaVacio`.
 
 ## Definition of Done del equipo
 
-Una historia se considera terminada cuando:
+Una historia está terminada solo si cumple **todos** estos puntos:
 
-1. Cumple sus criterios de aceptación y el comportamiento queda demostrado con pruebas automatizadas relevantes.
-2. El código sigue las convenciones del proyecto, valida entradas y maneja errores sin ocultarlos.
-3. La solución se integra en la rama objetivo mediante el flujo GitFlow acordado y el cambio pasa revisión por otro integrante.
-4. La compilación y las verificaciones automáticas aplicables terminan correctamente; no se dejan defectos conocidos bloqueantes.
-5. Se actualizan README, diagramas o decisiones técnicas que hayan quedado desfasados.
-6. Jira refleja el estado real de la historia y enlaza la evidencia del cambio cuando corresponda.
+1. Sus 2 criterios Gherkin pasan como pruebas automatizadas (se nombran en la HU de Jira).
+2. Pruebas unitarias en verde y JaCoCo con **≥ 85 % de líneas y ≥ 70 % de ramas** (`mvn verify` falla si no se cumple).
+3. SonarQube: **0 bugs, 0 vulnerabilidades**, Quality Gate en Passed.
+4. Código revisado en un PR por **al menos otro miembro** del equipo.
+5. Integrada a `develop` con el flujo GitFlow (rama `feature/*` → PR → merge, sin push directo).
+6. Si el RF cambió, se actualizan el diagrama de contexto C4 y la plantilla DOSW.
+7. La HU en Jira está en "Hecho" y enlaza el commit o PR.
 
 ## Gestión y seguimiento
 
