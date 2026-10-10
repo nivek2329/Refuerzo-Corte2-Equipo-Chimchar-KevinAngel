@@ -1,0 +1,90 @@
+*   74e5e5d (HEAD -> Infernape) chore(infernape): integra hotfix v3.0.2 desde develop
+|\  
+| *   2e7b5ee (develop) fix(routing): merge hotfix v3.0.2 into develop
+| |\  
+* | | d726803 docs(infernape-02): flujo de release y hotfixes
+* | | 0c6e811 docs(infernape-05): C4 nivel 1 y 2 sin cruces, con personas y Control Aereo en nivel 2
+* | | c0ea3ff feat(infernape-04): asignador por capas con puertos, adaptadores y pruebas con Mockito
+* | | 0deb3f8 refactor(infernape-03): abstract factory con productos distintos por familia y justificacion por patron
+* | | 28734d3 (tag: tmp-monferno) docs(monferno): conflicto en partes distintas con tag v2.0.0, estados UX en el manual, Gherkin y DoD medible
+* | | b14a44d (origin/Infernape) feat(infernape): combinar patrones para rutas multi-etapa
+|/ /  
+| | *   1f63e61 (tag: v3.0.2, main) fix(routing): merge hotfix v3.0.2 into main
+| | |\  
+| | |/  
+| |/|   
+| * | c854aa2 chore(release): bump Enterprise to 3.0.2
+| * | 00a8c84 fix(routing): compensar la deriva por viento cruzado en rutas inter-sede
+| * | 2875573 test(routing): el viento cruzado debe alargar la ruta inter-sede
+| |/  
+| *   aa7867d (tag: v3.0.1, origin/main, origin/HEAD) fix(routing): merge south-wind hotfix into main
+| |\  
+| |/  
+|/|   
+* | 0055e73 (origin/develop) fix(routing): correct south wind projection for ECI-UNAL
+|/  
+*   77d2b06 (tag: v3.0.0) feat(release): merge v3.0.0 into main
+|\  
+| * 4062c96 (origin/release/v3.0.0) docs(release): document Enterprise v3.0.0
+| * 803fdb3 chore(release): bump Enterprise to 3.0.0
+| * e1001ac feat(infernape): integrar base enterprise a develop
+|/| 
+| * 32223c5 feat(infernape): calcular analytics de eficiencia por sede
+| * 81623d2 test(infernape): definir escenarios de analytics
+| * 1639dfa (origin/Monferno, Monferno) docs(monferno): cerrar ajustes y evidencias finales
+| * 21cb310 docs(monferno): actualizar requisitos y trazabilidad
+| * a4abdf5 docs(monferno): completar GitFlow, UX, Jira y mock
+| * 7985ac0 docs(05,06): contexto C4 v2 (Tecnico + 3 sistemas externos, drawio de 2 paginas) y RF/RNF v2 con MoSCoW y tension RF-07/RF-08
+| * 4d2ace3 test(06): URGENTE no vuela con un EXPRESS bajo el 30 por ciento; fija la regla 2 de la tension RF-07/RF-08
+| * d82a444 docs(13,14): JaCoCo 100/100 con puerta en el build (y su evidencia en rojo), SonarQube antes/despues y Quality Gate Passed de la v2
+| * 6769a21 refactor(13): correcciones SonarQube - duracion con zona horaria de la ECI, constante para mensaje repetido y comentario sin falso TODO
+| * 507a8bc docs(12): README del reto 12 Monferno con los 4 ciclos TDD, mutantes y evidencia Maven por fase
+| * 899bd5b feat(12): GREEN 4 - copiarEstrategias valida prioridad null antes de copiar; 114 pruebas pasan
+| * 3ff4d74 test(12): RED 4 - AsignadorMision debe rechazar estrategias con prioridad null con mensaje en espanol (1 prueba falla)
+| * d7707df refactor(12): politica por defecto prioridad-estrategia movida de las pruebas a produccion (PoliticaAsignacion); validacion de prioridades con stream; la prueba de 2001 g tambien verifica el mensaje
+| * 6ce2ccd feat(12): GREEN 3 - AsignadorMision valida flota sin null y estrategia para cada prioridad; 113 pruebas pasan
+| * caf538b test(12): RED 3 - flota con drone null, estrategia faltante por prioridad y mensaje de capacidad del drone mas grande (3 pruebas fallan)
+| * 14b0d3d refactor(12): estrategias por prioridad inyectadas como EnumMap (sin condicional), constante CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS y contrato de inmutabilidad documentado
+| * eaf98b9 build(12): agente de Byte Buddy como -javaagent en surefire (elimina la advertencia de carga dinamica de Mockito), conservando el de JaCoCo
+| * 1ecfb0d test(12): pruebas de caracterizacion - desempate de AsignacionMasRapido, limite 2001 g, prioridad BAJO, flota vacia; prueba 1 separada en 3
+| * ce0ad2e docs(04): cita verify(estrategiaSimulada) con el nombre real del campo
+| * b5fbb01 feat(12): GREEN 2 - validacion de null en constructor y flota de AsignadorMision; 103 pruebas pasan
+| * 5fe3031 test(12): RED 2 - AsignadorMision debe rechazar flota y dependencias null con mensaje en espanol (4 pruebas fallan)
+| * ebf9ad3 refactor(12): capacidad maxima derivada de TipoDrone, metodos validarPeso/estrategiaPara y pruebas de validacion en clase propia; mismas 99 pruebas en verde
+| * 6bd4e66 feat(12): GREEN - AsignadorMision consulta ApiMeteorologica, valida peso maximo y usa AsignacionMasRapido para URGENTE; 9 pruebas pasan
+| * ad63715 test(12): RED - 9 pruebas de AsignadorMision con Mockito (ApiMeteorologica simulada); no compila porque AsignadorMision aun no existe
+| * f77e2dd refactor(monferno): observaciones del revisor 01/03/04 - transiciones de estado en el dominio, bordes y mensajes
+| * b0042c0 feat(monferno): skycampus-v2 con streams, Strategy, Observer y SOLID
+| * bbf2fb9 (origin/Chimchar, Chimchar) docs: README marca el reto 14 como completo
+| * a431916 docs(14): analisis SonarQube antes y despues, 4 code smells S1220 corregidos, deuda 0
+| * a5f36f1 docs: README marca los retos 09 y 11 como completos
+| * f025626 docs(09): capturas del backlog de Jira y de la HU SCRUM-4 con subtareas
+| * fc6a791 docs: README marca el reto 11 como revisado
+| * 042ddcd docs(08): elegibilidad de D-02 consistente y excepciones de color y escenarios simulados en el manual
+| * d575fbc feat(11): 3 estados del panel generados con IA, referencias de flota reales y prompt con acciones y heuristicas
+| * eae12c1 docs: README raiz con modelo, estado de los 14 retos y como ejecutar
+| * 0c037dd docs(02): enlace y evidencia de GitFlow del repo SkyCampus-ECI-Angel
+| * 69cc85d docs(07): completa encabezado y pie de pagina con el nombre del proyecto SkyCampus
+| * 439b982 feat(08): mock alineado al manual, D-04 no asignable visible, estado unico de mision y verificacion Nielsen
+| * b484446 build(12): clean borra los datos de JaCoCo; docs(13): resultados y captura de cobertura
+| * 9c582a7 build(12): datos de JaCoCo en carpeta temporal porque el agente trunca rutas con caracteres no ASCII
+| * 7241d84 docs(12-14): ciclo TDD documentado y guias de JaCoCo y SonarQube
+| * dfa9700 test(12): casos limite, DroneTest y renombrado/endurecimiento de las 9 pruebas originales
+| * 07731d2 refactor(12): paquete edu.eci.skycampus, constantes con nombre y serialVersionUID
+| * a470467 feat(12): GREEN - ValidadorMision, Drone y DestinoInvalidoException
+| * 932f185 test(12): RED - 9 pruebas de ValidadorMision antes de la implementacion
+| * 5918e64 docs(11): prompt de mocks y referencias de producto
+| * bd366b7 docs(10): casos de uso de SC-01 con include y extend
+| * c214afd docs(09): backlog Jira con epica, feature, 3 HU y subtareas
+| * 27c4320 docs(08): manual de identidad y mockup del panel
+| * 27bb800 docs(07): plantilla DOSW de SC-01 Registrar mision de reparto
+| * 8b2d28b docs(06): 3 RF y 3 RNF medibles con MoSCoW
+| * 35d8b73 docs(05): diagrama de contexto C4 del MVP con flujos etiquetados
+| * 1aed92a fix(04): AsignadorMision valida disponibilidad y estado PENDIENTE; README SOLID ampliado
+| * f636b60 feat(03): Builder con Mision inmutable, CadenaValidacionMision y AsignacionPorMayorBateria
+| * 40fb59d refactor(01): ConsultasFlota con umbrales constantes, hasDroneDisponibleEn y Drone validado
+| * 9988b08 feat(solid): agregar clases y ejemplos de los principios SOLID
+| * 6431181 feat:Chimchar-Punto 03
+| * d2c25b2 feat:Chimchar-Punto 01
+|/  
+* dd22c13 Initial commit
