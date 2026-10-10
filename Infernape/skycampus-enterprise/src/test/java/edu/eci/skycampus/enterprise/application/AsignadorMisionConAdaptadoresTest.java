@@ -10,15 +10,20 @@ import edu.eci.skycampus.enterprise.domain.PrioridadMision;
 import edu.eci.skycampus.enterprise.domain.Sede;
 import edu.eci.skycampus.enterprise.domain.SolicitudAsignacion;
 import edu.eci.skycampus.enterprise.infrastructure.RepositorioFlotaEnMemoria;
+import edu.eci.skycampus.enterprise.infrastructure.RepositorioSedesEnMemoria;
+import edu.eci.skycampus.enterprise.infrastructure.ServicioAerocivilSimulado;
 import edu.eci.skycampus.enterprise.infrastructure.ServicioClimaSimulado;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 /** Las tres capas juntas con los adaptadores locales: mismo caso de uso, sin cambiar una línea de aplicación. */
 class AsignadorMisionConAdaptadoresTest {
     private static final Sede ECI = new Sede("ECI", "Escuela Colombiana de Ingenieria");
     private static final Sede UNAL = new Sede("UNAL", "Universidad Nacional");
+    private static final ServicioAerocivilSimulado AUTORIZA_TODO = new ServicioAerocivilSimulado((o, d) -> true);
+    private static final RepositorioSedesEnMemoria ACTIVAS = new RepositorioSedesEnMemoria(Set.of(ECI, UNAL));
 
     @Test
     void urgenteEnEci_asignaElExpressDeEseCampusYLoSacaDeLaFlota() {
@@ -28,6 +33,7 @@ class AsignadorMisionConAdaptadoresTest {
                 new Drone("D-03", UNAL, 99, 5.0, true, true)));
         List<String> avisos = new ArrayList<>();
         AsignadorMision asignador = new AsignadorMision(flota, new ServicioClimaSimulado((o, d) -> true),
+                AUTORIZA_TODO, ACTIVAS,
                 new EstrategiaMayorBateria(), (mision, drone, estado) -> avisos.add(mision + ":" + drone.id() + ":" + estado));
 
         Drone asignado = asignador.asignar(
@@ -41,7 +47,8 @@ class AsignadorMisionConAdaptadoresTest {
     @Test
     void climaSimuladoAdverso_noAsignaNiCambiaLaFlota() {
         RepositorioFlotaEnMemoria flota = new RepositorioFlotaEnMemoria(List.of(new Drone("D-01", ECI, 95, 5.0, true, true)));
-        AsignadorMision asignador = new AsignadorMision(flota, new ServicioClimaSimulado((o, d) -> !d.equals("UNAL")),
+        AsignadorMision asignador = new AsignadorMision(flota,
+                new ServicioClimaSimulado((o, d) -> !d.equals("UNAL")), AUTORIZA_TODO, ACTIVAS,
                 new EstrategiaMayorBateria(), (mision, drone, estado) -> { });
 
         assertTrue(asignador.asignar(

@@ -1,6 +1,7 @@
 package edu.eci.skycampus.enterprise.routing;
 
 import edu.eci.skycampus.enterprise.domain.Sede;
+import java.util.Arrays;
 import java.util.Objects;
 
 public record EtapaRuta(
@@ -23,11 +24,21 @@ public record EtapaRuta(
 
     private static void validarDatos(String id, Sede origen, Sede destino, double distanciaKm,
                                      double rumboGrados, double nivelRiesgo, double cargaKg) {
-        if (id.isBlank() || origen.equals(destino) || !Double.isFinite(distanciaKm)
-                || !Double.isFinite(rumboGrados) || !Double.isFinite(nivelRiesgo)
-                || !Double.isFinite(cargaKg) || distanciaKm <= 0 || rumboGrados < 0 || rumboGrados >= 360
-                || nivelRiesgo < 0 || nivelRiesgo > 1 || cargaKg < 0) {
+        boolean valida = !id.isBlank() && !origen.equals(destino)
+                && finitos(distanciaKm, rumboGrados, nivelRiesgo, cargaKg)
+                && distanciaKm > 0 && cargaKg >= 0
+                && enRango(rumboGrados, 0, 360) && nivelRiesgo >= 0 && nivelRiesgo <= 1;
+        if (!valida) {
             throw new IllegalArgumentException("datos de etapa de ruta inválidos");
         }
+    }
+
+    private static boolean finitos(double... valores) {
+        return Arrays.stream(valores).allMatch(Double::isFinite);
+    }
+
+    /** {@code minimo <= valor < maximo}. */
+    private static boolean enRango(double valor, double minimo, double maximo) {
+        return valor >= minimo && valor < maximo;
     }
 }

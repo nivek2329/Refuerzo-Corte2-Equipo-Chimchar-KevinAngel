@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -15,18 +16,21 @@ import edu.eci.skycampus.enterprise.domain.EstrategiaAsignacion;
 import edu.eci.skycampus.enterprise.domain.ObservadorDrone;
 import edu.eci.skycampus.enterprise.domain.PrioridadMision;
 import edu.eci.skycampus.enterprise.domain.RepositorioFlota;
+import edu.eci.skycampus.enterprise.domain.RepositorioSedes;
 import edu.eci.skycampus.enterprise.domain.Sede;
+import edu.eci.skycampus.enterprise.domain.ServicioAerocivil;
 import edu.eci.skycampus.enterprise.domain.ServicioClima;
 import edu.eci.skycampus.enterprise.domain.SolicitudAsignacion;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-/** Capa de aplicación aislada: los cuatro puertos son mocks; no hay HTTP, base de datos ni adaptadores reales. */
+/** Capa de aplicación aislada: todos los puertos son mocks; no hay HTTP, base de datos ni adaptadores reales. */
 @ExtendWith(MockitoExtension.class)
 class AsignadorMisionTest {
     private static final Sede ECI = new Sede("ECI", "Escuela Colombiana de Ingenieria");
@@ -38,7 +42,15 @@ class AsignadorMisionTest {
     @Mock ServicioClima clima;
     @Mock EstrategiaAsignacion estrategia;
     @Mock ObservadorDrone notificador;
+    @Mock ServicioAerocivil aerocivil;
+    @Mock RepositorioSedes sedes;
     @InjectMocks AsignadorMision asignador;
+
+    @BeforeEach
+    void sedeActivaYRutaAutorizada() {
+        lenient().when(sedes.estaActiva(any())).thenReturn(true);
+        lenient().when(aerocivil.autorizaRuta(any(), any())).thenReturn(true);
+    }
 
     @Test
     void asignar_climaAptoYDroneElegido_registraYNotifica() {
@@ -114,17 +126,24 @@ class AsignadorMisionTest {
     void asignar_solicitudNula_lanzaExcepcionSinTocarPuertos() {
         assertThrows(NullPointerException.class, () -> asignador.asignar(null));
 
-        verifyNoInteractions(clima, repositorio, estrategia, notificador);
+        verifyNoInteractions(clima, repositorio, estrategia, notificador, aerocivil, sedes);
     }
 
     @Test
     void constructor_dependenciaNula_lanzaExcepcionConMensaje() {
         NullPointerException error = assertThrows(NullPointerException.class,
-                () -> new AsignadorMision(repositorio, null, estrategia, notificador));
+                () -> new AsignadorMision(repositorio, null, aerocivil, sedes, estrategia, notificador));
 
         assertEquals("servicio de clima no puede ser null", error.getMessage());
-        assertThrows(NullPointerException.class, () -> new AsignadorMision(null, clima, estrategia, notificador));
-        assertThrows(NullPointerException.class, () -> new AsignadorMision(repositorio, clima, null, notificador));
-        assertThrows(NullPointerException.class, () -> new AsignadorMision(repositorio, clima, estrategia, null));
+        assertThrows(NullPointerException.class,
+                () -> new AsignadorMision(null, clima, aerocivil, sedes, estrategia, notificador));
+        assertThrows(NullPointerException.class,
+                () -> new AsignadorMision(repositorio, clima, null, sedes, estrategia, notificador));
+        assertThrows(NullPointerException.class,
+                () -> new AsignadorMision(repositorio, clima, aerocivil, null, estrategia, notificador));
+        assertThrows(NullPointerException.class,
+                () -> new AsignadorMision(repositorio, clima, aerocivil, sedes, null, notificador));
+        assertThrows(NullPointerException.class,
+                () -> new AsignadorMision(repositorio, clima, aerocivil, sedes, estrategia, null));
     }
 }

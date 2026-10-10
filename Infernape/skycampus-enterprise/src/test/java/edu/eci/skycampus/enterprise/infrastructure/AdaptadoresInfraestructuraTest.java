@@ -9,6 +9,7 @@ import edu.eci.skycampus.enterprise.domain.Drone;
 import edu.eci.skycampus.enterprise.domain.Sede;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class AdaptadoresInfraestructuraTest {
@@ -58,5 +59,21 @@ class AdaptadoresInfraestructuraTest {
         assertThrows(NullPointerException.class, () -> new ServicioClimaSimulado(null));
         assertThrows(NullPointerException.class, () -> clima.condicionesAptas(null, "UNAL"));
         assertThrows(NullPointerException.class, () -> clima.condicionesAptas("ECI", null));
+    }
+
+    @Test
+    void aerocivilYSedesSimulados_aplicanSuReglaYRechazanNulos() {
+        ServicioAerocivilSimulado aerocivil = new ServicioAerocivilSimulado((origen, destino) -> !destino.equals("EAFIT"));
+        RepositorioSedesEnMemoria sedes = new RepositorioSedesEnMemoria(Set.of(ECI));
+
+        assertTrue(aerocivil.autorizaRuta("ECI", "UNAL"));
+        assertFalse(aerocivil.autorizaRuta("ECI", "EAFIT"));
+        assertTrue(sedes.estaActiva(ECI));
+        assertFalse(sedes.estaActiva(UNAL));
+        assertThrows(NullPointerException.class, () -> new ServicioAerocivilSimulado(null));
+        assertThrows(NullPointerException.class, () -> aerocivil.autorizaRuta(null, "UNAL"));
+        assertThrows(NullPointerException.class, () -> aerocivil.autorizaRuta("ECI", null));
+        assertThrows(NullPointerException.class, () -> new RepositorioSedesEnMemoria(null));
+        assertThrows(NullPointerException.class, () -> sedes.estaActiva(null));
     }
 }

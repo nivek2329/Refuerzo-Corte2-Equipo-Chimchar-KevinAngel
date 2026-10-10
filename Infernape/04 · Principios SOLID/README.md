@@ -43,7 +43,7 @@ flowchart LR
 
 | Clase de prueba | Capa | Qué demuestra |
 |---|---|---|
-| `AsignadorMisionTest` (8) | Aplicación, **solo Mockito** | `@Mock` para los 4 puertos e `@InjectMocks`. Asignación exitosa (registra y notifica EN_VUELO); clima adverso sin tocar flota, estrategia ni notificador (`verifyNoInteractions`); drones ocupados o sin capacidad descartados antes de la estrategia; estrategia sin selección; estrategia defectuosa que devuelve un drone no candidato (`IllegalStateException`, sin registrar ni notificar); solicitud y dependencias nulas. |
+| `AsignadorMisionTest` (8) | Aplicación, **solo Mockito** | `@Mock` para los 6 puertos (desde el reto 12 se sumaron Aerocivil y sedes) e `@InjectMocks`. Asignación exitosa (registra y notifica EN_VUELO); clima adverso sin tocar flota, estrategia ni notificador (`verifyNoInteractions`); drones ocupados o sin capacidad descartados antes de la estrategia; estrategia sin selección; estrategia defectuosa que devuelve un drone no candidato (`IllegalStateException`, sin registrar ni notificar); solicitud y dependencias nulas. |
 | `EstrategiaMayorBateriaTest` (4) | Dominio | NORMAL elige la mayor batería; URGENTE solo considera EXPRESS aunque un normal tenga más; URGENTE sin EXPRESS no elige; empate por ID menor. |
 | `DroneYSolicitudTest` | Dominio | Validaciones de `Drone` y `SolicitudAsignacion`; `noDisponible()` conserva los demás datos. |
 | `AdaptadoresInfraestructuraTest` (4) | Infraestructura | El repositorio en memoria filtra por sede y disponibilidad, marca el drone asignado y no permite asignarlo dos veces; el clima simulado aplica su regla. |
