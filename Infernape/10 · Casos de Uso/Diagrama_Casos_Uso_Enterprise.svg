@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1660" viewBox="0 0 2000 1660" font-family="Inter, Segoe UI, Arial, sans-serif">
+<defs><marker id="abierta" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#33475B" stroke-width="1.5"/></marker><marker id="herencia" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="16" markerHeight="16" orient="auto"><path d="M1,1 L15,8 L1,15 z" fill="#fff" stroke="#33475B" stroke-width="1.5"/></marker></defs>
+<rect width="2000" height="1660" fill="#F7F8FA"/>
+<text x="40" y="48" font-size="26" font-weight="700" fill="#172B4D">SkyCampus Enterprise — Casos de uso de la red de 4 sedes</text>
+<text x="42" y="78" font-size="15" fill="#536273">5 paquetes por módulo · herencia de actores · «include» = siempre ocurre · «extend» = solo si se cumple la condición</text>
+<rect x="300" y="110" width="1400" height="1490" rx="14" fill="#FFFFFF" stroke="#172B4D" stroke-width="2"/>
+<text x="1680" y="132.9" font-size="14" fill="#172B4D" font-weight="700" text-anchor="end">Sistema SkyCampus Enterprise</text>
+<path d="M330 166 V410 H1670 V166 H580 L566 140 H330 Z" fill="#E8F1FB" stroke="#8796A8" stroke-width="1.3"/>
+<text x="344" y="159.2" font-size="15" fill="#172B4D" font-weight="700" text-anchor="start">Gestión de Misiones</text>
+<path d="M330 456 V730 H1670 V456 H580 L566 430 H330 Z" fill="#EAF6EE" stroke="#8796A8" stroke-width="1.3"/>
+<text x="344" y="449.2" font-size="15" fill="#172B4D" font-weight="700" text-anchor="start">Gestión de Flota</text>
+<path d="M330 776 V1050 H1670 V776 H580 L566 750 H330 Z" fill="#FFF6E6" stroke="#8796A8" stroke-width="1.3"/>
+<text x="344" y="769.2" font-size="15" fill="#172B4D" font-weight="700" text-anchor="start">Rutas y Navegación</text>
+<path d="M330 1096 V1300 H1670 V1096 H580 L566 1070 H330 Z" fill="#F3EEFB" stroke="#8796A8" stroke-width="1.3"/>
+<text x="344" y="1089.2" font-size="15" fill="#172B4D" font-weight="700" text-anchor="start">Mantenimiento</text>
+<path d="M330 1346 V1570 H1670 V1346 H580 L566 1320 H330 Z" fill="#FDF0F0" stroke="#8796A8" stroke-width="1.3"/>
+<text x="344" y="1339.2" font-size="15" fill="#172B4D" font-weight="700" text-anchor="start">Administración</text>
+<line x1="190.0" y1="225.0" x2="450.0" y2="225.0" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="590.0" x2="514.6" y2="361.9" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="590.0" x2="450.4" y2="597.0" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="590.0" x2="936.6" y2="253.6" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="590.0" x2="1249.1" y2="320.6" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="590.0" x2="911.7" y2="794.9" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="1170.0" x2="490.3" y2="1177.3" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="1170.0" x2="508.1" y2="1359.1" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="1170.0" x2="821.2" y2="1365.6" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="1170.0" x2="949.1" y2="701.4" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="1490.0" x2="790.2" y2="1502.7" stroke="#33475B" stroke-width="1.4"/>
+<line x1="190.0" y1="1490.0" x2="1191.6" y2="1435.9" stroke="#33475B" stroke-width="1.4"/>
+<line x1="1750.0" y1="820.0" x2="1110.0" y2="820.0" stroke="#33475B" stroke-width="1.4"/>
+<line x1="1750.0" y1="960.0" x2="1525.0" y2="960.0" stroke="#33475B" stroke-width="1.4"/>
+<line x1="1750.0" y1="1060.0" x2="1101.5" y2="973.5" stroke="#33475B" stroke-width="1.4"/>
+<line x1="1810.0" y1="1170.0" x2="1508.0" y2="1147.9" stroke="#33475B" stroke-width="1.4"/>
+<line x1="1810.0" y1="1170.0" x2="1105.1" y2="1239.6" stroke="#33475B" stroke-width="1.4"/>
+<polyline points="602.4,257.3 950.7,522.5" fill="none" stroke="#1F5F99" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#abierta)"/>
+<polyline points="1110.0,960.0 1315.0,960.0" fill="none" stroke="#1F5F99" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#abierta)"/>
+<polyline points="1410.0,1430.0 1600.0,1430.0 1600.0,520.0 1500.0,520.0" fill="none" stroke="#1F5F99" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#abierta)"/>
+<polyline points="1000.0,635.0 1000.0,602.0" fill="none" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#abierta)"/>
+<polyline points="1000.0,925.0 1000.0,862.0" fill="none" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#abierta)"/>
+<polyline points="1083.2,1227.1 1310.7,1164.5" fill="none" stroke="#B7791F" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#abierta)"/>
+<line x1="160" y1="1124" x2="160" y2="692" stroke="#33475B" stroke-width="1.7" marker-end="url(#herencia)"/>
+<line x1="160" y1="1444" x2="160" y2="1272" stroke="#33475B" stroke-width="1.7" marker-end="url(#herencia)"/>
+<ellipse cx="560" cy="225" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="560" y="229.6" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Crear misión</text>
+<ellipse cx="560" cy="330" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="560" y="326.6" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Ver solicitudes</text><text x="560" y="342.6" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">pendientes</text>
+<ellipse cx="1000" cy="225" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1000" y="229.6" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Cancelar misión</text>
+<ellipse cx="1330" cy="300" rx="100.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1330" y="304.6" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Ver historial</text>
+<ellipse cx="560" cy="600" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="560" y="596.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Ver estado</text><text x="560" y="612.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">de drones</text>
+<ellipse cx="1000" cy="560" rx="110.0" ry="42.0" fill="#EAF2FB" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1000" y="554.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Asignar drone</text>
+<text x="1000" y="585.5" font-size="10" fill="#536273" font-weight="400" text-anchor="middle">punto de extensión: sin drones</text>
+<ellipse cx="1000" cy="670" rx="115.0" ry="35.0" fill="#FFF6E6" stroke="#B7791F" stroke-width="1.8"/>
+<text x="1000" y="666.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Transferir drone</text><text x="1000" y="682.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">entre sedes</text>
+<ellipse cx="1400" cy="520" rx="100.0" ry="35.0" fill="#EAF2FB" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1400" y="524.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Ver analytics</text>
+<ellipse cx="1000" cy="820" rx="110.0" ry="42.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1000" y="806.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Calcular ruta</text><text x="1000" y="822.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">simple</text>
+<text x="1000" y="845.5" font-size="10" fill="#536273" font-weight="400" text-anchor="middle">punto de extensión: autonomía</text>
+<ellipse cx="1000" cy="960" rx="110.0" ry="35.0" fill="#FFF6E6" stroke="#B7791F" stroke-width="1.8"/>
+<text x="1000" y="956.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Calcular ruta</text><text x="1000" y="972.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">multi-etapa</text>
+<ellipse cx="1420" cy="960" rx="105.0" ry="35.0" fill="#EAF2FB" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1420" y="956.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Autorizar con</text><text x="1420" y="972.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Aerocivil</text>
+<ellipse cx="600" cy="1180" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="600" y="1176.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Aprobar retorno</text><text x="600" y="1192.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">a servicio</text>
+<ellipse cx="1000" cy="1250" rx="110.0" ry="35.0" fill="#FFF6E6" stroke="#B7791F" stroke-width="1.8"/>
+<text x="1000" y="1246.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Marcar en</text><text x="1000" y="1262.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">mantenimiento</text>
+<ellipse cx="1400" cy="1140" rx="110.0" ry="42.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1400" y="1134.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Diagnosticar fallo</text>
+<text x="1400" y="1165.5" font-size="10" fill="#536273" font-weight="400" text-anchor="middle">punto de extensión: reparación</text>
+<ellipse cx="560" cy="1390" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="560" y="1394.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Configurar sede</text>
+<ellipse cx="900" cy="1390" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="900" y="1394.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Generar reportes</text>
+<ellipse cx="900" cy="1505" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="900" y="1509.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Gestionar usuarios</text>
+<ellipse cx="1300" cy="1430" rx="110.0" ry="35.0" fill="#FFFFFF" stroke="#1F5F99" stroke-width="1.8"/>
+<text x="1300" y="1426.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Ver dashboard</text><text x="1300" y="1442.5" font-size="13" fill="#172B4D" font-weight="700" text-anchor="middle">Enterprise</text>
+<g stroke="#2E7D32" stroke-width="2.4" fill="none"><circle cx="160" cy="197" r="14" fill="#fff"/><line x1="160" y1="211" x2="160" y2="249"/><line x1="136" y1="225" x2="184" y2="225"/><line x1="160" y1="249" x2="142" y2="279"/><line x1="160" y1="249" x2="178" y2="279"/></g>
+<text x="160" y="305.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">Solicitante</text>
+<g stroke="#2E7D32" stroke-width="2.4" fill="none"><circle cx="160" cy="562" r="14" fill="#fff"/><line x1="160" y1="576" x2="160" y2="614"/><line x1="136" y1="590" x2="184" y2="590"/><line x1="160" y1="614" x2="142" y2="644"/><line x1="160" y1="614" x2="178" y2="644"/></g>
+<text x="160" y="670.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">Operador de sede</text>
+<g stroke="#2E7D32" stroke-width="2.4" fill="none"><circle cx="160" cy="1142" r="14" fill="#fff"/><line x1="160" y1="1156" x2="160" y2="1194"/><line x1="136" y1="1170" x2="184" y2="1170"/><line x1="160" y1="1194" x2="142" y2="1224"/><line x1="160" y1="1194" x2="178" y2="1224"/></g>
+<text x="160" y="1250.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">Coordinador</text><text x="160" y="1266.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">de sede</text>
+<g stroke="#2E7D32" stroke-width="2.4" fill="none"><circle cx="160" cy="1462" r="14" fill="#fff"/><line x1="160" y1="1476" x2="160" y2="1514"/><line x1="136" y1="1490" x2="184" y2="1490"/><line x1="160" y1="1514" x2="142" y2="1544"/><line x1="160" y1="1514" x2="178" y2="1544"/></g>
+<text x="160" y="1570.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">Superadmin</text><text x="160" y="1586.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">de la red</text>
+<rect x="1750" y="784" width="180" height="72" rx="6" fill="#FDF2F1" stroke="#C0392B" stroke-width="2"/>
+<text x="1840" y="807.9" font-size="11" fill="#C0392B" font-weight="400" font-style="italic" text-anchor="middle">«sistema externo»</text>
+<text x="1840" y="834.5" font-size="13" fill="#C0392B" font-weight="700" text-anchor="middle">API Meteorológica</text>
+<rect x="1750" y="924" width="180" height="72" rx="6" fill="#FDF2F1" stroke="#C0392B" stroke-width="2"/>
+<text x="1840" y="947.9" font-size="11" fill="#C0392B" font-weight="400" font-style="italic" text-anchor="middle">«sistema externo»</text>
+<text x="1840" y="974.5" font-size="13" fill="#C0392B" font-weight="700" text-anchor="middle">Aerocivil</text>
+<rect x="1750" y="1024" width="180" height="72" rx="6" fill="#FDF2F1" stroke="#C0392B" stroke-width="2"/>
+<text x="1840" y="1047.8" font-size="11" fill="#C0392B" font-weight="400" font-style="italic" text-anchor="middle">«sistema externo»</text>
+<text x="1840" y="1066.5" font-size="13" fill="#C0392B" font-weight="700" text-anchor="middle">Estación de carga</text><text x="1840" y="1082.5" font-size="13" fill="#C0392B" font-weight="700" text-anchor="middle">autónoma</text>
+<g stroke="#2E7D32" stroke-width="2.4" fill="none"><circle cx="1840" cy="1142" r="14" fill="#fff"/><line x1="1840" y1="1156" x2="1840" y2="1194"/><line x1="1816" y1="1170" x2="1864" y2="1170"/><line x1="1840" y1="1194" x2="1822" y2="1224"/><line x1="1840" y1="1194" x2="1858" y2="1224"/></g>
+<text x="1840" y="1250.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">Técnico de</text><text x="1840" y="1266.9" font-size="14" fill="#2E7D32" font-weight="700" text-anchor="middle">mantenimiento</text>
+<rect x="764.6" y="389.0" width="70.7" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.95"/>
+<text x="800" y="404.0" font-size="12" fill="#1F5F99" font-weight="700" font-style="italic" text-anchor="middle">«include»</text>
+<rect x="1174.7" y="934.0" width="70.7" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.95"/>
+<text x="1210" y="949.0" font-size="12" fill="#1F5F99" font-weight="700" font-style="italic" text-anchor="middle">«include»</text>
+<rect x="1564.7" y="1289.0" width="70.7" height="22" rx="4" fill="#FFFFFF" fill-opacity="0.95"/>
+<text x="1600" y="1304.0" font-size="12" fill="#1F5F99" font-weight="700" font-style="italic" text-anchor="middle">«include»</text>
+<rect x="1097.4" y="614.0" width="165.2" height="50" rx="4" fill="#FFFFFF" fill-opacity="0.95"/>
+<text x="1180" y="629.0" font-size="12" fill="#B7791F" font-weight="700" font-style="italic" text-anchor="middle">«extend»</text>
+<text x="1180" y="643.0" font-size="11" fill="#B7791F"  text-anchor="middle">[la sede no tiene drones</text>
+<text x="1180" y="657.0" font-size="11" fill="#B7791F"  text-anchor="middle">disponibles y otra sí]</text>
+<rect x="783.7" y="879.0" width="152.6" height="50" rx="4" fill="#FFFFFF" fill-opacity="0.95"/>
+<text x="860" y="894.0" font-size="12" fill="#B7791F" font-weight="700" font-style="italic" text-anchor="middle">«extend»</text>
+<text x="860" y="908.0" font-size="11" fill="#B7791F"  text-anchor="middle">[con carga supera 5 km</text>
+<text x="860" y="922.0" font-size="11" fill="#B7791F"  text-anchor="middle">sin recargar]</text>
+<rect x="1131.8" y="1229.0" width="146.3" height="50" rx="4" fill="#FFFFFF" fill-opacity="0.95"/>
+<text x="1205" y="1244.0" font-size="12" fill="#B7791F" font-weight="700" font-style="italic" text-anchor="middle">«extend»</text>
+<text x="1205" y="1258.0" font-size="11" fill="#B7791F"  text-anchor="middle">[el diagnóstico exige</text>
+<text x="1205" y="1272.0" font-size="11" fill="#B7791F"  text-anchor="middle">reparación]</text>
+<text x="40" y="1642.5" font-size="13" fill="#536273" font-weight="400" text-anchor="start">Herencia: el Coordinador hace todo lo del Operador y además lo suyo; el Superadmin hace todo lo del Coordinador. Blanco = caso base · azul = incluido · ámbar = extensión.</text>
+</svg>
