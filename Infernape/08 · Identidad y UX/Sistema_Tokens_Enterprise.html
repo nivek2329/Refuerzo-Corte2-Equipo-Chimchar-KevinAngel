@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkyCampus Enterprise · Design tokens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css"><link rel="stylesheet" href="componentes.css">
+<style>
+  .pagina { max-width: 1240px; margin: auto; padding: var(--space-6) var(--space-5) var(--space-7); }
+  .hero { padding: var(--space-7) var(--space-6); border-radius: var(--radius-lg); margin-bottom: var(--space-6); background: rgba(255,255,255,.38); }
+  .hero h1 { margin: var(--space-3) 0; font: 800 var(--text-2xl)/1 var(--font-display); text-transform: uppercase; letter-spacing: .01em; }
+  .hero p { max-width: 720px; color: var(--color-muted); font-size: var(--text-md); line-height: 1.55; margin: 0; }
+  .eyebrow { font: 700 var(--text-xs) var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--color-primary); }
+  .tabs { display: inline-flex; gap: 6px; padding: 6px; margin-top: var(--space-5); border-radius: var(--radius-pill); background: rgba(255,255,255,.6); border: 1px solid var(--color-border); }
+  .tabs button { border: 0; background: transparent; min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); font: 700 var(--text-sm) var(--font-ui); color: var(--color-muted); cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--color-primary); color: var(--color-on-primary); box-shadow: var(--shadow-tinted); }
+  h2.seccion { font: 800 var(--text-xl)/1.1 var(--font-display); text-transform: uppercase; margin: var(--space-7) 0 var(--space-2); }
+  .nota { color: var(--color-muted); margin: 0 0 var(--space-5); max-width: 820px; line-height: 1.5; }
+  .tabla-tokens { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
+  .tabla-tokens th, .tabla-tokens td { padding: var(--space-3) var(--space-4); text-align: left; border-bottom: 1px solid var(--color-border); font-size: var(--text-sm); vertical-align: middle; }
+  .tabla-tokens th { font: 700 var(--text-xs) var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--color-muted); }
+  .tabla-tokens code { font: 600 var(--text-xs) var(--font-mono); }
+  .muestra { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .chip { width: 22px; height: 22px; border-radius: 6px; background: var(--chip); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+  .radio-demo { width: 34px; height: 22px; border: 2px solid var(--color-primary); border-radius: var(--border-radius); }
+  .tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+  .cinco { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--space-4); }
+  .etiqueta { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); font: 700 var(--text-xs) var(--font-mono); text-transform: uppercase; letter-spacing: .1em; color: var(--color-primary); }
+  .verificacion { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-5); padding: var(--space-4); border-radius: var(--border-radius); font-weight: 600; }
+  .verificacion.ok { background: color-mix(in srgb, var(--estado-disponible) 12%, white); color: #0F5E3F; }
+  .verificacion.mal { background: var(--color-alert-soft); color: #8F1B24; }
+  .pie { margin-top: var(--space-7); color: var(--color-muted); font: 600 var(--text-xs) var(--font-mono); }
+  @media (max-width: 980px) { .tres { grid-template-columns: 1fr; } .hero { padding: var(--space-6) var(--space-4); } }
+</style>
+</head>
+<body class="sc-base" data-sede="eci">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-drone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7 7l3 3M17 7l-3 3M7 17l3-3M17 17l-3-3"/><rect x="9.5" y="9.5" width="5" height="5" rx="1.2"/></symbol>
+  <symbol id="i-ruta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></symbol>
+  <symbol id="i-reloj" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-escudo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+</svg>
+<main class="pagina">
+  <header class="hero glass aura brackets">
+    <span class="eyebrow">SkyCampus Enterprise · sistema de diseño</span>
+    <h1>Una app, cuatro identidades</h1>
+    <p>Los componentes son los mismos en las cuatro universidades; solo cambian cuatro tokens de marca: color primario, color de alerta, tipografía y radio de borde. Cambia la identidad de esta página con las pestañas.</p>
+    <div class="tabs" role="tablist" aria-label="Identidad de la sede">
+      <button role="tab" aria-selected="true" data-tab="eci">ECI</button><button role="tab" aria-selected="false" data-tab="unal">UNAL</button><button role="tab" aria-selected="false" data-tab="uniandes">Uniandes</button><button role="tab" aria-selected="false" data-tab="eafit">EAFIT</button>
+    </div>
+  </header>
+
+  <h2 class="seccion">1 · Tokens de marca</h2>
+  <p class="nota">Valores leídos en vivo del CSS de cada sede (<code>tokens.css</code>). Todo lo demás (superficies, estados, espaciado, tamaños) es común y se deriva de estos cuatro.</p>
+  <div class="glass" style="padding: var(--space-2)"><table class="tabla-tokens" id="tabla-tokens"><thead><tr><th>Token</th><th>ECI</th><th>UNAL</th><th>Uniandes</th><th>EAFIT</th></tr></thead><tbody></tbody></table></div>
+
+  <h2 class="seccion">2 · Panel de misión activa en 3 identidades</h2>
+  <p class="nota">Mismo componente <code>.panel-mision</code>, mismas clases y la misma estructura. Cada panel solo declara <code>data-sede</code>.</p>
+  <div class="tres">
+      <section class="glass panel-mision" data-sede="eci">
+        <div class="panel-mision__top"><span class="crest" aria-hidden="true"></span><div><h3 class="panel-mision__titulo">Misión activa</h3><p class="panel-mision__sub">M-4F2A91C0 · URGENTE</p></div><span class="live">En vuelo</span></div>
+        <ol class="ruta" style="--avance:50%"><li data-paso="hecho"><b>ECI</b>Origen</li><li data-paso="actual"><b>EST-116</b>Estación de carga</li><li data-paso="pendiente"><b>UNIANDES</b>Destino</li></ol>
+        <div class="kpis"><div class="kpi"><small>Drone</small><strong>D-ECI-02</strong></div><div class="kpi"><small>Llegada estimada</small><strong>10:42</strong></div><div class="kpi"><small>Batería</small><strong>78 %</strong></div></div>
+        <div class="panel-mision__acciones"><button class="btn btn--primary" type="button"><svg width="18" height="18"><use href="#i-ruta"/></svg>Ver en el mapa</button><button class="btn btn--alert" type="button">Cancelar misión</button></div>
+      </section>
+      <section class="glass panel-mision" data-sede="unal">
+        <div class="panel-mision__top"><span class="crest" aria-hidden="true"></span><div><h3 class="panel-mision__titulo">Misión activa</h3><p class="panel-mision__sub">M-9B13D7E2 · URGENTE</p></div><span class="live">En vuelo</span></div>
+        <ol class="ruta" style="--avance:85%"><li data-paso="hecho"><b>UNAL</b>Origen</li><li data-paso="hecho"><b>EST-26</b>Estación de carga</li><li data-paso="actual"><b>ECI</b>Destino</li></ol>
+        <div class="kpis"><div class="kpi"><small>Drone</small><strong>D-UNAL-01</strong></div><div class="kpi"><small>Llegada estimada</small><strong>11:05</strong></div><div class="kpi"><small>Batería</small><strong>64 %</strong></div></div>
+        <div class="panel-mision__acciones"><button class="btn btn--primary" type="button"><svg width="18" height="18"><use href="#i-ruta"/></svg>Ver en el mapa</button><button class="btn btn--alert" type="button">Cancelar misión</button></div>
+      </section>
+      <section class="glass panel-mision" data-sede="uniandes">
+        <div class="panel-mision__top"><span class="crest" aria-hidden="true"></span><div><h3 class="panel-mision__titulo">Misión activa</h3><p class="panel-mision__sub">M-C0FFEE21 · URGENTE</p></div><span class="live">En vuelo</span></div>
+        <ol class="ruta" style="--avance:50%"><li data-paso="hecho"><b>UNIANDES</b>Origen</li><li data-paso="actual"><b>EST-72</b>Estación de carga</li><li data-paso="pendiente"><b>UNAL</b>Destino</li></ol>
+        <div class="kpis"><div class="kpi"><small>Drone</small><strong>D-UNI-03</strong></div><div class="kpi"><small>Llegada estimada</small><strong>10:58</strong></div><div class="kpi"><small>Batería</small><strong>71 %</strong></div></div>
+        <div class="panel-mision__acciones"><button class="btn btn--primary" type="button"><svg width="18" height="18"><use href="#i-ruta"/></svg>Ver en el mapa</button><button class="btn btn--alert" type="button">Cancelar misión</button></div>
+      </section>
+  </div>
+
+  <h2 class="seccion">3 · Tarjeta de drone sin tocar su HTML ni su CSS</h2>
+  <p class="nota">El bloque de la tarjeta es <b>byte a byte el mismo</b> en las tres columnas; solo cambia el <code>data-sede</code> del contenedor. La verificación de abajo compara el HTML de las tres al cargar la página.</p>
+  <div class="tres">
+    <div data-sede="eci"><div class="etiqueta"><span class="crest" style="width:26px;height:28px"></span>ECI</div>
+        <article class="drone-card" data-estado="en-vuelo">
+          <header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-02</h4><p class="drone-card__tipo">EXPRESS · hasta 2 kg</p></div><span class="estado-pill">En vuelo</span></header>
+          <div class="bateria" data-nivel="alta"><div class="bateria__barra"><i style="--nivel:78%"></i></div><span>78 %</span></div>
+          <footer class="drone-card__foot"><span>Misión M-4F2A91C0 · llega 10:42</span><button class="btn btn--ghost" type="button">Ver ruta</button></footer>
+        </article>
+    </div>
+    <div data-sede="unal"><div class="etiqueta"><span class="crest" style="width:26px;height:28px"></span>UNAL</div>
+        <article class="drone-card" data-estado="en-vuelo">
+          <header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-02</h4><p class="drone-card__tipo">EXPRESS · hasta 2 kg</p></div><span class="estado-pill">En vuelo</span></header>
+          <div class="bateria" data-nivel="alta"><div class="bateria__barra"><i style="--nivel:78%"></i></div><span>78 %</span></div>
+          <footer class="drone-card__foot"><span>Misión M-4F2A91C0 · llega 10:42</span><button class="btn btn--ghost" type="button">Ver ruta</button></footer>
+        </article>
+    </div>
+    <div data-sede="uniandes"><div class="etiqueta"><span class="crest" style="width:26px;height:28px"></span>Uniandes</div>
+        <article class="drone-card" data-estado="en-vuelo">
+          <header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-02</h4><p class="drone-card__tipo">EXPRESS · hasta 2 kg</p></div><span class="estado-pill">En vuelo</span></header>
+          <div class="bateria" data-nivel="alta"><div class="bateria__barra"><i style="--nivel:78%"></i></div><span>78 %</span></div>
+          <footer class="drone-card__foot"><span>Misión M-4F2A91C0 · llega 10:42</span><button class="btn btn--ghost" type="button">Ver ruta</button></footer>
+        </article>
+    </div>
+  </div>
+  <div class="verificacion" id="verificacion" role="status">Verificando…</div>
+
+  <h2 class="seccion">4 · Los 5 estados de la tarjeta</h2>
+  <p class="nota">El estado se comunica con texto, color del borde y píldora; la batería usa su propio rango (verde ≥ 60 %, ámbar 30–59 %, alerta &lt; 30 %). Fallo usa el token <code>--color-alert</code> de la sede activa.</p>
+  <div class="cinco"><article class="drone-card" data-estado="disponible"><header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-01</h4><p class="drone-card__tipo">Tarjeta de drone</p></div><span class="estado-pill">Disponible</span></header><div class="bateria" data-nivel="alta"><div class="bateria__barra"><i style="--nivel:92%"></i></div><span>92 %</span></div><footer class="drone-card__foot"><span>Lista para asignar</span><button class="btn btn--ghost" type="button">Asignar</button></footer></article><article class="drone-card" data-estado="en-vuelo"><header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-02</h4><p class="drone-card__tipo">Tarjeta de drone</p></div><span class="estado-pill">En vuelo</span></header><div class="bateria" data-nivel="alta"><div class="bateria__barra"><i style="--nivel:78%"></i></div><span>78 %</span></div><footer class="drone-card__foot"><span>M-4F2A91C0 · llega 10:42</span><button class="btn btn--ghost" type="button">Ver ruta</button></footer></article><article class="drone-card" data-estado="en-carga"><header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-03</h4><p class="drone-card__tipo">Tarjeta de drone</p></div><span class="estado-pill">En carga</span></header><div class="bateria" data-nivel="media"><div class="bateria__barra"><i style="--nivel:41%"></i></div><span>41 %</span></div><footer class="drone-card__foot"><span>Estación EST-116 · 18 min</span><button class="btn btn--ghost" type="button">Ver estación</button></footer></article><article class="drone-card" data-estado="fallo"><header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-04</h4><p class="drone-card__tipo">Tarjeta de drone</p></div><span class="estado-pill">Fallo</span></header><div class="bateria" data-nivel="alta"><div class="bateria__barra"><i style="--nivel:63%"></i></div><span>63 %</span></div><footer class="drone-card__foot"><span>Técnico notificado 09:12</span><button class="btn btn--ghost" type="button">Ver alerta</button></footer></article><article class="drone-card" data-estado="mantenimiento"><header class="drone-card__head"><span class="badge-icon"><svg><use href="#i-drone"/></svg></span><div><h4 class="drone-card__id">D-ECI-05</h4><p class="drone-card__tipo">Tarjeta de drone</p></div><span class="estado-pill">Mantenimiento</span></header><div class="bateria" data-nivel="baja"><div class="bateria__barra"><i style="--nivel:22%"></i></div><span>22 %</span></div><footer class="drone-card__foot"><span>Diagnóstico en curso</span><button class="btn btn--ghost" type="button">Ver diagnóstico</button></footer></article></div>
+
+  <p class="pie">SkyCampus Enterprise · Infernape · reto 08 · tokens.css + componentes.css</p>
+</main>
+<script>
+  const TOKENS = ["--color-primary", "--color-alert", "--font-ui", "--border-radius"];
+  const SEDES = ["eci", "unal", "uniandes", "eafit"];
+  const cuerpo = document.querySelector("#tabla-tokens tbody");
+  const sondas = SEDES.map(s => { const d = document.createElement("div"); d.dataset.sede = s; d.hidden = true; document.body.appendChild(d); return d; });
+  TOKENS.forEach(t => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `<td><code>${t}</code></td>` + sondas.map(d => {
+      const v = getComputedStyle(d).getPropertyValue(t).trim();
+      const muestra = t.startsWith("--color") ? `<span class="chip" style="--chip:${v}"></span>`
+        : t === "--font-ui" ? `<span style="font-family:${v};font-weight:700">Aa</span>`
+        : `<span class="radio-demo" style="border-radius:${v}"></span>`;
+      const texto = t === "--font-ui" ? v.split(",")[0].replaceAll('"', "") : v;
+      return `<td><span class="muestra" data-sede="${d.dataset.sede}">${muestra}<code>${texto}</code></span></td>`;
+    }).join("");
+    cuerpo.appendChild(fila);
+  });
+  const tarjetas = [...document.querySelectorAll(".tres > div[data-sede] > .drone-card")].map(t => t.outerHTML);
+  const iguales = tarjetas.length === 3 && tarjetas.every(t => t === tarjetas[0]);
+  const v = document.getElementById("verificacion");
+  v.className = "verificacion " + (iguales ? "ok" : "mal");
+  v.innerHTML = iguales
+    ? `<span class="badge-icon" style="background:#fff;color:#1E9E6A"><svg><use href="#i-check"/></svg></span>HTML idéntico en las 3 identidades (${tarjetas[0].length} caracteres cada una): el cambio visual sale solo de los tokens.`
+    : "Las tarjetas difieren: revisar el componente.";
+  document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => {
+    document.body.dataset.sede = b.dataset.tab;
+    document.querySelectorAll(".tabs button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+  }));
+</script>
+</body>
+</html>

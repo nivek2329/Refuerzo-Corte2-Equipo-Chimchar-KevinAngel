@@ -1,0 +1,73 @@
+/* SkyCampus Enterprise · design tokens
+   Una sola aplicación, cuatro identidades. Los componentes SOLO leen variables; nunca colores ni fuentes fijos.
+   Nueva sede = un bloque [data-sede="..."] con los 4 tokens de marca (ver README, sección "Configurar una sede"). */
+
+/* 1 · Tokens de marca por sede (los únicos que cambian entre universidades) */
+:root,
+[data-sede="eci"] {
+  --sede-sigla: "ECI";
+  --color-primary: #00457C;
+  --color-alert: #E63946;
+  --font-ui: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --border-radius: 10px;
+}
+[data-sede="unal"] {
+  --sede-sigla: "UN";
+  --color-primary: #7B0000;
+  --color-alert: #E63946;
+  --font-ui: "Merriweather", Georgia, serif;
+  --border-radius: 4px;
+}
+[data-sede="uniandes"] {
+  --sede-sigla: "UA";
+  --color-primary: #0057A8;
+  --color-alert: #E63946;
+  --font-ui: "Inter", "Segoe UI", system-ui, sans-serif;
+  --border-radius: 8px;
+}
+[data-sede="eafit"] {
+  --sede-sigla: "EA";
+  --color-primary: #2D6A4F;
+  --color-alert: #E63946;
+  --font-ui: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --border-radius: 12px;
+}
+
+/* 2 · Tokens derivados: se calculan de los de marca; una sede nueva no los toca */
+:root,
+[data-sede] {
+  --color-primary-soft: color-mix(in srgb, var(--color-primary) 10%, white);
+  --color-primary-line: color-mix(in srgb, var(--color-primary) 28%, white);
+  --color-primary-strong: color-mix(in srgb, var(--color-primary) 82%, black);
+  --color-on-primary: #FFFFFF;
+  --color-alert-soft: color-mix(in srgb, var(--color-alert) 12%, white);
+  --shadow-tinted: 0 18px 40px -18px color-mix(in srgb, var(--color-primary) 55%, transparent);
+  --radius-sm: calc(var(--border-radius) * 0.6);
+  --radius-lg: calc(var(--border-radius) * 1.6);
+  --radius-pill: 999px;
+}
+
+/* 3 · Tokens del sistema (iguales para toda la red) */
+:root {
+  --color-bg: #F3F5F9;
+  --color-surface: rgba(255, 255, 255, 0.78);
+  --color-surface-solid: #FFFFFF;
+  --color-text: #0F1B2D;
+  --color-muted: #5B6B80;
+  --color-border: rgba(15, 27, 45, 0.10);
+  --estado-disponible: #1E9E6A;
+  --estado-en-vuelo: #1C7ED6;
+  --estado-en-carga: #C98F00;
+  --estado-fallo: var(--color-alert);
+  --estado-mantenimiento: #7A8699;
+  --bateria-alta: #1E9E6A;   /* >= 60 % */
+  --bateria-media: #C98F00;  /* 30-59 % */
+  --bateria-baja: var(--color-alert); /* < 30 % */
+  --font-mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --text-xs: 12px; --text-sm: 14px; --text-md: 16px; --text-lg: 20px; --text-xl: 28px; --text-2xl: 44px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 24px; --space-6: 32px; --space-7: 48px;
+  --tap-min: 48px;
+  --shadow-1: 0 1px 2px rgba(15, 27, 45, 0.06), 0 8px 24px -12px rgba(15, 27, 45, 0.18);
+  --blur-glass: 14px;
+}
