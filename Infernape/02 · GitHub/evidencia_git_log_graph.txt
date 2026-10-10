@@ -1,15 +1,16 @@
-*   74e5e5d (HEAD -> Infernape) chore(infernape): integra hotfix v3.0.2 desde develop
+* 06b85cf (HEAD -> Infernape, origin/Infernape) docs(infernape-02): git log final con release y hotfixes
+*   74e5e5d chore(infernape): integra hotfix v3.0.2 desde develop
 |\  
-| *   2e7b5ee (develop) fix(routing): merge hotfix v3.0.2 into develop
+| *   2e7b5ee (origin/develop, develop) fix(routing): merge hotfix v3.0.2 into develop
 | |\  
 * | | d726803 docs(infernape-02): flujo de release y hotfixes
 * | | 0c6e811 docs(infernape-05): C4 nivel 1 y 2 sin cruces, con personas y Control Aereo en nivel 2
 * | | c0ea3ff feat(infernape-04): asignador por capas con puertos, adaptadores y pruebas con Mockito
 * | | 0deb3f8 refactor(infernape-03): abstract factory con productos distintos por familia y justificacion por patron
-* | | 28734d3 (tag: tmp-monferno) docs(monferno): conflicto en partes distintas con tag v2.0.0, estados UX en el manual, Gherkin y DoD medible
-* | | b14a44d (origin/Infernape) feat(infernape): combinar patrones para rutas multi-etapa
+* | | 28734d3 docs(monferno): conflicto en partes distintas con tag v2.0.0, estados UX en el manual, Gherkin y DoD medible
+* | | b14a44d feat(infernape): combinar patrones para rutas multi-etapa
 |/ /  
-| | *   1f63e61 (tag: v3.0.2, main) fix(routing): merge hotfix v3.0.2 into main
+| | *   1f63e61 (tag: v3.0.2, origin/main, origin/HEAD, main) fix(routing): merge hotfix v3.0.2 into main
 | | |\  
 | | |/  
 | |/|   
@@ -17,21 +18,21 @@
 | * | 00a8c84 fix(routing): compensar la deriva por viento cruzado en rutas inter-sede
 | * | 2875573 test(routing): el viento cruzado debe alargar la ruta inter-sede
 | |/  
-| *   aa7867d (tag: v3.0.1, origin/main, origin/HEAD) fix(routing): merge south-wind hotfix into main
+| *   aa7867d (tag: v3.0.1) fix(routing): merge south-wind hotfix into main
 | |\  
 | |/  
 |/|   
-* | 0055e73 (origin/develop) fix(routing): correct south wind projection for ECI-UNAL
+* | 0055e73 fix(routing): correct south wind projection for ECI-UNAL
 |/  
 *   77d2b06 (tag: v3.0.0) feat(release): merge v3.0.0 into main
 |\  
-| * 4062c96 (origin/release/v3.0.0) docs(release): document Enterprise v3.0.0
+| * 4062c96 docs(release): document Enterprise v3.0.0
 | * 803fdb3 chore(release): bump Enterprise to 3.0.0
 | * e1001ac feat(infernape): integrar base enterprise a develop
 |/| 
 | * 32223c5 feat(infernape): calcular analytics de eficiencia por sede
 | * 81623d2 test(infernape): definir escenarios de analytics
-| * 1639dfa (origin/Monferno, Monferno) docs(monferno): cerrar ajustes y evidencias finales
+| * 1639dfa docs(monferno): cerrar ajustes y evidencias finales
 | * 21cb310 docs(monferno): actualizar requisitos y trazabilidad
 | * a4abdf5 docs(monferno): completar GitFlow, UX, Jira y mock
 | * 7985ac0 docs(05,06): contexto C4 v2 (Tecnico + 3 sistemas externos, drawio de 2 paginas) y RF/RNF v2 con MoSCoW y tension RF-07/RF-08
