@@ -33,9 +33,9 @@ La verificación `mvn clean verify sonar:sonar` del 09/10/2026 corrió 115 prueb
 |---|---|---|
 | Pruebas | 115 ejecutadas, 0 fallos, 0 errores | — |
 | Instrucciones | 100 % (1046 de 1046) | — |
-| **Líneas** | **100 % (212 de 212)** | ≥ 85 % ✅ |
-| **Ramas** | **100 % (60 de 60)** | ≥ 70 % ✅ |
-| Regla `check` | "All coverage checks have been met" | ≥ 85 % de líneas y ≥ 70 % de ramas ✅ |
+| **Líneas** | **100 % (212 de 212)** | ≥ 85 % OK |
+| **Ramas** | **100 % (60 de 60)** | ≥ 70 % OK |
+| Regla `check` | "All coverage checks have been met" | ≥ 85 % de líneas y ≥ 70 % de ramas OK |
 
 | Paquete | Líneas | Ramas | Clases |
 |---|---|---|---|
@@ -65,11 +65,11 @@ El token va solo en la variable de entorno `SONAR_TOKEN`, nunca en el repositori
 
 | Métrica (Overall Code) | Antes (`507a8bc`) | Después (`6769a21`) | Meta del reto |
 |---|---|---|---|
-| Seguridad (vulnerabilidades) | 0 · A | 0 · A | 0 ✅ |
-| Confiabilidad (bugs) | **1 · C** | 0 · A | 0 ✅ |
+| Seguridad (vulnerabilidades) | 0 · A | 0 · A | 0 OK |
+| Confiabilidad (bugs) | **1 · C** | 0 · A | 0 OK |
 | Mantenibilidad (code smells) | 2 · A | 0 · A | — |
-| Deuda técnica | 15 min | **0 min** | < 30 min ✅ |
-| Cobertura | 100 % | 100 % | ≥ 85 % ✅ |
+| Deuda técnica | 15 min | **0 min** | < 30 min OK |
+| Cobertura | 100 % | 100 % | ≥ 85 % OK |
 | Duplicaciones | 0,0 % | 0,0 % | — |
 | Security Hotspots | 0 | 0 | — |
 

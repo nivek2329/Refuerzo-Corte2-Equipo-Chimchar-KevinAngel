@@ -70,27 +70,27 @@ La salida real de Maven de cada fase está en [`evidencia/`](evidencia).
 
 | Commit | Fase | Contenido | Maven |
 |---|---|---|---|
-| `ad63715` | 🔴 RED | Solo las pruebas | No compila: `AsignadorMision`, `ApiMeteorologica` y `AsignacionMasRapido` no existen → [red.txt](evidencia/red.txt) |
-| `6bd4e66` | 🟢 GREEN | `ApiMeteorologica`, `AsignacionMasRapido`, `TipoDrone.velocidadRelativa` y `AsignadorMision` | 99 ✅ → [green.txt](evidencia/green.txt) |
-| `ebf9ad3` | 🔵 REFACTOR | Capacidad derivada de `TipoDrone`; se extraen `validarPeso` y `estrategiaPara` | Las mismas 99 ✅ → [refactor.txt](evidencia/refactor.txt) |
+| `ad63715` | RED RED | Solo las pruebas | No compila: `AsignadorMision`, `ApiMeteorologica` y `AsignacionMasRapido` no existen → [red.txt](evidencia/red.txt) |
+| `6bd4e66` | GREEN GREEN | `ApiMeteorologica`, `AsignacionMasRapido`, `TipoDrone.velocidadRelativa` y `AsignadorMision` | 99 OK → [green.txt](evidencia/green.txt) |
+| `ebf9ad3` | REFACTOR REFACTOR | Capacidad derivada de `TipoDrone`; se extraen `validarPeso` y `estrategiaPara` | Las mismas 99 OK → [refactor.txt](evidencia/refactor.txt) |
 
 ### Ciclo 2: validación de dependencias
 
 | Commit | Fase | Contenido | Maven |
 |---|---|---|---|
-| `5fe3031` | 🔴 RED 2 | Flota `null` y dependencias `null` del constructor | 103, **4 fallan** por aserción ("nothing was thrown") → [red2.txt](evidencia/red2.txt) |
-| `b5fbb01` | 🟢 GREEN 2 | `requireNonNull` con mensaje en español | 103 ✅ → [green2.txt](evidencia/green2.txt) |
+| `5fe3031` | RED RED 2 | Flota `null` y dependencias `null` del constructor | 103, **4 fallan** por aserción ("nothing was thrown") → [red2.txt](evidencia/red2.txt) |
+| `b5fbb01` | GREEN GREEN 2 | `requireNonNull` con mensaje en español | 103 OK → [green2.txt](evidencia/green2.txt) |
 
 ### Ciclo 3: respuesta a la revisión
 
 | Commit | Fase | Contenido | Maven |
 |---|---|---|---|
-| `1ecfb0d` | 🟡 Caracterización | Pruebas de comportamiento que **ya existía** sin prueba: desempate de `AsignacionMasRapido`, 2001 g, BAJO y flota vacía. `AsignacionMasRapido` entra en las pruebas de contrato. La prueba 1 se separa en tres | 111 ✅ → [c3_1](evidencia/c3_1_caracterizacion.txt) |
-| — | 🧬 Mutantes | Ver la sección siguiente | 3 de 3 mutantes muertos |
-| `eaf98b9` | 🔧 Build | Byte Buddy como `-javaagent` | 111 ✅, sin la advertencia → [c3_2](evidencia/c3_2_build.txt) |
-| `14b0d3d` | 🔵 REFACTOR | La relación prioridad → estrategia se inyecta como `EnumMap` (sin condicional); la constante pasa a llamarse `CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS`; se documenta el contrato de inmutabilidad; prueba de OCP | 111 ✅ → [c3_3](evidencia/c3_3_refactor.txt) |
-| `caf538b` | 🔴 RED 3 | Drone `null` en la flota, estrategia faltante para una prioridad, mensaje "capacidad del drone más grande" | 113, **3 fallan** por aserción → [c3_4](evidencia/c3_4_red3.txt) |
-| `6ce2ccd` | 🟢 GREEN 3 | `validarFlota` y `validarQueCubreTodasLasPrioridades`, y el mensaje nuevo | 113 ✅ → [c3_5](evidencia/c3_5_green3.txt) |
+| `1ecfb0d` | CARACTERIZACION Caracterización | Pruebas de comportamiento que **ya existía** sin prueba: desempate de `AsignacionMasRapido`, 2001 g, BAJO y flota vacía. `AsignacionMasRapido` entra en las pruebas de contrato. La prueba 1 se separa en tres | 111 OK → [c3_1](evidencia/c3_1_caracterizacion.txt) |
+| — | MUTANTES Mutantes | Ver la sección siguiente | 3 de 3 mutantes muertos |
+| `eaf98b9` | BUILD Build | Byte Buddy como `-javaagent` | 111 OK, sin la advertencia → [c3_2](evidencia/c3_2_build.txt) |
+| `14b0d3d` | REFACTOR REFACTOR | La relación prioridad → estrategia se inyecta como `EnumMap` (sin condicional); la constante pasa a llamarse `CAPACIDAD_TIPO_MAS_GRANDE_GRAMOS`; se documenta el contrato de inmutabilidad; prueba de OCP | 111 OK → [c3_3](evidencia/c3_3_refactor.txt) |
+| `caf538b` | RED RED 3 | Drone `null` en la flota, estrategia faltante para una prioridad, mensaje "capacidad del drone más grande" | 113, **3 fallan** por aserción → [c3_4](evidencia/c3_4_red3.txt) |
+| `6ce2ccd` | GREEN GREEN 3 | `validarFlota` y `validarQueCubreTodasLasPrioridades`, y el mensaje nuevo | 113 OK → [c3_5](evidencia/c3_5_green3.txt) |
 
 **Nota sobre `14b0d3d`.** Además de reestructurar, ese commit cambió la firma del constructor (de dos estrategias a un mapa) y agregó la prueba de OCP. No fue un refactor puro: lo correcto habría sido separar el cambio de API y la prueba nueva en su propio commit.
 
@@ -100,10 +100,10 @@ En el ciclo 3, la relación prioridad → estrategia por defecto había quedado 
 
 | Commit | Fase | Contenido | Maven |
 |---|---|---|---|
-| `d7707df` | 🔵 REFACTOR | La política se mueve de `Datos` a `PoliticaAsignacion` (`src/main`), y las pruebas la usan desde ahí; `validarQueCubreTodasLasPrioridades` pasa a stream. Además, la prueba de 2001 g ahora también verifica el mensaje | 113 ✅ → [c4_1](evidencia/c4_1_refactor.txt) |
-| — | 🧬 Mutantes 4 y 5 | Sobre la política de producción (ver la tabla de mutantes) | 2 de 2 muertos |
-| `3ff4d74` | 🔴 RED 4 | Un mapa con prioridad `null` debe dar un mensaje claro | 114, **1 falla** por aserción (esperaba `IllegalArgumentException`, recibió un NPE sin mensaje de `EnumMap.putAll`) → [c4_2](evidencia/c4_2_red4.txt) |
-| `899bd5b` | 🟢 GREEN 4 | `copiarEstrategias` valida la clave antes de copiar | 114 ✅ → [c4_3](evidencia/c4_3_green4.txt) |
+| `d7707df` | REFACTOR REFACTOR | La política se mueve de `Datos` a `PoliticaAsignacion` (`src/main`), y las pruebas la usan desde ahí; `validarQueCubreTodasLasPrioridades` pasa a stream. Además, la prueba de 2001 g ahora también verifica el mensaje | 113 OK → [c4_1](evidencia/c4_1_refactor.txt) |
+| — | MUTANTES Mutantes 4 y 5 | Sobre la política de producción (ver la tabla de mutantes) | 2 de 2 muertos |
+| `3ff4d74` | RED RED 4 | Un mapa con prioridad `null` debe dar un mensaje claro | 114, **1 falla** por aserción (esperaba `IllegalArgumentException`, recibió un NPE sin mensaje de `EnumMap.putAll`) → [c4_2](evidencia/c4_2_red4.txt) |
+| `899bd5b` | GREEN GREEN 4 | `copiarEstrategias` valida la clave antes de copiar | 114 OK → [c4_3](evidencia/c4_3_green4.txt) |
 
 ### Pruebas de mutación: las pruebas de caracterización sí detectan errores
 

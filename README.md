@@ -19,20 +19,20 @@ Regla de asignación: drone disponible y batería ≥ 30 %
 
 | # | Reto | Carpeta / evidencia | Estado |
 |---|---|---|---|
-| 01 | Streams & Lambdas | `01 · Streams & Lambdas/` — 4 consultas con Streams (`ConsultasFlota`) | ✅ Revisado |
-| 02 | GitHub y GitFlow | Repo aparte [SkyCampus-ECI-Angel](https://github.com/nivek2329/SkyCampus-ECI-Angel): `main` / `develop` / `feature/Angel-modelo-flota`, commits descriptivos y merge a `develop` | ✅ |
-| 03 | Patrones de diseño | `03 · Patrones de Diseño/` — Builder (`MisionBuilder`), Chain of Responsibility (`CadenaValidacionMision`) y Strategy (`AsignacionPorMayorBateria`) | ✅ Revisado |
-| 04 | Principios SOLID | `04 · Principios SOLID/` — `GestorDrone` dividido en `AsignadorMision`, `RepositorioMision`, `AlertaOperador`, `GeneradorReporte` y `EstrategiaRuta` | ✅ Revisado |
-| 05 | Diagrama de contexto C4 | `05 · Diagrama de Contexto C4/` (`.drawio` + `.svg`) | ✅ |
-| 06 | RF vs RNF y MoSCoW | `06 · RF vs RNF y Prioridad MoSCoW/` — 3 RF, 3 RNF medibles | ✅ |
-| 07 | Plantilla DOSW | `07 · Plantilla DOSW/SC-01_Registrar_mision_DOSW.docx` | ✅ |
-| 08 | Manual de identidad y UX/UI | `08 · Manual de Identidad y UXUI/` — manual, mock con IA y verificación de 7 heurísticas de Nielsen | ✅ Revisado |
-| 09 | Agilismo y Jira | `09 · Agilismo y Jira/` — épica, feature, 3 HU, subtareas, criterios y capturas de Jira | ✅ |
-| 10 | Diagrama de casos de uso | `10 · Diagramas de Casos de Uso/` — SC-01 con `<<include>>` y `<<extend>>` | ✅ |
-| 11 | Mocks con IA | `11 · Mocks con IA/` — referencias reales, prompt y 3 estados (normal, alerta, vacío) | ✅ Revisado |
-| 12 | TDD | `12 · TDD/` — Maven + JUnit 5; commits RED → GREEN → REFACTOR | ✅ Revisado |
-| 13 | JaCoCo | `13 · JaCoCo — Cobertura de código/` — 100 % líneas y ramas, 24 pruebas | ✅ Revisado con el 12 |
-| 14 | SonarQube | `14 · SonarQube — Análisis estático de calidad/` — antes: 4 code smells, 40 min de deuda; después: 0 smells, 0 deuda, 100 % de cobertura | ✅ |
+| 01 | Streams & Lambdas | `01 · Streams & Lambdas/` — 4 consultas con Streams (`ConsultasFlota`) | OK Revisado |
+| 02 | GitHub y GitFlow | Repo aparte [SkyCampus-ECI-Angel](https://github.com/nivek2329/SkyCampus-ECI-Angel): `main` / `develop` / `feature/Angel-modelo-flota`, commits descriptivos y merge a `develop` | OK |
+| 03 | Patrones de diseño | `03 · Patrones de Diseño/` — Builder (`MisionBuilder`), Chain of Responsibility (`CadenaValidacionMision`) y Strategy (`AsignacionPorMayorBateria`) | OK Revisado |
+| 04 | Principios SOLID | `04 · Principios SOLID/` — `GestorDrone` dividido en `AsignadorMision`, `RepositorioMision`, `AlertaOperador`, `GeneradorReporte` y `EstrategiaRuta` | OK Revisado |
+| 05 | Diagrama de contexto C4 | `05 · Diagrama de Contexto C4/` (`.drawio` + `.svg`) | OK |
+| 06 | RF vs RNF y MoSCoW | `06 · RF vs RNF y Prioridad MoSCoW/` — 3 RF, 3 RNF medibles | OK |
+| 07 | Plantilla DOSW | `07 · Plantilla DOSW/SC-01_Registrar_mision_DOSW.docx` | OK |
+| 08 | Manual de identidad y UX/UI | `08 · Manual de Identidad y UXUI/` — manual, mock con IA y verificación de 7 heurísticas de Nielsen | OK Revisado |
+| 09 | Agilismo y Jira | `09 · Agilismo y Jira/` — épica, feature, 3 HU, subtareas, criterios y capturas de Jira | OK |
+| 10 | Diagrama de casos de uso | `10 · Diagramas de Casos de Uso/` — SC-01 con `<<include>>` y `<<extend>>` | OK |
+| 11 | Mocks con IA | `11 · Mocks con IA/` — referencias reales, prompt y 3 estados (normal, alerta, vacío) | OK Revisado |
+| 12 | TDD | `12 · TDD/` — Maven + JUnit 5; commits RED → GREEN → REFACTOR | OK Revisado |
+| 13 | JaCoCo | `13 · JaCoCo — Cobertura de código/` — 100 % líneas y ramas, 24 pruebas | OK Revisado con el 12 |
+| 14 | SonarQube | `14 · SonarQube — Análisis estático de calidad/` — antes: 4 code smells, 40 min de deuda; después: 0 smells, 0 deuda, 100 % de cobertura | OK |
 
 "Revisado" significa que el código o el entregable pasó por el agente revisor del curso (`DOSW_Agente_Chimchar`) hasta obtener APROBADO.
 

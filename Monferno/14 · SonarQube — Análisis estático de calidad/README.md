@@ -20,12 +20,12 @@ Los dos archivos que en ese momento estaban sin commit (`pom.xml` con el umbral 
 
 | Criterio del reto | Meta | Resultado |
 |---|---|---|
-| Quality Gate | Verde | ✅ **Passed** |
-| Bugs (confiabilidad) | 0 | ✅ 0 · A |
-| Vulnerabilidades (seguridad) | 0 | ✅ 0 · A |
-| Deuda técnica | ≤ 30 min | ✅ **0 min** |
-| Code smells (mantenibilidad), incluidas las clases de Strategy y Observer | 0 | ✅ 0 · A |
-| Cobertura | ≥ 85 % | ✅ **100 %** (212/212 líneas; JaCoCo: 60/60 ramas) |
+| Quality Gate | Verde | OK **Passed** |
+| Bugs (confiabilidad) | 0 | OK 0 · A |
+| Vulnerabilidades (seguridad) | 0 | OK 0 · A |
+| Deuda técnica | ≤ 30 min | OK **0 min** |
+| Code smells (mantenibilidad), incluidas las clases de Strategy y Observer | 0 | OK 0 · A |
+| Cobertura | ≥ 85 % | OK **100 %** (212/212 líneas; JaCoCo: 60/60 ramas) |
 | Duplicaciones | — | 0,0 % |
 | Security Hotspots | — | 0 |
 
